@@ -61,10 +61,10 @@ class GoToTarget : public frc::Command {
 
   // pointers to commands to get us to target
   TurnToAngle *Turn1;
-  DriveStraightDistance *Distance1;
+  StraightDistance *Distance1;
   TurnToAngle *Turn2;
-  DriveStraightDistance *Distance2;
+  StraightDistance *Distance2;
 
   // command used to steer towards ball
-  DriveSteerTowardsTarget *Steer;
+  SteerTowardsTarget *Steer;
 };

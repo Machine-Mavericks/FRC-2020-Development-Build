@@ -5,25 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "RobotPrefs.h"
-#include "RobotMap.h"
+#pragma once
 
+#include <frc/commands/Command.h>
 
-// constructor - initializes preferences
-RobotPrefs::RobotPrefs(void)
-{
-  // get pointer to robot preferences
-  prefs = Preferences::GetInstance();
-}
-
-// Reset settings to defaults defined in RobotMap
-void RobotPrefs::ResetToDefaults(void)
-{
-  // clear all preferences
-  prefs->RemoveAll();
-  
-
-}
-
-
-
+class MyAutoCommand : public frc::Command {
+ public:
+  MyAutoCommand();
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+};

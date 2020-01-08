@@ -8,17 +8,7 @@
 #include <frc/WPILib.h>
 #include "MechanismOI.h"
 #include "RobotMap.h"
-#include "commands/ElevatorUpDownPosition.h"
-#include "commands/ClawOpen.h"
-#include "commands/ClawGrabHatch.h"
-#include "commands/ClawGrabBall.h"
-#include "commands/TiltUp.h"
-#include "commands/TiltDown.h"
-#include "commands/TiltMid.h"
-#include "commands/SnowblowerIn.h"
-#include "commands/SnowblowerOut.h"
-#include "commands/SnowblowerOff.h"
-#include "commands/LobClawOpenClose.h"
+
 
 
 // class constructor - executed upon creation of MechanismOI object
@@ -38,31 +28,6 @@ MechanismOI::MechanismOI() {
     MechanismJoystickButton7 = new JoystickButton(MechanismJoystick,7);
     MechanismJoystickButton8 = new JoystickButton(MechanismJoystick,8);
 
-    // move elevator up or down one position
-    MechanismJoystickButton1->WhenPressed(new ElevatorUpDownPosition(false));
-    MechanismJoystickButton4->WhenPressed(new ElevatorUpDownPosition(true));
-    
-    #ifdef ROBOTTYPE_CLAW
-        // open and close claw
-        MechanismJoystickButton3->WhenPressed(new ClawGrabBall());
-        MechanismJoystickButton2->WhenPressed(new ClawOpen());
-        MechanismJoystickButton6->WhenPressed(new ClawGrabHatch());
-    #endif
-    #ifdef ROBOTTYPE_SNOWBLOWER
-        MechanismJoystickButton3->WhenPressed(new SnowblowerIn());
-        MechanismJoystickButton2->WhenPressed(new SnowblowerOut());
-         MechanismJoystickButton6->WhenPressed(new SnowblowerOff());
-    #endif
-
-    // tilt claw
-    MechanismJoystickButton5->WhenPressed(new TiltMid());
-    MechanismJoystickButton7->WhenPressed(new TiltDown());
-    MechanismJoystickButton8->WhenPressed(new TiltUp());
-
-    // open/close LobClaw
-    //MechanismJoystickButton3->WhenPressed(new LobClawOpenClose(1));
-    //MechanismJoystickButton2->WhenPressed(new LobClawOpenClose(0));
  
-
 }
   

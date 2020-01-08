@@ -14,8 +14,6 @@ CameraTilt::CameraTilt() : Subsystem("CameraTilt")
     // create PWM object on RoboRIO
     m_Servo = new Servo(CAMERA_SERVO_ID);
 
-    // default angle
-    SetTilt(CAMERA_TILTANGLE_BALL);
 }
 
 // default command to run with the subsystem

@@ -15,17 +15,8 @@ MechanismOI Robot::m_MechanismOI;
 DashboardOI Robot::m_DashboardOI;
 MainDrive Robot::m_MainDrive;
 NavX Robot::m_NavX;
-Elevator Robot::m_Elevator;
 Limelight Robot::m_Limelight;
 CameraTilt Robot::m_CameraTilt;
-IntakeTilt Robot::m_IntakeTilt;
-TiltHome Robot::m_TiltHome;
-ClawHome Robot::m_ClawHome;
-Claw Robot::m_Claw;
-Snowblower Robot::m_Snowblower;
-LobClaw Robot::m_LobClaw;
-IndicatorLight Robot::m_IndicatorLight;
-ChangeLight Robot::m_ChangeLight;
 
 // ------------------------ General (All Modes) --------------------
 
@@ -38,7 +29,6 @@ void Robot::RobotInit() {
 
   m_Prefs.ResetToDefaults();
 
-  m_ChangeLight.Start();
 
 
 }
@@ -112,19 +102,6 @@ void Robot::TeleopInit() {
     m_autonomousCommand = nullptr;
   }
 
-  // temporary //
-  // reset elevator to home position (CAUTION: assumes elevator is down)
-  m_Elevator.ResetEncoderPosition();
-  m_Elevator.SetElevatorTargetAnalog(0);
-  
-  #ifdef ROBOTTYPE_CLAW
-    m_TiltHome.Start();
-    m_ClawHome.Start();
-  #endif
-
-  #ifdef ROBOTTYPE_SNOWBLOWER
-    m_IntakeTilt.InitPositionControl();
-  #endif
 }
 
 // This function is called every time period while robot is in TeleOp Mode

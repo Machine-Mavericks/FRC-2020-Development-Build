@@ -8,7 +8,7 @@
 // Tank drive command allows robot to be driven in tank mode.
 // This is the default command when robot in teleop mode
 
-#include "commands/Tank.h"
+#include "commands/drive/Tank.h"
 #include "Robot.h"
 #include <math.h>
 #include "RobotMap.h"

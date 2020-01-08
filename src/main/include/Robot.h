@@ -25,11 +25,10 @@
 #include "subsystems/NavX.h"
 #include "subsystems/Limelight.h"
 #include "subsystems/CameraTilt.h"
-#include "subsystems/IndicatorLight.h"
 
 
 // command definitions
-#include "commands/ChangeLight.h"
+#include "commands/MyAutoCommand.h"
 
 
 
@@ -39,14 +38,13 @@ class Robot : public frc::TimedRobot {
   static RobotPrefs m_Prefs;
 
   // create commands
-  static ChangeLight m_ChangeLight;
+  static MyAutoCommand m_MyAutoCommand;
  
   // create subsystems;
   static MainDrive m_MainDrive;
   static NavX m_NavX;
   static Limelight m_Limelight;
   static CameraTilt m_CameraTilt;
-  static IndicatorLight m_IndicatorLight;
  
   
   // create robot driver interfaces

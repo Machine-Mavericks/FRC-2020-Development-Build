@@ -28,7 +28,7 @@ GoToTarget::GoToTarget(float Speed) {
   // command is not to run when robot is disabled
   SetRunWhenDisabled(false);
 
-  Steer = new DriveSteerTowardsTarget();
+  Steer = new SteerTowardsTarget();
 
   m_Speed = Speed;
 }
@@ -112,10 +112,10 @@ void GoToTarget::Initialize() {
       m_PathToTarget.State = 0;
 
       // create commands to drive towards target
-      Turn1 = new DriveTurnToAngle (m_PathToTarget.Angle1,1.0, 0.5, 0.0);
-      Distance1 = new DriveStraightDistance(m_PathToTarget.Distance1, 0.25);
-      Turn2 = new DriveTurnToAngle (m_PathToTarget.Angle2, 1.0, 0.5, 0.0);
-      Distance2 = new DriveStraightDistance(m_PathToTarget.Distance2, m_Speed);
+      Turn1 = new TurnToAngle (m_PathToTarget.Angle1,1.0, 0.5, 0.0);
+      Distance1 = new StraightDistance(m_PathToTarget.Distance1, 0.25);
+      Turn2 = new TurnToAngle (m_PathToTarget.Angle2, 1.0, 0.5, 0.0);
+      Distance2 = new StraightDistance(m_PathToTarget.Distance2, m_Speed);
      
       //////////////////////////////////////
       // temporary - copy to global variable to display on driver station

@@ -23,9 +23,4 @@ CameraSwitchPipeline::CameraSwitchPipeline(unsigned int Pipeline) {
 // Called once when the command executes
 void CameraSwitchPipeline::Initialize() {
   Robot::m_Limelight.SetPipeline(m_Pipeline);
-
-  if (m_Pipeline == 0)
-    Robot::m_CameraTilt.SetTilt(CAMERA_TILTANGLE_CHEVRON);
-  if (m_Pipeline == 1)
-    Robot::m_CameraTilt.SetTilt(CAMERA_TILTANGLE_BALL);
 }

@@ -8,7 +8,7 @@
 // Arcade drive command allows robot to be driven in arcade mode.
 // This command is intended to be executed while right joystick trigger is pressed
 
-#include "commands/Arcade.h"
+#include "commands/drive/Arcade.h"
 #include "Robot.h"
 #include <math.h>
 #include "RobotMap.h"
@@ -67,6 +67,6 @@ void Arcade::End() {
 // subsystems is scheduled to run
 void Arcade::Interrupted() {
     // we are finished arcade drive - resume normal Teleop mode (tank drive)
-  Robot::m_defaultTeleOp.Start();
+  //Robot::m_defaultTeleOp.Start();
 }
 

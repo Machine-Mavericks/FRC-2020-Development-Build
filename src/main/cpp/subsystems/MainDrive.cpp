@@ -7,7 +7,7 @@
 
 #include "subsystems/MainDrive.h"
 #include "RobotMap.h"
-#include "commands/DriveTank.h"
+#include "commands/drive/Tank.h"
 
 MainDrive::MainDrive() : Subsystem("MainDrive")
 {
@@ -54,7 +54,7 @@ MainDrive::MainDrive() : Subsystem("MainDrive")
 void MainDrive::InitDefaultCommand()
 {
   // Set default command for main drive to tank mode
-  SetDefaultCommand(new DriveTank());
+  SetDefaultCommand(new Tank());
 }
 
 // Drive in Tank Drive - where left and right motors are driven independently
