@@ -17,6 +17,7 @@ MainDrive Robot::m_MainDrive;
 NavX Robot::m_NavX;
 Limelight Robot::m_Limelight;
 CameraTilt Robot::m_CameraTilt;
+ColorSensor Robot::m_ColorSensor;
 
 // ------------------------ General (All Modes) --------------------
 

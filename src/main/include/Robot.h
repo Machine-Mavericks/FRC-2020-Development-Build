@@ -25,6 +25,7 @@
 #include "subsystems/NavX.h"
 #include "subsystems/Limelight.h"
 #include "subsystems/CameraTilt.h"
+#include "subsystems/ColorSensor.h"
 
 
 // command definitions
@@ -45,6 +46,7 @@ class Robot : public frc::TimedRobot {
   static NavX m_NavX;
   static Limelight m_Limelight;
   static CameraTilt m_CameraTilt;
+  static ColorSensor m_ColorSensor;
  
   
   // create robot driver interfaces

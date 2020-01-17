@@ -10,6 +10,7 @@
 #include "Robot.h"
 #include "detection/TargetDetection.h"
 #include "commands/drive/GoToTarget.h"
+#include "subsystems/ColorSensor.h"
 
 extern GoToTarget::PATHTOTARGET tg;
 extern TARGET_DATA FilteredTarget;
@@ -20,6 +21,10 @@ DashboardOI::DashboardOI() { }
 // Update dashboard
 void DashboardOI::UpdateDashBoard(void)
 {
+    //Color Sensor Data
+    frc::SmartDashboard::PutNumber("Matched Colour", Robot::m_ColorSensor.GetColor());
+
+
     // Show Target data
     TARGET_DATA target = GetTargetEstimation();
     frc::SmartDashboard::PutBoolean("Ball Detected?", target.Detected&&target.TargetType==1);
