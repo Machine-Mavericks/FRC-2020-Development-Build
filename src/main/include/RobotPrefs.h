@@ -27,4 +27,19 @@ class RobotPrefs {
   // Reset settings to default
   void ResetToDefaults(void);
 
+  // individual accessors - allows read-only access to settings 
+  const int ElevatorSoftMin();
+  const int ElevatorSoftMax();
+  const int ElevatorPos0();
+  const int ElevatorPos1();
+  const int ElevatorPos2();
+  const int ElevatorPos3();
+  const int ElevatorPos4();
+
+
+  const int TiltSoftMin();
+  const int TiltSoftMax();
+  const int TiltPos0();
+  const int TiltPos1();
+  const int TiltPos2();
 };

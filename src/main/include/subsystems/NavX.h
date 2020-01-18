@@ -12,6 +12,7 @@
 
 #include <frc/commands/Subsystem.h>
 #include "AHRS.h"
+#include <frc/Shuffleboard/Shuffleboard.h>
 
 using namespace frc;
 
@@ -36,9 +37,23 @@ class NavX : public frc::Subsystem {
   // get pitch
   float GetPitch(void);
 
+  // get X acceleration
+  float GetAccelX(void);
+ 
+  // get Y acceleration
+  float GetAccelY(void);
+
+  // ------------- Shuffleboard Functions -------------
+
+  void InitializeShuffleBoard(void);
+  void UpdateShuffleBoard(void);
 
   private:
   
   // create pointer to NavX object
   AHRS *ahrs;
+
+  // Shubbleboard Controls
+  nt::NetworkTableEntry Yaw, Pitch, Roll; 
+  nt::NetworkTableEntry AccelX, AccelY;
 };

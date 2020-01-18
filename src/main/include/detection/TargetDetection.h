@@ -31,4 +31,9 @@ struct TARGET_DATA {
 // returns ball target data
 TARGET_DATA GetTargetEstimation(void);
 
-void FilterCameraChevronResults(void);
+
+// ------------- Shuffleboard Functions -------------
+
+// update shuffle board with current target values
+void TargetDetectionInitializeShuffleBoard(void);
+void TargetDetectionUpdateShuffleBoard(void);

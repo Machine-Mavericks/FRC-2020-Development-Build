@@ -13,9 +13,9 @@
 #include <networkTables/networkTable.h>
 #include "networktables/NetworkTableEntry.h"
 #include "networktables/NetworkTableInstance.h"
+#include <frc/Shuffleboard/Shuffleboard.h>
 
-
- 
+using namespace frc;
 
 class Limelight : public frc::Subsystem {
     public:
@@ -81,10 +81,20 @@ class Limelight : public frc::Subsystem {
     float GetRawSkew1();
     float GetRawSkew2();
 
+    // update shuffle board with current values
+    void InitializeShuffleBoard();
+    void UpdateShuffleBoard();
+
     private:
 
     // create pointer to Limelight object
     std::shared_ptr<NetworkTable> table;
+
+    // Shubbleboard Controls
+    nt::NetworkTableEntry Pipeline, TargetPresent;
+    nt::NetworkTableEntry AngleX, AngleY, Skew;
+    nt::NetworkTableEntry Area, Short, Long, Hor, Vert;
+    nt::NetworkTableEntry X, Y, Z, Pitch, Yaw, Roll;
 };
 
 
