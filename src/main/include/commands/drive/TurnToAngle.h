@@ -34,18 +34,19 @@ class TurnToAngle : public frc::Command {
   
   // angle to turn robot
   float m_Angle;
-  
-  // speed limit to turn robot at
-  float m_zSpeed;
-
-  float m_xSpeed;
-
   float m_Tolerance;
-
+  
+  // speed limits to turn robot at
+  float m_zSpeed;
+  float m_xSpeed;
 
   // integrated error
   float m_IntegratedError;
 
+  // previous sample
+  float m_PreviousYaw;
+
+  // timer for when at target
   float m_Timer;
 
 };

@@ -23,12 +23,12 @@ GoToTarget::GoToTarget(float Speed) {
   Requires (&Robot::m_MainDrive);
 
   // distance drive command is not interruptable
-  SetInterruptible(false);
+  SetInterruptible(true);
 
   // command is not to run when robot is disabled
   SetRunWhenDisabled(false);
 
-  Steer = new SteerTowardsTarget();
+  Steer = new DriveSteerTowardsTarget();
 
   m_Speed = Speed;
 }
@@ -89,33 +89,14 @@ void GoToTarget::Initialize() {
 
       m_PathToTarget.Distance2 = Setback;
 
-      /*            
-      // angle of vector from robot to target-setback point
-      float Angle2 = RadtoDeg*atan((target.ZDistance-SETBACK)/target.XDistance); 
-
-      // Angle to turn robot by to meet target - setback
-      m_PathToTarget.Angle1 = target.XAngle + (Angle1 - Angle2);
-
-      // distance to setback point
-      m_PathToTarget.Distance1 = sqrt(target.XDistance*target.XDistance+ (target.ZDistance-SETBACK)*(target.ZDistance-SETBACK));
-    
-      // final angle to turn towards target
-      if (target.XDistance> 0.0)
-       m_PathToTarget.Angle2 = -(90-Angle2);
-      else 
-        m_PathToTarget.Angle2 = 90+Angle2;
-
-      // final drive towards target
-      m_PathToTarget.Distance2 = SETBACK; */
-
       // initialize first state
       m_PathToTarget.State = 0;
 
       // create commands to drive towards target
-      Turn1 = new TurnToAngle (m_PathToTarget.Angle1,1.0, 0.5, 0.0);
-      Distance1 = new StraightDistance(m_PathToTarget.Distance1, 0.25);
-      Turn2 = new TurnToAngle (m_PathToTarget.Angle2, 1.0, 0.5, 0.0);
-      Distance2 = new StraightDistance(m_PathToTarget.Distance2, m_Speed);
+      Turn1 = new DriveTurnToAngle (m_PathToTarget.Angle1,1.0, 0.5, 0.0);
+      Distance1 = new DriveStraightDistance(m_PathToTarget.Distance1, 1.0, 0.25);
+      Turn2 = new DriveTurnToAngle (m_PathToTarget.Angle2, 1.0, 0.5, 0.0);
+      Distance2 = new DriveStraightDistance(m_PathToTarget.Distance2, 1.0, m_Speed);
      
       //////////////////////////////////////
       // temporary - copy to global variable to display on driver station

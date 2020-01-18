@@ -5,87 +5,63 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/drive/SteerTowardsTarget.h"
-#include "Robot.h"
-#include "RobotMap.h"
-#include "detection/TargetDetection.h"
+// Tank drive command allows robot to be driven in tank mode.
+// This is the default command when robot in teleop mode
 
-// Constructor - approach target
-SteerTowardsTarget::SteerTowardsTarget() {
-  
-  // This command requires use of robot drive
+#include "commands/drive/Tank.h"
+#include "Robot.h"
+#include <math.h>
+#include "RobotMap.h"
+
+Tank::Tank() {
+  // Use Requires() here to declare subsystem dependencies
   Requires (&Robot::m_MainDrive);
 
-  // distance drive command is not interruptable
-  SetInterruptible(false);
+  // tank drive command is interruptable
+  SetInterruptible(true);
 
   // command is not to run when robot is disabled
   SetRunWhenDisabled(false);
 }
 
 // Called just before this Command runs the first time
-void SteerTowardsTarget::Initialize() {
-  // initially assume we are not yet arrived at target
-  m_AtTarget = false;
-
-  // type of target we are pursuing
-  m_TargetType = Robot::m_Limelight.GetPipeline();
-}
+void Tank::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void SteerTowardsTarget::Execute() {
+void Tank::Execute() {
+  // create variables for left and right joystick y axes
+  float raw_left_y, raw_right_y, left_y, right_y, throttle;
 
-  // get ball target information
-  TARGET_DATA target = GetTargetEstimation();
+  // get joystick y values from joystick
+  raw_left_y = Robot::m_DriverOI.LeftJoystick->GetRawAxis(JOYSTICK_Y_AXIS_ID );
+  raw_right_y = Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_Y_AXIS_ID );
 
-  // have we detected a ball?
-  if (target.Detected == true&& target.TargetType==1) //- for now, pursue all targets same way
-  {
-    // target has been detected
+  // get joystick right throttle to control maximum robot speed
+  // adjust throttle to give value between 0 and +1.0
+  // use negative of throttle so that +1 represents throttle forward position
+  throttle = 0.5 * (1.0 + -Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_THROTTLE_AXIS_ID));
 
-    // get joystick right throttle to control maximum robot speed
-    // adjust throttle to give value between 0 and +1.0
-    // use negative of throttle so that +1 represents throttle forward position
-    float throttle = 0.5 * (1.0 + -Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_THROTTLE_AXIS_ID));
+  // implement non-linear joystick response curves
+  right_y = LINEAR_WEIGHT * raw_right_y + CUBIC_WEIGHT * pow(raw_right_y, 3); 
+  left_y = LINEAR_WEIGHT * raw_left_y + CUBIC_WEIGHT * pow(raw_left_y, 3); 
 
-    // get speed to drive towards ball
-    float speed = Robot::m_DriverOI.LeftJoystick->GetRawAxis(JOYSTICK_Y_AXIS_ID);
+  // apply throttle control (scaling factor) to both left and right values.
+  right_y = right_y * throttle;
+  left_y = left_y * throttle;
 
-    // implement non-linear joystick response curves
-    speed = LINEAR_WEIGHT * speed + CUBIC_WEIGHT * pow(speed, 3);
-
-    // reduce by speed by amount of throttle
-    speed = speed * throttle;
-
-    // get angle to target
-    float TargetAngle = target.XAngle;
-
-    // do we need to turn to angle?
-    if (TargetAngle >=1.0 || TargetAngle <=-1.0)
-      // drive towards target
-      Robot::m_MainDrive.SetArcadeDrive(speed, 0.015*TargetAngle, false); // feb 17 p-gain was 0.020
-    else
-      // target is ahead of us, drive straight
-      Robot::m_MainDrive.SetArcadeDrive(speed, 0.0, false);
-  }
-  else
-  {
-    // target has not been detected - stop robot
-    Robot::m_MainDrive.SetArcadeDrive(0.0,0.0,false);
-  }
-
+  // set main drive tank speeds
+  Robot::m_MainDrive.SetTankDrive (left_y, right_y);
 }
 
-// Return true when this Command is finished
-bool SteerTowardsTarget::IsFinished() { 
+// Make this return true when this Command no longer needs to run execute()
+bool Tank::IsFinished() {
+  // since this is default mode, always return false - command never ends
   return false;
 }
 
 // Called once after isFinished returns true
-void SteerTowardsTarget::End() {}
+void Tank::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void SteerTowardsTarget::Interrupted() {
-  
-}
+void Tank::Interrupted() {}

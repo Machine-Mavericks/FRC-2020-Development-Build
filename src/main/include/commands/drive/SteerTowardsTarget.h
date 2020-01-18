@@ -15,7 +15,7 @@ class SteerTowardsTarget : public frc::Command {
   public:
   
   // Constructor
-  SteerTowardsTarget();
+  DriveSteerTowardsTarget();
   
   // Called just before this Command runs the first time
   void Initialize() override;
