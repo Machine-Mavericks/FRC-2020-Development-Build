@@ -9,7 +9,7 @@
 #include "subsystems/Limelight.h"
 #include "RobotMap.h"
 #include "wpi/ArrayRef.h"
-
+#include <frc/Shuffleboard/Shuffleboard.h>
 
 // constructor - used to initialize specific hardware
 Limelight::Limelight() : Subsystem("Limelight") {
@@ -142,3 +142,67 @@ float Limelight::GetRawSkew1()
 
 float Limelight::GetRawSkew2()
 { return table->GetNumber("ts2",0.0); }
+
+
+
+// ------------- Shuffleboard Functions -------------
+
+void Limelight::InitializeShuffleBoard(void)
+{
+    // Main Tab
+    ShuffleboardTab *Tab = &Shuffleboard::GetTab("Limelight");
+    
+    Pipeline = Tab->Add("Pipeline", 0).GetEntry();
+    TargetPresent = Tab->Add("Target Present", false).GetEntry();
+
+    ShuffleboardLayout *l1 = &Tab->GetLayout("Target", BuiltInLayouts::kList);
+    l1->WithPosition(2,0);
+    l1->WithSize(1,4);
+    AngleX = l1->Add("AngleX", 0.0).GetEntry();
+    AngleY = l1->Add("AngleY", 0.0).GetEntry();
+    Skew = l1->Add("Skew", 0.0).GetEntry(); 
+
+    ShuffleboardLayout *l2 = &Tab->GetLayout("Dimensions", BuiltInLayouts::kList);
+    l2->WithPosition(3,0);
+    l2->WithSize(1,6);
+    Area = l2->Add("Area", 0.0).GetEntry(); 
+    Short = l2->Add("Short", 0.0).GetEntry(); 
+    Long = l2->Add("Long", 0.0).GetEntry(); 
+    Hor = l2->Add("Hor", 0.0).GetEntry(); 
+    Vert = l2->Add("Vert", 0.0).GetEntry(); 
+
+    ShuffleboardLayout *l3 = &Tab->GetLayout("CamTran", BuiltInLayouts::kList);
+    l3->WithPosition(4,0);
+    l3->WithSize(1,6);
+    X = l3->Add("X", 0.0).GetEntry();
+    Y = l3->Add("Y", 0.0).GetEntry(); 
+    Z = l3->Add("Z", 0.0).GetEntry(); 
+    Pitch = l3->Add("Pitch", 0.0).GetEntry(); 
+    Yaw = l3->Add("Yaw", 0.0).GetEntry(); 
+    Roll = l3->Add("Roll", 0.0).GetEntry(); 
+}
+// update shuffle board with current values
+void Limelight::UpdateShuffleBoard(void)
+{
+  Pipeline.SetDouble(GetPipeline());
+  TargetPresent.SetBoolean(IsTargetPresent());
+  
+  AngleX.SetDouble(GetHorizontalTargetOffsetAngle());
+  AngleY.SetDouble(GetVerticalTargetOffsetAngle());
+  Skew.SetDouble(GetTargetSkew());
+
+  Area.SetDouble(GetTargetArea());
+  Short.SetDouble(GetShortestSide());
+  Long.SetDouble(GetLongestSide());
+  Hor.SetDouble(GetHorizontalSideLength());
+  Vert.SetDouble(GetVerticalSideLength());
+
+  Limelight::CamTran vector = GetCameraTranslation();
+  X.SetDouble(vector.x);
+  Y.SetDouble(vector.y);
+  Z.SetDouble(vector.z);
+  Pitch.SetDouble(vector.pitch);
+  Yaw.SetDouble(vector.yaw);
+  Roll.SetDouble(vector.roll);
+
+}

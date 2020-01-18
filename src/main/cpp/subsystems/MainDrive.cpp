@@ -7,7 +7,7 @@
 
 #include "subsystems/MainDrive.h"
 #include "RobotMap.h"
-#include "commands/drive/Tank.h"
+#include "commands/DriveTank.h"
 
 MainDrive::MainDrive() : Subsystem("MainDrive")
 {
@@ -43,18 +43,24 @@ MainDrive::MainDrive() : Subsystem("MainDrive")
   ResetLeftEncoder();
   ResetRightEncoder();
   
-  //disable safety feature
-  m_MotorFrontLeft->SetSafetyEnabled(false);
+  //enable safety feature
+  m_MotorFrontLeft->SetExpiration(15.0);
+  //m_MotorRearLeft->SetExpiration(15.0);
+  m_MotorFrontRight->SetExpiration(15.0);
+  //m_MotorRearRight->SetExpiration(15.0);
+
+  m_MotorFrontLeft->SetSafetyEnabled(true);
   m_MotorRearLeft->SetSafetyEnabled(false);
-  m_MotorFrontRight->SetSafetyEnabled(false);
+  m_MotorFrontRight->SetSafetyEnabled(true);
   m_MotorRearRight->SetSafetyEnabled(false);
+
 }
 
 // default command to run with the subsystem
 void MainDrive::InitDefaultCommand()
 {
   // Set default command for main drive to tank mode
-  SetDefaultCommand(new Tank());
+  SetDefaultCommand(new DriveTank());
 }
 
 // Drive in Tank Drive - where left and right motors are driven independently
@@ -82,6 +88,7 @@ void MainDrive::SetTankDrive(float LeftSpeed, float RightSpeed)
 
   // command drive to tankdrive at specified speeds
   m_Drive->TankDrive(left, right);
+
 }
 
 // Drive robot in Arcade Drive (Constant arc speed around z axis)
@@ -137,6 +144,7 @@ void MainDrive::SetCurvatureDrive(float XSpeed, float ZSpeed, bool Quickturn)
   m_Drive->CurvatureDrive(speed, rotation, Quickturn);
 }
 
+
 // ------------- Drive Encoder Functions -------------
 
 // reset the left encoder to 0 distance
@@ -161,4 +169,73 @@ float MainDrive::GetLeftEncoderDistance(void)
 float MainDrive::GetRightEncoderDistance(void)
 {
   return m_EncoderRight->GetDistance();
+}
+
+double MainDrive::GetLeftEncoderTicks(void)
+{
+  return m_EncoderLeft->GetRaw();
+}
+
+double MainDrive::GetRightEncoderTicks(void)
+{
+  return m_EncoderRight->GetRaw();
+}
+
+// get left encoder distance since last reset
+float MainDrive::GetLeftEncoderSpeed(void)
+{
+  return m_EncoderLeft->GetRate();
+}
+
+// get left encoder distance since last reset
+float MainDrive::GetRightEncoderSpeed(void)
+{
+  return m_EncoderRight->GetRate();
+}
+
+
+// ------------- Shuffleboard Functions -------------
+
+void MainDrive::InitializeShuffleBoard(void)
+{
+    // Main Tab
+    ShuffleboardTab *Tab = &Shuffleboard::GetTab("Drive");
+    
+    ShuffleboardLayout *l1 = &Tab->GetLayout("Drive Distance", BuiltInLayouts::kList);
+    l1->WithPosition(0,0);
+    l1->WithSize(1,2);
+    LeftDistance = l1->Add("Left", 0.0).GetEntry();
+    RightDistance = l1->Add("Right", 0.0).GetEntry();
+
+    ShuffleboardLayout *l2 = &Tab->GetLayout("Drive Speed", BuiltInLayouts::kList);
+    l2->WithPosition(1,0);
+    l2->WithSize(1,2);
+    LeftSpeed = l2->Add("Left", 0.0).GetEntry();
+    RightSpeed = l2->Add("Right", 0.0).GetEntry();
+
+    ShuffleboardLayout *l3 = &Tab->GetLayout("Encoders", BuiltInLayouts::kList);
+    l3->WithPosition(2,0);
+    l3->WithSize(1,2);
+    LeftEncoder = l3->Add("Left", 0.0).GetEntry();
+    RightEncoder = l3->Add("Right", 0.0).GetEntry();
+
+    ShuffleboardLayout *l4 = &Tab->GetLayout("Current", BuiltInLayouts::kList);
+    l4->WithPosition(3,0);
+    l4->WithSize(1,2);
+    LeftCurrent = l4->Add("Left", 0.0).GetEntry();
+    RightCurrent = l4->Add("Right", 0.0).GetEntry();
+}
+
+// update shuffle board with current drive values
+void MainDrive::UpdateShuffleBoard(void)
+{
+  LeftDistance.SetDouble(GetLeftEncoderDistance());
+  RightDistance.SetDouble(GetRightEncoderDistance());
+  LeftSpeed.SetDouble(GetLeftEncoderSpeed());
+  RightSpeed.SetDouble(GetRightEncoderSpeed());
+  
+  LeftEncoder.SetDouble(GetLeftEncoderTicks());
+  RightEncoder.SetDouble(GetRightEncoderTicks());
+  //LeftCurrent.SetDouble(GetLeftMotorCurrent());
+  //RightCurrent.SetDouble(GetRightMotorCurrent());
 }

@@ -36,6 +36,10 @@ class DriverOI {
     JoystickButton *LeftJoystickButton6;
     JoystickButton *LeftJoystickButton7;
     JoystickButton *LeftJoystickButton8;
+    JoystickButton *LeftJoystickButton9;
+    JoystickButton *LeftJoystickButton10;
+    JoystickButton *LeftJoystickButton11;
+    JoystickButton *LeftJoystickButton12;
 
     // create pointers for individual buttons for right joystick
     JoystickButton *RightJoystickButton1;
@@ -46,4 +50,8 @@ class DriverOI {
     JoystickButton *RightJoystickButton6;
     JoystickButton *RightJoystickButton7;
     JoystickButton *RightJoystickButton8;
+    JoystickButton *RightJoystickButton9;
+    JoystickButton *RightJoystickButton10;
+    JoystickButton *RightJoystickButton11;
+    JoystickButton *RightJoystickButton12;
 };   
