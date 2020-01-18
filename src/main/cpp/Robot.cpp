@@ -15,19 +15,9 @@ MechanismOI Robot::m_MechanismOI;
 DashboardOI Robot::m_DashboardOI;
 MainDrive Robot::m_MainDrive;
 NavX Robot::m_NavX;
-Elevator Robot::m_Elevator;
 Limelight Robot::m_Limelight;
 CameraTilt Robot::m_CameraTilt;
-IntakeTilt Robot::m_IntakeTilt;
-TiltHome Robot::m_TiltHome;
-ClawHome Robot::m_ClawHome;
-Claw Robot::m_Claw;
-Snowblower Robot::m_Snowblower;
-IndicatorLight Robot::m_IndicatorLight;
-ChangeLight Robot::m_ChangeLight;
-AirCompressor Robot::m_AirCompressor;
-Climb Robot::m_Climb;
-bool Robot::m_IsRobotInitialized;
+ColorSensor Robot::m_ColorSensor;
 
 // ------------------------ General (All Modes) --------------------
 
@@ -40,12 +30,8 @@ void Robot::RobotInit() {
 
   m_Prefs.ResetToDefaults();
 
-  m_ChangeLight.Start();
 
-  m_DashboardOI.InitializeDashBoard();
 
-  // initially robot is not initialized
-  m_IsRobotInitialized=false;
 }
 
 // This function is called every robot packet, no matter the mode. Use
@@ -97,36 +83,6 @@ void Robot::AutonomousInit() {
   if (m_autonomousCommand != nullptr) {
     m_autonomousCommand->Start();
   }
-
-  // has robot been initialized yet?
-  //if (!m_IsRobotInitialized)
-  //{
-    // zero robot yaw
-    m_NavX.ZeroYaw();
-    
-    // reset elevator encoder
-    m_Elevator.ResetEncoderPosition();
-
-    // initialize subsystems as required
-    m_TiltHome.Start();
-    m_IntakeTilt.InitPositionControl();
-    m_IntakeTilt.SetIntakeTiltTargetPosition(0);
-
-    // removed - to conserve air - assume pistons are up
-    // initialize the pistons so they are retracted
-    m_Climb.SetClimbFrontTargetPosition(0);
-    m_Climb.SetClimbRearTargetPosition(0);
-
-    // set camera pipeline to chevron
-    m_Limelight.SetPipeline(0);
-    m_CameraTilt.SetTiltPos(0);
-
-    // robot subsystems are now initialized
-    m_IsRobotInitialized = true;
-
-  //}
-
-  
 }
 
 // This function is called every tiem period while robot is in Autonomous Mode
@@ -147,35 +103,6 @@ void Robot::TeleopInit() {
     m_autonomousCommand = nullptr;
   }
 
-  // has robot been initialized yet?
- if (!m_IsRobotInitialized)
-  //if (true)
-  {
-    // zero robot yaw
-    m_NavX.ZeroYaw();
-    
-    // reset elevator encoder
-    m_Elevator.ResetEncoderPosition();
-
-    // initialize subsystems as required
-    if (!m_TiltHome.IsFinished())
-      m_TiltHome.Start();
-    m_IntakeTilt.InitPositionControl();
-    m_IntakeTilt.SetIntakeTiltTargetPosition(0);
-
-
-    // removed - to conserve air - assume pistons are up
-    // initialize the pistons so they are retracted
-    m_Climb.SetClimbFrontTargetPosition(0);
-    m_Climb.SetClimbRearTargetPosition(0);
-
-    // set camera pipeline to chevron
-    m_Limelight.SetPipeline(0);
-    m_CameraTilt.SetTiltPos(0);
-    
-    // robot subsystems are now initialized
-    m_IsRobotInitialized = true;
-  }
 }
 
 // This function is called every time period while robot is in TeleOp Mode
