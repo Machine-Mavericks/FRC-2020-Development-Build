@@ -12,11 +12,14 @@
 
 #include <frc/commands/Subsystem.h>
 #include "frc/Servo.h"
-#include <frc/Shuffleboard/Shuffleboard.h>
 
 using namespace frc;
 
 class CameraTilt : public frc::Subsystem {
+  private:
+
+  // create pointer to servo motor
+  Servo *m_Servo;
  
   public:
 
@@ -27,19 +30,5 @@ class CameraTilt : public frc::Subsystem {
   void InitDefaultCommand() override;
 
   // sets camera tilt 
-  // == 0 for chevron
-  // == 1 for ball
-  void SetTiltPos(unsigned int Pos);
-
-  // ------------- Shuffleboard Functions -------------
-
-  void InitializeShuffleBoard(void);
-  void UpdateShuffleBoard(void);
-
-  private:
-
-  // create pointer to servo motor
-  Servo *m_Servo;
- 
-  nt::NetworkTableEntry BallAdjust, ChevronAdjust;
+  void SetTilt(float value);
 };

@@ -23,22 +23,13 @@
 // subsystem definitions
 #include "subsystems/MainDrive.h"
 #include "subsystems/NavX.h"
-#include "subsystems/Elevator.h"
 #include "subsystems/Limelight.h"
 #include "subsystems/CameraTilt.h"
-#include "subsystems/IntakeTilt.h"
-#include "subsystems/Claw.h"
-#include "subsystems/Snowblower.h"
-#include "subsystems/IndicatorLight.h"
-#include "subsystems/AirCompressor.h"
-#include "subsystems/Climb.h"
+#include "subsystems/ColorSensor.h"
 
 
 // command definitions
 #include "commands/MyAutoCommand.h"
-#include "commands/TiltHome.h"
-#include "commands/ClawHome.h"
-#include "commands/ChangeLight.h"
 
 
 
@@ -48,22 +39,14 @@ class Robot : public frc::TimedRobot {
   static RobotPrefs m_Prefs;
 
   // create commands
-  static TiltHome m_TiltHome;
-  static ClawHome m_ClawHome;
-  static ChangeLight m_ChangeLight;
+  static MyAutoCommand m_MyAutoCommand;
  
   // create subsystems;
   static MainDrive m_MainDrive;
   static NavX m_NavX;
-  static Elevator m_Elevator;
   static Limelight m_Limelight;
   static CameraTilt m_CameraTilt;
-  static IntakeTilt m_IntakeTilt;
-  static Claw m_Claw;
-  static Snowblower m_Snowblower;
-  static AirCompressor m_AirCompressor;
-  static Climb m_Climb;
-  static IndicatorLight m_IndicatorLight;
+  static ColorSensor m_ColorSensor;
  
   
   // create robot driver interfaces
@@ -92,14 +75,9 @@ class Robot : public frc::TimedRobot {
 
   private:
   
-  // Flag to indicate if robot subsystems initialized
-  // used to prevent re-initializing subsystems when robot switches from autotonomous to teleop modes
-  static bool m_IsRobotInitialized;
-
   // Have it null by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
   frc::Command* m_autonomousCommand = nullptr;
   MyAutoCommand m_myAuto;
   frc::SendableChooser<frc::Command*> m_chooser;
-
 };
