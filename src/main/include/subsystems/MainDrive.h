@@ -16,11 +16,27 @@
 #include <frc/drive/DifferentialDrive.h>
 #include <ctre/Phoenix.h>
 #include <frc/Encoder.h>
-#include <frc/Shuffleboard/Shuffleboard.h>
 
 using namespace frc;
 
 class MainDrive : public frc::Subsystem {
+ private:
+
+  // It's desirable that everything possible under private except
+  // for methods that implement subsystem capabilities
+
+  // define drive motors - assign each to specific PWN channel
+  WPI_VictorSPX *m_MotorFrontLeft;
+  WPI_VictorSPX *m_MotorRearLeft;
+  WPI_VictorSPX *m_MotorFrontRight;
+  WPI_VictorSPX *m_MotorRearRight;
+
+  // create overall drive system
+  DifferentialDrive *m_Drive;
+
+  // create encoder objects
+  frc::Encoder *m_EncoderRight;
+  frc::Encoder *m_EncoderLeft;
 
 public:
 
@@ -51,36 +67,4 @@ public:
   float GetLeftEncoderDistance(void); 
   float GetRightEncoderDistance(void);
 
-  // get right/left encoder speed 
-  float GetRightEncoderSpeed(void);
-  float GetLeftEncoderSpeed(void);
-
-  double GetLeftEncoderTicks(void);
-  double GetRightEncoderTicks(void);
-
-  // ------------- Shuffleboard Functions -------------
-
-  void InitializeShuffleBoard(void);
-  void UpdateShuffleBoard(void);
-
-  private:
-  // define drive motors - assign each to specific PWN channel
-  WPI_VictorSPX *m_MotorFrontLeft;
-  WPI_VictorSPX *m_MotorRearLeft;
-  WPI_VictorSPX *m_MotorFrontRight;
-  WPI_VictorSPX *m_MotorRearRight;
-
-  // create overall drive system
-  DifferentialDrive *m_Drive;
-
-  // create encoder objects
-  frc::Encoder *m_EncoderRight;
-  frc::Encoder *m_EncoderLeft;
-
-  // Shubbleboard Controls
-  nt::NetworkTableEntry LeftDistance, RightDistance; 
-  nt::NetworkTableEntry LeftSpeed, RightSpeed;
-  nt::NetworkTableEntry LeftEncoder, RightEncoder;
-  nt::NetworkTableEntry LeftCurrent, RightCurrent;
 };
-

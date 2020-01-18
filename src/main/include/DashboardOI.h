@@ -7,11 +7,9 @@
 
 /* DashboardOI Class is the interface to the FRC robot dashboard - used to display current robot data*/
 
-#include <frc/Shuffleboard/Shuffleboard.h>
-
 #pragma once
 
-using namespace frc;
+//using namespace frc;
 
 class DashboardOI {
     public:
@@ -21,15 +19,4 @@ class DashboardOI {
 
     // Update dashboard
     void UpdateDashBoard(void);
-
-    // initialize dashboard
-    void InitializeDashBoard(void);
-
-    private:
-
-    // Shubbleboard Auto Settings Controls
-    nt::NetworkTableEntry AutoLDistanceAdjust;
-    nt::NetworkTableEntry AutoRDistanceAdjust;
-     
-    
 };

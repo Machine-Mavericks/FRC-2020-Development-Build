@@ -2,25 +2,16 @@
 // These functions may use various robot systems as required 
 
 #include "detection/TargetDetection.h"
-#include <frc/Shuffleboard/Shuffleboard.h>
+
 
 // ---------- Target Detection Routines ----------
 
-// Ball Test Data from Lab (Feb 3/18 estimates - requires retest for better accuracy)
+
+// Test Data from Lab (Feb 3/18 estimates - requires retest for better accuracy)
 // Size (typ x and y)            Distance              
 // 84                            42" (1.1m)
 // 36                            93" (2.4m)  (base case)
 // 16                            168" (4.3m)
-
-// Chevron Test Data from Lab (Feb 16/19 estimates)
-// Avg Size (=1/2*(x+y))        Distance            Size*Distance
-// 182                          42.5"               7,735       
-// 127                          61.5"               7,810
-// 104                          72"                 7,490
-// 85                           96.5"               8,202
-// 59                           140"                8,260
-
-
 
 TARGET_DATA GetTargetEstimation(void)
 {
@@ -71,7 +62,7 @@ TARGET_DATA GetTargetEstimation(void)
     } // end if target is ball
 
     // if we are targetting a chevron
-    else if (detected==true && (targettype==0 || targettype==2 || targettype==3))
+    else if (detected==true && targettype==0)
     {
 
        // do we have a valid target? camera must detect target AND ball larger than minimum size AND ball rectangle must be ~square
@@ -87,12 +78,8 @@ TARGET_DATA GetTargetEstimation(void)
             
             // get camtran vector from camera
             Limelight::CamTran vector = Robot::m_Limelight.GetCameraTranslation();
-            target.XDistance = vector.x;
-            if (avgsize!=0.0) 
-                target.ZDistance = 7900.0 / avgsize; 
-            else
-                target.ZDistance = 0.0;
-                 
+            target.XDistance = -vector.x;
+            target.ZDistance = -vector.z;       
         }
     } // end if target is chevron
 
@@ -101,39 +88,26 @@ TARGET_DATA GetTargetEstimation(void)
 }
 
 
-// ------------- Shuffleboard Functions -------------
+// Filtered Target Data
+TARGET_DATA FilteredTarget;
 
-nt::NetworkTableEntry BallDetected, ChevronDetected;
-nt::NetworkTableEntry ZDistance, XDistance, XAngle, Area;
-
-
-// update shuffle board with current target values
-void TargetDetectionInitializeShuffleBoard(void)
+// function to filter camera results
+void FilterCameraChevronResults(void)
 {
-    ShuffleboardTab *Tab = &Shuffleboard::GetTab("Target Detection");
+    static float FilteredDetection = 0.0;
+    
+    // Filter camera target detection
+    FilteredDetection = 0.93 * FilteredDetection + 0.07*(Robot::m_Limelight.IsTargetPresent()); 
+    FilteredTarget.Detected = (FilteredDetection >=0.75);
 
-    BallDetected = Tab->Add("Ball Detected", false).GetEntry();
-    ChevronDetected = Tab->Add("Chevron Detected", false).GetEntry();
-    
-    ShuffleboardLayout *l1 = &Tab->GetLayout("Target", BuiltInLayouts::kList);
-    l1->WithPosition(2,0);
-    l1->WithSize(1,4);
-    ZDistance = l1->Add("ZDistance", 0.0).GetEntry();
-    XDistance = l1->Add("XDistance", 0.0).GetEntry();
-    XAngle = l1->Add("XAngle", 0.0).GetEntry();
-    Area = l1->Add("Area", 0.0).GetEntry();
-}
+    // Target type - don't need filtering
+    FilteredTarget.TargetType = Robot::m_Limelight.GetPipeline();
 
-// update shuffle board with current target values
-void TargetDetectionUpdateShuffleBoard(void)
-{
-    TARGET_DATA target = GetTargetEstimation();
-    
-    BallDetected.SetBoolean(target.Detected&&target.TargetType==1);
-    ChevronDetected.SetBoolean(target.Detected&&target.TargetType==0);
-    
-    ZDistance.SetDouble(target.ZDistance);
-    XDistance.SetDouble(target.XDistance);
-    XAngle.SetDouble(target.XAngle);
-    Area.SetDouble(target.Area);
+    // Filter camera XAngle
+    FilteredTarget.XAngle = 0.99*FilteredTarget.XAngle + 0.01*Robot::m_Limelight.GetHorizontalTargetOffsetAngle();
+
+    // Filter camtran vector
+    Limelight::CamTran vector = Robot::m_Limelight.GetCameraTranslation(); 
+    FilteredTarget.XDistance = 0.99*FilteredTarget.XDistance + 0.01*(-vector.x);
+    FilteredTarget.ZDistance = 0.99*FilteredTarget.ZDistance + 0.01*(-vector.z);
 }
