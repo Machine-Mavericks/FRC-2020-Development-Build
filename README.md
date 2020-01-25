@@ -7,10 +7,10 @@ Repository includes source (src) files folder. Copy 'src' folder into main robot
 
 Jan 27/2019: Rev 1 Now includes fully functional tank and arcade drive modes - both only available when robot is in teleop mode Tank mode is default. Press and hold right joystick trigger for arcade drive mode. Releasing trigger returns robot to tank mode. Right joystick throttle controls thrust throttle for both Tank and Arcade modes. Subsystems include MainDrive (incl left/right encoders) and NavX for Gyro monitoring (not used in this release) Commands include TankDrive and ArcadeDrive Constants now in Robotmap.h All driver station updates moved to DriverStation.h
 
-*Known issues:*
+**Known issues:**
 May require fine-tuning of joystick response characteristics which can be done at later date
 
-*For next release:*
+**For next release:**
 
 update to frc 2
 
