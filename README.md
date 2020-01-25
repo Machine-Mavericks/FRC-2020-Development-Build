@@ -11,7 +11,6 @@ Jan 27/2019: Rev 1 Now includes fully functional tank and arcade drive modes - b
 May require fine-tuning of joystick response characteristics which can be done at later date
 
 **For next release:**
-
 update to frc 2
 
 
