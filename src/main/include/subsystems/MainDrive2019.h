@@ -10,67 +10,23 @@
 
 #pragma once
 
-<<<<<<< Updated upstream
-#include <frc/commands/Subsystem.h>
 #include <frc/Spark.h>
 #include <frc/SpeedControllerGroup.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <ctre/Phoenix.h>
 #include <frc/Encoder.h>
-=======
-#include <frc2/command/SubsystemBase.h>
-#include "ctre/Phoenix.h"
-#include "frc/drive/DifferentialDrive.h"
-#include "RobotMap.h"
 #include <frc/Shuffleboard/Shuffleboard.h>
->>>>>>> Stashed changes
+#include <frc2/command/SubsystemBase.h>
+#include "frc/drive/DifferentialDrive.h"
 
 using namespace frc;
 
-class MainDrive : public frc::Subsystem {
- private:
+class MainDrive2019 : public frc2::SubsystemBase {
 
-  // It's desirable that everything possible under private except
-  // for methods that implement subsystem capabilities
-
-  // define drive motors - assign each to specific PWN channel
-<<<<<<< Updated upstream
-  WPI_VictorSPX *m_MotorFrontLeft;
-  WPI_VictorSPX *m_MotorRearLeft;
-  WPI_VictorSPX *m_MotorFrontRight;
-  WPI_VictorSPX *m_MotorRearRight;
-=======
-  WPI_TalonFX *m_MotorFrontLeft;
-  WPI_TalonFX *m_MotorRearLeft;
-  WPI_TalonFX *m_MotorFrontRight;
-  WPI_TalonFX *m_MotorRearRight;
->>>>>>> Stashed changes
-
-  // create overall drive system
-  DifferentialDrive *m_Drive;
-
-<<<<<<< Updated upstream
-  // create encoder objects
-  frc::Encoder *m_EncoderRight;
-  frc::Encoder *m_EncoderLeft;
-=======
-  // encoder scaling factor
-  const float EncoderScaleFactor = ((kPi * WHEEL_DIAMETER) / 4096.0);
->>>>>>> Stashed changes
-
-  // Shubbleboard Controls
-  nt::NetworkTableEntry LeftDistance, RightDistance; 
-  nt::NetworkTableEntry LeftSpeed, RightSpeed;
-  nt::NetworkTableEntry LeftEncoder, RightEncoder;
-  nt::NetworkTableEntry LeftCurrent, RightCurrent;
-
- public:
+public:
 
   // constructor - used to initialize specific hardware
-  MainDrive();
-
-  // default command to run with the subsystem
-  void InitDefaultCommand() override;
+  MainDrive2019();
 
   // Drive in Tank Drive - where left and right motors are driven independently
   void SetTankDrive(float LeftSpeed, float RightSpeed);
@@ -93,20 +49,37 @@ class MainDrive : public frc::Subsystem {
   float GetLeftEncoderDistance(void); 
   float GetRightEncoderDistance(void);
 
-<<<<<<< Updated upstream
-=======
-  // returns motor encoder values (in raw units)
-  int GetLeftEncoderTicks(void);
-  int GetRightEncoderTicks(void);
-
   // get right/left encoder speed 
-  float GetLeftEncoderSpeed(void);
   float GetRightEncoderSpeed(void);
+  float GetLeftEncoderSpeed(void);
 
+  double GetLeftEncoderTicks(void);
+  double GetRightEncoderTicks(void);
 
-   // ------------- Shuffleboard Functions -------------
+  // ------------- Shuffleboard Functions -------------
 
   void InitializeShuffleBoard(void);
   void UpdateShuffleBoard(void);
->>>>>>> Stashed changes
+
+  private:
+  // define drive motors - assign each to specific PWN channel
+  WPI_VictorSPX *m_MotorFrontLeft;
+  WPI_VictorSPX *m_MotorRearLeft;
+  WPI_VictorSPX *m_MotorFrontRight;
+  WPI_VictorSPX *m_MotorRearRight;
+
+  // create overall drive system
+  DifferentialDrive *m_Drive;
+
+  // create encoder objects
+  frc::Encoder *m_EncoderRight;
+  frc::Encoder *m_EncoderLeft;
+
+  // Shubbleboard Controls
+  nt::NetworkTableEntry LeftDistance, RightDistance; 
+  nt::NetworkTableEntry LeftSpeed, RightSpeed;
+  nt::NetworkTableEntry LeftEncoder, RightEncoder;
+  nt::NetworkTableEntry LeftCurrent, RightCurrent;
 };
+
+

@@ -8,6 +8,10 @@
 #pragma once
 
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 // ------------- General -------------
 
 // Joystick port Ids
@@ -24,6 +28,12 @@
 constexpr double kPi = 3.14159265358979;
 
 // ------------- Main Drive Constants -------------
+
+
+// Drive Type
+// Uncomment type of drive to be used. Comment out rest
+//#define DRIVE2020
+#define DRIVE2019
 
 // Motor Drive CANbus node IDs
 #define FRONT_LEFT_MOTOR_CANID          2

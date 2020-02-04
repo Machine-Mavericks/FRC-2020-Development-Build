@@ -48,5 +48,44 @@ float NavX::GetRoll(void){
 float NavX::GetPitch(void){
     return (ahrs->GetPitch());
 }
+
+float NavX::GetAccelX(void){
+    return (ahrs->GetRawAccelX());
+}
+
+float NavX::GetAccelY(void){
+    return (ahrs->GetRawAccelY());
+}
  
 
+// ------------- Shuffleboard Functions -------------
+
+void NavX::InitializeShuffleBoard(void)
+{
+    // Main Tab
+    ShuffleboardTab *Tab = &Shuffleboard::GetTab("NavX");
+    
+    ShuffleboardLayout *l1 = &Tab->GetLayout("Roll Rates", BuiltInLayouts::kList);
+    l1->WithPosition(0,0);
+    l1->WithSize(1,2);
+    Yaw = l1->Add("Yaw", 0.0).GetEntry();
+    Pitch = l1->Add("Pitch", 0.0).GetEntry();
+    Roll = l1->Add("Roll", 0.0).GetEntry();
+
+    ShuffleboardLayout *l2 = &Tab->GetLayout("Accelerometer", BuiltInLayouts::kList);
+    l2->WithPosition(1,0);
+    l2->WithSize(1,2);
+    AccelX = l2->Add("X", 0.0).GetEntry();
+    AccelY = l2->Add("Y", 0.0).GetEntry();
+}
+
+// update shuffle board with current values
+void NavX::UpdateShuffleBoard(void)
+{
+    Yaw.SetDouble(GetYaw());
+    Pitch.SetDouble(GetPitch());
+    Roll.SetDouble(GetRoll());
+
+    AccelX.SetDouble(GetAccelX());
+    AccelY.SetDouble(GetAccelY());
+}

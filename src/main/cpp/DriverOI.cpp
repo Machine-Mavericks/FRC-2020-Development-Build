@@ -10,10 +10,14 @@
 #include "RobotMap.h"
 #include "Robot.h"
 #include "commands/drive/Arcade.h"
+<<<<<<< Updated upstream
 #include "commands/drive/GoToTarget.h"
 
 #include "commands/drive/TurnToAngle.h"  
 #include "commands/drive/StraightDistance.h"
+=======
+#include "commands/drive/SteerTowardsTarget.h"
+>>>>>>> Stashed changes
 
 
 // class constructor - executed upon creation of DriverOI object
@@ -48,7 +52,6 @@ DriverOI::DriverOI() {
     
     // set robot arcade mode drive to function while right joystick trigger is pressed
     RightJoystickButton1->WhileHeld(new Arcade());
-
 
     // while left joystick trigger is held, automatically chase after target
     LeftJoystickButton1->WhileHeld(new GoToTarget(0.35));

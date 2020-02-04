@@ -5,29 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/MainDrive.h"
-<<<<<<< Updated upstream
+#include "subsystems/MainDrive2019.h"
 #include "RobotMap.h"
-#include "commands/drive/Tank.h"
-=======
 
->>>>>>> Stashed changes
-
-MainDrive::MainDrive() : Subsystem("MainDrive")
-{
+MainDrive2019::MainDrive2019(){
 
   // create individual motor control objects - assign unique CAN address to each motor drive
-<<<<<<< Updated upstream
   m_MotorFrontLeft = new WPI_VictorSPX(FRONT_LEFT_MOTOR_CANID);
   m_MotorRearLeft = new WPI_VictorSPX(REAR_LEFT_MOTOR_CANID);
   m_MotorFrontRight = new WPI_VictorSPX(FRONT_RIGHT_MOTOR_CANID);
   m_MotorRearRight = new WPI_VictorSPX(REAR_RIGHT_MOTOR_CANID);
-=======
-  m_MotorFrontLeft = new WPI_TalonFX(FRONT_LEFT_MOTOR_CANID);
-  m_MotorRearLeft = new WPI_TalonFX(REAR_LEFT_MOTOR_CANID);
-  m_MotorFrontRight = new WPI_TalonFX(FRONT_RIGHT_MOTOR_CANID);
-  m_MotorRearRight = new WPI_TalonFX(REAR_RIGHT_MOTOR_CANID);
->>>>>>> Stashed changes
 
   // configure motor drives with factory default settings
   m_MotorFrontLeft->ConfigFactoryDefault();
@@ -41,7 +28,6 @@ MainDrive::MainDrive() : Subsystem("MainDrive")
 
   // create differential drive
   m_Drive = new DifferentialDrive(*m_MotorFrontLeft, *m_MotorFrontRight);
-<<<<<<< Updated upstream
 
   // create encoder objects - reverse left encoder so it reads +ve in forward direction
   m_EncoderRight = new Encoder(RIGHT_ENCODER_CHANNELA_ID, RIGHT_ENCODER_CHANNELB_ID);
@@ -51,25 +37,21 @@ MainDrive::MainDrive() : Subsystem("MainDrive")
   m_EncoderRight->SetDistancePerPulse((kPi * WHEEL_DIAMETER) / (float)ENCODER_PULSE_PER_REVOLUTION);
   m_EncoderLeft->SetDistancePerPulse((kPi * WHEEL_DIAMETER) / (float)ENCODER_PULSE_PER_REVOLUTION);
 
-=======
-  
->>>>>>> Stashed changes
   // reset encoders
   ResetLeftEncoder();
   ResetRightEncoder();
   
-  //disable safety feature
-  m_MotorFrontLeft->SetSafetyEnabled(false);
-  m_MotorRearLeft->SetSafetyEnabled(false);
-  m_MotorFrontRight->SetSafetyEnabled(false);
-  m_MotorRearRight->SetSafetyEnabled(false);
-}
+  //enable safety feature
+  m_MotorFrontLeft->SetExpiration(15.0);
+  //m_MotorRearLeft->SetExpiration(15.0);
+  m_MotorFrontRight->SetExpiration(15.0);
+  //m_MotorRearRight->SetExpiration(15.0);
 
-// default command to run with the subsystem
-void MainDrive::InitDefaultCommand()
-{
-  // Set default command for main drive to tank mode
-  SetDefaultCommand(new Tank());
+  m_MotorFrontLeft->SetSafetyEnabled(true);
+  m_MotorRearLeft->SetSafetyEnabled(false);
+  m_MotorFrontRight->SetSafetyEnabled(true);
+  m_MotorRearRight->SetSafetyEnabled(false);
+
 }
 
 // Drive in Tank Drive - where left and right motors are driven independently
@@ -78,7 +60,7 @@ void MainDrive::InitDefaultCommand()
 // 0: full stop
 // +1: full forward
 // Left motor is inverted
-void MainDrive::SetTankDrive(float LeftSpeed, float RightSpeed)
+void MainDrive2019::SetTankDrive(float LeftSpeed, float RightSpeed)
 {
   // make a local copy of left and right, so we can check each for range & invert left motor
   float left = -LeftSpeed;
@@ -97,6 +79,7 @@ void MainDrive::SetTankDrive(float LeftSpeed, float RightSpeed)
 
   // command drive to tankdrive at specified speeds
   m_Drive->TankDrive(left, right);
+
 }
 
 // Drive robot in Arcade Drive (Constant arc speed around z axis)
@@ -104,7 +87,7 @@ void MainDrive::SetTankDrive(float LeftSpeed, float RightSpeed)
 // -1: full reverse
 // 0: full stop
 // +1: full forward
-void MainDrive::SetArcadeDrive(float XSpeed, float ZSpeed, bool Quickturn)
+void MainDrive2019::SetArcadeDrive(float XSpeed, float ZSpeed, bool Quickturn)
 {
 
   // make a local copy of parameters so we can check each for range & invert left motor
@@ -131,7 +114,7 @@ void MainDrive::SetArcadeDrive(float XSpeed, float ZSpeed, bool Quickturn)
 // -1: full reverse
 // 0: full stop
 // +1: full forward
-void MainDrive::SetCurvatureDrive(float XSpeed, float ZSpeed, bool Quickturn)
+void MainDrive2019::SetCurvatureDrive(float XSpeed, float ZSpeed, bool Quickturn)
 {
   // make a local copy of left and right, so we can check each for range & invert left motor
   float speed = -XSpeed;
@@ -152,76 +135,60 @@ void MainDrive::SetCurvatureDrive(float XSpeed, float ZSpeed, bool Quickturn)
   m_Drive->CurvatureDrive(speed, rotation, Quickturn);
 }
 
+
 // ------------- Drive Encoder Functions -------------
 
 // reset the left encoder to 0 distance
-void MainDrive::ResetLeftEncoder(void)
+void MainDrive2019::ResetLeftEncoder(void)
 {
-<<<<<<< Updated upstream
   m_EncoderLeft->Reset();
-=======
-  // first parameter - encoder position, second parameter PID loop ID (use 0), third is timeout (use 0)
-  m_MotorFrontLeft->SetSelectedSensorPosition(0, 0, 0);
->>>>>>> Stashed changes
 }
 
 // reset the right encoder to 0 value
-void MainDrive::ResetRightEncoder(void)
+void MainDrive2019::ResetRightEncoder(void)
 {
-<<<<<<< Updated upstream
   m_EncoderRight->Reset();
-=======
-   // first parameter - encoder position, second parameter PID loop ID (use 0), third is timeout (use 0)
-  m_MotorFrontRight->SetSelectedSensorPosition(0, 0, 0);
->>>>>>> Stashed changes
 }
 
 // get left encoder distance since last reset
-float MainDrive::GetLeftEncoderDistance(void)
+float MainDrive2019::GetLeftEncoderDistance(void)
 {
-<<<<<<< Updated upstream
   return m_EncoderLeft->GetDistance();
-=======
-  return m_MotorFrontLeft->GetSelectedSensorPosition(0) * EncoderScaleFactor;
->>>>>>> Stashed changes
 }
 
 // get right encoder distance since last reset
-float MainDrive::GetRightEncoderDistance(void)
+float MainDrive2019::GetRightEncoderDistance(void)
 {
-<<<<<<< Updated upstream
   return m_EncoderRight->GetDistance();
-=======
-  return m_MotorFrontRight->GetSelectedSensorPosition(0) * EncoderScaleFactor;
 }
 
-// get right/left encoder speed
-// note: multiply by 10 as GetSelectedSensorVelocity returns pulses per 100ms
-float MainDrive::GetLeftEncoderSpeed(void)
+double MainDrive2019::GetLeftEncoderTicks(void)
 {
-  return m_MotorFrontLeft->GetSelectedSensorVelocity(0) * EncoderScaleFactor * 10.0;
+  return m_EncoderLeft->GetRaw();
 }
 
-float MainDrive::GetRightEncoderSpeed(void)
+double MainDrive2019::GetRightEncoderTicks(void)
 {
-  return m_MotorFrontRight->GetSelectedSensorVelocity(0) * EncoderScaleFactor * 10.0;
+  return m_EncoderRight->GetRaw();
 }
 
-// get left/right encoder raw values
-int MainDrive::GetLeftEncoderTicks(void)
+// get left encoder distance since last reset
+float MainDrive2019::GetLeftEncoderSpeed(void)
 {
-  return m_MotorFrontLeft->GetSelectedSensorPosition(0);
+  return m_EncoderLeft->GetRate();
 }
 
-int MainDrive::GetRightEncoderTicks(void)
+// get left encoder distance since last reset
+float MainDrive2019::GetRightEncoderSpeed(void)
 {
-  return m_MotorFrontRight->GetSelectedSensorPosition(0);
+  return m_EncoderRight->GetRate();
 }
+
 
 
 // ------------- Shuffleboard Functions -------------
 
-void MainDrive::InitializeShuffleBoard(void)
+void MainDrive2019::InitializeShuffleBoard(void)
 {
     // Main Tab
     ShuffleboardTab *Tab = &Shuffleboard::GetTab("Drive2019");
@@ -246,7 +213,7 @@ void MainDrive::InitializeShuffleBoard(void)
 }
 
 // update shuffle board with current drive values
-void MainDrive::UpdateShuffleBoard(void)
+void MainDrive2019::UpdateShuffleBoard(void)
 {
   // write drive distance for left and right side
   LeftDistance.SetDouble(GetLeftEncoderDistance());
@@ -260,5 +227,5 @@ void MainDrive::UpdateShuffleBoard(void)
   LeftEncoder.SetDouble(GetLeftEncoderTicks());
   RightEncoder.SetDouble(GetRightEncoderTicks());
  
->>>>>>> Stashed changes
 }
+

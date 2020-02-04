@@ -42,46 +42,29 @@ TARGET_DATA GetTargetEstimation(void)
         aspect = hor / vert;
   
     // if we are targetting a ball
-    if (detected==true && targettype==1)
-    {
+    //if (detected==true && targettype==1)
+    //{
    
         // do we have a valid target? camera must detect target AND ball larger than minimum size AND ball rectangle must be ~square
         // if we are really close to ball, stop looking at aspect ratio
         // also check avg size, so we don't divide by zero!
+<<<<<<< Updated upstream
         if ( ((area >= 6000.0) || (area >= MIN_BALL_DETECTION_AREA) && (aspect > 0.5) && (aspect < 2.0)) && 
             (avgsize!=0.0))
         {
+=======
+        //if ( ((area >= 6000.0) || (area >= MIN_BALL_DETECTION_AREA) && (aspect > 0.5) && (aspect < 2.0)) && (avgsize!=0.0))
+        //{
+>>>>>>> Stashed changes
             // we have a valid target - populate target info
             target.Detected = true;
             target.TargetType = 1;
             target.Area = area;
             target.XAngle = Robot::m_Limelight.GetHorizontalTargetOffsetAngle();
             target.ZDistance = (36.0 / avgsize) * 93.0;
-        }
+       // }
       
-    } // end if target is ball
-
-    // if we are targetting a chevron
-    else if (detected==true && targettype==0)
-    {
-
-       // do we have a valid target? camera must detect target AND ball larger than minimum size AND ball rectangle must be ~square
-        // if we are really close to ball, stop looking at aspect ratio
-        // also check avg size, so we don't divide by zero!
-        if (area >= MIN_CHEVRON_DETECTION_AREA)
-        {
-            // we have a valid target - populate target info
-            target.Detected = true;
-            target.TargetType = 0;
-            target.Area = area;
-            target.XAngle = Robot::m_Limelight.GetHorizontalTargetOffsetAngle();
-            
-            // get camtran vector from camera
-            Limelight::CamTran vector = Robot::m_Limelight.GetCameraTranslation();
-            target.XDistance = -vector.x;
-            target.ZDistance = -vector.z;       
-        }
-    } // end if target is chevron
+    //} // end if target is ball
 
     // return target data
     return target;

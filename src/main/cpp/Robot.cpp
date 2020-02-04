@@ -5,15 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/* DELETE THE ZERO YAW BEFORE THE COMP*/
+/* DELETE THE ZERO YAW BEFORE THE COMP*/
+/* DELETE THE ZERO YAW BEFORE THE COMP*/
+/* DELETE THE ZERO YAW BEFORE THE COMP*/
+
 #include "Robot.h"
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
 RobotPrefs Robot::m_Prefs;
 DriverOI Robot::m_DriverOI;
+<<<<<<< Updated upstream
 MechanismOI Robot::m_MechanismOI;
 DashboardOI Robot::m_DashboardOI;
 MainDrive Robot::m_MainDrive;
+=======
+
+// robot subsystems
+#ifdef DRIVE2020
+  MainDrive Robot::m_MainDrive;
+#endif
+#ifdef DRIVE2019
+  MainDrive2019 Robot::m_MainDrive;
+#endif
+>>>>>>> Stashed changes
 NavX Robot::m_NavX;
 Limelight Robot::m_Limelight;
 CameraTilt Robot::m_CameraTilt;
@@ -31,6 +47,11 @@ void Robot::RobotInit() {
   m_Prefs.ResetToDefaults();
 
 
+<<<<<<< Updated upstream
+=======
+// initialize dashboard
+m_DashboardOI.InitializeDashBoard();
+>>>>>>> Stashed changes
 
 }
 
@@ -103,6 +124,14 @@ void Robot::TeleopInit() {
     m_autonomousCommand = nullptr;
   }
 
+<<<<<<< Updated upstream
+=======
+
+  //YOU MUST DELETE THIS BEFORE A COMPETITION. I REPEAT: YOU MUST DELETE
+  m_NavX.ZeroYaw();
+  
+
+>>>>>>> Stashed changes
 }
 
 // This function is called every time period while robot is in TeleOp Mode

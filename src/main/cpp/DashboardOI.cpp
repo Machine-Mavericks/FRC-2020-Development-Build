@@ -21,8 +21,37 @@ DashboardOI::DashboardOI() { }
 // Update dashboard
 void DashboardOI::UpdateDashBoard(void)
 {
+<<<<<<< Updated upstream
     //Color Sensor Data
     frc::SmartDashboard::PutNumber("Matched Colour", Robot::m_ColorSensor.GetColor());
+=======
+    // initialize shuffleboard
+    Robot::m_MainDrive.InitializeShuffleBoard();
+    Robot::m_NavX.InitializeShuffleBoard();
+    Robot::m_Limelight.InitializeShuffleBoard();
+    //Robot::m_AirCompressor.InitializeShuffleBoard();
+    
+    //Robot::m_IntakeTilt.InitializeShuffleBoard();
+    //Robot::m_Elevator.InitializeShuffleBoard();
+    //Robot::m_CameraTilt.InitializeShuffleBoard();
+    //Robot::m_Snowblower.InitializeShuffleBoard();
+    //Robot::m_Climb.InitializeShuffleBoard();
+    //TargetDetectionInitializeShuffleBoard();
+
+    // add commands to smartdashboard
+    //frc::SmartDashboard::PutData("Auto L. Hab2", new AutoRunLeft());
+    //frc::SmartDashboard::PutData("Auto R. Hab2", new AutoRunRight());
+    
+    //frc::SmartDashboard::PutData("Auto L. F. Hab2", new AutoRunLeftFront());
+    //frc::SmartDashboard::PutData("Auto R. F. Hab2", new AutoRunRightFront());
+    
+    //frc::SmartDashboard::PutData("Auto L. Hab1", new AutoLeftLow());
+    //frc::SmartDashboard::PutData("Auto R. Hab1", new AutoRightLow());
+    
+
+    // Commands Settings Tab
+    //ShuffleboardTab *Tab = &Shuffleboard::GetTab("Commands");
+>>>>>>> Stashed changes
 
 
     // Show Target data
@@ -50,12 +79,36 @@ void DashboardOI::UpdateDashBoard(void)
     //frc::SmartDashboard::PutNumber("Target Area", Robot::m_Limelight.GetTargetArea());
     //frc::SmartDashboard::PutNumber("Target Skew", Robot::m_Limelight.GetTargetSkew());
 
+<<<<<<< Updated upstream
     /*frc::SmartDashboard::PutNumber("Latency", Robot::m_Limelight.GetLatencyContribution());
     frc::SmartDashboard::PutNumber("Shortest Side", Robot::m_Limelight.GetShortestSide());
     frc::SmartDashboard::PutNumber("Longest Side", Robot::m_Limelight.GetLongestSide());
     frc::SmartDashboard::PutNumber("Horizontal Side", Robot::m_Limelight.GetHorizontalSideLength());
     frc::SmartDashboard::PutNumber("Vertical Side", Robot::m_Limelight.GetVerticalSideLength());
     frc::SmartDashboard::PutNumber("Pipeline", Robot::m_Limelight.GetPipeline());
+=======
+// Update dashboard
+void DashboardOI::UpdateDashBoard(void)
+{   
+    // update subsystem values to Shuffleboard
+    Robot::m_MainDrive.UpdateShuffleBoard();
+    Robot::m_NavX.UpdateShuffleBoard();
+    Robot::m_Limelight.UpdateShuffleBoard();
+    //Robot::m_AirCompressor.UpdateShuffleBoard();
+    //Robot::m_IntakeTilt.UpdateShuffleBoard();
+    //Robot::m_Elevator.UpdateShuffleBoard();
+    //Robot::m_CameraTilt.UpdateShuffleBoard();
+    //Robot::m_Snowblower.UpdateShuffleBoard();
+    //Robot::m_Climb.UpdateShuffleBoard();
+    //TargetDetectionUpdateShuffleBoard();
+    
+    // Elevator data
+    //frc::SmartDashboard::PutNumber("ElevatorTargetPosition", Robot::m_Elevator.GetElevatorTargetPresetPosition());
+    //frc::SmartDashboard::PutBoolean("ElevatorAtTarget?", Robot::m_Elevator.IsElevatorAtTarget());
+    //frc::SmartDashboard::PutNumber("Next Elevator Position", Robot::m_Elevator.GetElevatorNextHigherPresetPosition());
+    //frc::SmartDashboard::PutNumber("Elevator Motor Current", Robot::m_Elevator.GetMotorCurrent());
+    //frc::SmartDashboard::PutNumber("Elevator Encoder", Robot::m_Elevator.GetEncoderPosition());
+>>>>>>> Stashed changes
 
 */
     // Show limelight camera translation vector

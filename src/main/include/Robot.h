@@ -42,8 +42,17 @@ class Robot : public frc::TimedRobot {
   static MyAutoCommand m_MyAutoCommand;
  
   // create subsystems;
+<<<<<<< Updated upstream
   static MainDrive m_MainDrive;
   static NavX m_NavX;
+=======
+  #ifdef DRIVE2019
+    static MainDrive2019 m_MainDrive;
+  #endif
+  #ifdef DRIVE2020
+    static MainDrive m_MainDrive;
+  #endif
+>>>>>>> Stashed changes
   static Limelight m_Limelight;
   static CameraTilt m_CameraTilt;
   static ColorSensor m_ColorSensor;
