@@ -1,0 +1,85 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+// RobotDrive subsystem represents the main robot drive system
+// which consists of four drive motors - two for left, and two for right side
+
+#pragma once
+
+#include <frc/Spark.h>
+#include <frc/SpeedControllerGroup.h>
+#include <frc/drive/DifferentialDrive.h>
+#include <ctre/Phoenix.h>
+#include <frc/Encoder.h>
+#include <frc/Shuffleboard/Shuffleboard.h>
+#include <frc2/command/SubsystemBase.h>
+#include "frc/drive/DifferentialDrive.h"
+
+using namespace frc;
+
+class MainDrive2019 : public frc2::SubsystemBase {
+
+public:
+
+  // constructor - used to initialize specific hardware
+  MainDrive2019();
+
+  // Drive in Tank Drive - where left and right motors are driven independently
+  void SetTankDrive(float LeftSpeed, float RightSpeed);
+
+  // Drive robot in Arcade Drive (Constant arc speed around z axis)
+  void SetArcadeDrive(float XSpeed, float ZRotation, bool Quickturn);
+
+  // Drive robot in Curvature Drive (Constant rotational speed around z axis)
+  void SetCurvatureDrive(float XSpeed, float ZSpeed, bool Quickturn);
+ 
+
+  // ------------- Drive Encoder Functions -------------
+
+
+  // reset the left /right encoders
+  void ResetLeftEncoder(void);
+  void ResetRightEncoder(void);
+
+  // get left/right encoder distance since last reset
+  float GetLeftEncoderDistance(void); 
+  float GetRightEncoderDistance(void);
+
+  // get right/left encoder speed 
+  float GetRightEncoderSpeed(void);
+  float GetLeftEncoderSpeed(void);
+
+  double GetLeftEncoderTicks(void);
+  double GetRightEncoderTicks(void);
+
+  // ------------- Shuffleboard Functions -------------
+
+  void InitializeShuffleBoard(void);
+  void UpdateShuffleBoard(void);
+
+  private:
+  // define drive motors - assign each to specific PWN channel
+  WPI_VictorSPX *m_MotorFrontLeft;
+  WPI_VictorSPX *m_MotorRearLeft;
+  WPI_VictorSPX *m_MotorFrontRight;
+  WPI_VictorSPX *m_MotorRearRight;
+
+  // create overall drive system
+  DifferentialDrive *m_Drive;
+
+  // create encoder objects
+  frc::Encoder *m_EncoderRight;
+  frc::Encoder *m_EncoderLeft;
+
+  // Shubbleboard Controls
+  nt::NetworkTableEntry LeftDistance, RightDistance; 
+  nt::NetworkTableEntry LeftSpeed, RightSpeed;
+  nt::NetworkTableEntry LeftEncoder, RightEncoder;
+  nt::NetworkTableEntry LeftCurrent, RightCurrent;
+};
+
+
