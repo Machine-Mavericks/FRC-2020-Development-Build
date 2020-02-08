@@ -23,7 +23,7 @@
 
 // Other constants
 constexpr double kPi = 3.14159265358979;
-constexpr double kPiToRad = 0.01745328;
+constexpr double degToRad = 0.01745328;
 
 // ------------- Main Drive Constants -------------
 
@@ -45,6 +45,11 @@ constexpr double kPiToRad = 0.01745328;
 #define LEFT_ENCODER_CHANNELA_ID        0
 #define LEFT_ENCODER_CHANNELB_ID        1
 
+// RangeFinder sensor IDS - DEFINES RoboRio I/O # for ultrasonic sensor connections
+
+#define RANGEFINDER_PING_CHANNEL         9
+#define RANGEFINDER_ECHO_CHANNEL         8
+
 // Throttle Curve Coefficients - used for tank and arcade drive modes
 #define LINEAR_WEIGHT                   1.0                     // value between 0 and 1
 #define CUBIC_WEIGHT                    (1.0 - LINEAR_WEIGHT)   // automatically calculated to ensure summing to 1
@@ -65,6 +70,10 @@ constexpr double kPiToRad = 0.01745328;
 // ------------- Ultrasonic Constants
 // ultrasonic ping/echo channels
 #define ULTRASONIC_PORT                 0
+
+// ------------- Wheel of Fortune Constants
+#define WOF_MOTOR_CANID                 6
+#define WOF_WHEEL_DIAMETER              3.0
 
 
 

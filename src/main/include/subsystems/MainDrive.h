@@ -31,7 +31,7 @@ class MainDrive : public frc2::SubsystemBase {
   DifferentialDrive *m_Drive; 
 
   // encoder scaling factor
-  const float EncoderScaleFactor = ((kPi * WHEEL_DIAMETER) / 4096.0);
+  const float EncoderScaleFactor = ((kPi * WHEEL_DIAMETER) / 2048.0);
 
   // Shubbleboard Controls
   nt::NetworkTableEntry LeftDistance, RightDistance; 
@@ -53,6 +53,13 @@ class MainDrive : public frc2::SubsystemBase {
   // Drive robot in Curvature Drive (Constant rotational speed around z axis)
   void SetCurvatureDrive(float XSpeed, float ZSpeed, bool Quickturn);
  
+
+  // ------------- Set Motor Voltages -------------
+
+
+  // set motor volages for tank mode - used by Trajectory Planning
+  void SetTankDriveVolts(float left, float right);
+
 
   // ------------- Drive Encoder Functions -------------
 

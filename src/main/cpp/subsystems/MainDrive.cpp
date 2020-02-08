@@ -22,6 +22,19 @@ MainDrive::MainDrive() {
   m_MotorFrontRight->ConfigFactoryDefault();
   m_MotorRearRight->ConfigFactoryDefault();
 
+  // set motors to run in vvoltage compensation mode
+  // compensate for voltages down to 12V
+  const float VoltageCompenstationLevel = 12.0;
+  m_MotorFrontLeft->ConfigVoltageCompSaturation(VoltageCompenstationLevel, 0);
+  m_MotorRearLeft->ConfigVoltageCompSaturation(VoltageCompenstationLevel, 0);
+  m_MotorFrontRight->ConfigVoltageCompSaturation(VoltageCompenstationLevel, 0);
+  m_MotorRearRight->ConfigVoltageCompSaturation(VoltageCompenstationLevel, 0);
+  m_MotorFrontLeft->EnableVoltageCompensation(true);
+  m_MotorRearLeft->EnableVoltageCompensation(true);
+  m_MotorFrontRight->EnableVoltageCompensation(true);
+  m_MotorRearRight->EnableVoltageCompensation(true);
+
+
   // set rear drives to follow front ones
   m_MotorRearLeft->Follow(*m_MotorFrontLeft);
   m_MotorRearRight->Follow(*m_MotorFrontRight);
@@ -43,8 +56,8 @@ MainDrive::MainDrive() {
 void MainDrive::SetTankDrive(float LeftSpeed, float RightSpeed)
 {
   // make a local copy of left and right, so we can check each for range & invert left motor
-  float left = -LeftSpeed;
-  float right = -RightSpeed;
+  float left = LeftSpeed;
+  float right = RightSpeed;
 
   // ensure speeds given to us are between -1.0 and 1.0
   if (left > 1.0)
@@ -70,8 +83,8 @@ void MainDrive::SetArcadeDrive(float XSpeed, float ZSpeed, bool Quickturn)
 {
 
   // make a local copy of parameters so we can check each for range & invert left motor
-  float speed = -XSpeed;
-  float rotation = ZSpeed;
+  float speed = XSpeed;
+  float rotation = -ZSpeed;
 
   // ensure speeds given to us are between -1.0 and 1.0
   if (speed > 1.0)
@@ -114,6 +127,19 @@ void MainDrive::SetCurvatureDrive(float XSpeed, float ZSpeed, bool Quickturn)
   m_Drive->CurvatureDrive(speed, rotation, Quickturn);
 }
 
+
+// ------------- Set Motor Voltages -------------
+
+
+// set motor volages for tank mode - used by Trajectory Planning
+void MainDrive::SetTankDriveVolts(float left, float right)
+{
+   m_MotorFrontLeft->Set(ControlMode::PercentOutput, left);
+   m_MotorFrontRight->Set(ControlMode::PercentOutput, right);
+}
+
+
+
 // ------------- Drive Encoder Functions -------------
 
 // reset the left encoder to 0 distance
@@ -133,13 +159,13 @@ void MainDrive::ResetRightEncoder(void)
 // get left encoder distance since last reset
 float MainDrive::GetLeftEncoderDistance(void)
 {
-  return m_MotorFrontLeft->GetSelectedSensorPosition(0) * EncoderScaleFactor;
+  return m_MotorFrontLeft->GetSelectedSensorPosition(0) * EncoderScaleFactor *0.0752834;
 }
 
 // get right encoder distance since last reset
 float MainDrive::GetRightEncoderDistance(void)
 {
-  return m_MotorFrontRight->GetSelectedSensorPosition(0) * EncoderScaleFactor;
+  return -m_MotorFrontRight->GetSelectedSensorPosition(0) * EncoderScaleFactor * 0.0752834;
 }
 
 // get right/left encoder speed
@@ -162,7 +188,7 @@ int MainDrive::GetLeftEncoderTicks(void)
 
 int MainDrive::GetRightEncoderTicks(void)
 {
-  return m_MotorFrontRight->GetSelectedSensorPosition(0);
+  return -m_MotorFrontRight->GetSelectedSensorPosition(0);
 }
 
 
@@ -171,7 +197,7 @@ int MainDrive::GetRightEncoderTicks(void)
 void MainDrive::InitializeShuffleBoard(void)
 {
     // Main Tab
-    ShuffleboardTab *Tab = &Shuffleboard::GetTab("Drive2019");
+    ShuffleboardTab *Tab = &Shuffleboard::GetTab("MainDrive");
     
     ShuffleboardLayout *l1 = &Tab->GetLayout("Drive Distance", BuiltInLayouts::kList);
     l1->WithPosition(0,0);

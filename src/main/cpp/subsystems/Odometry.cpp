@@ -32,7 +32,7 @@ void Odometry::Initialize() {
 void Odometry::SetPosition(float x, float y, float angle){
 
     // set odometry rotation
-    Rotation2d rotation(units::radian_t(angle*kPiToRad));
+    Rotation2d rotation(units::radian_t(angle*degToRad));
    
     // set robot position - assume same angle as gyro
     Pose2d position(units::meter_t(x), units::meter_t(y), rotation);
@@ -46,7 +46,7 @@ void Odometry::SetPosition(float x, float y, float angle){
 void Odometry::Update(){
 
     // create rotation object and populate with current gyro angle (radians)
-    Rotation2d rotation(units::radian_t(Robot::m_NavX.GetYaw()*kPiToRad));
+    Rotation2d rotation(units::radian_t(Robot::m_NavX.GetYaw()*degToRad));
 
     // set distances (in m)
     units::meter_t left (Robot::m_MainDrive.GetLeftEncoderDistance()*0.0254);

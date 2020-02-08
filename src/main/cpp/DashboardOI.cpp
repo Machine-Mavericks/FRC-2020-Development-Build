@@ -23,6 +23,7 @@ void DashboardOI::InitializeDashBoard(void)
     Robot::m_Limelight.InitializeShuffleBoard();
     Robot::m_UltrasonicSensor.InitializeShuffleBoard();
     Robot::m_Odometry.InitializeShuffleBoard();
+    Robot::m_RangeFinder.InitializeShuffleBoard();
 }
 
 // Update dashboard
@@ -34,6 +35,7 @@ void DashboardOI::UpdateDashBoard(void)
     Robot::m_Limelight.UpdateShuffleBoard();
     Robot::m_UltrasonicSensor.UpdateShuffleBoard();
     Robot::m_Odometry.UpdateShuffleBoard();
+    Robot::m_RangeFinder.UpdateShuffleBoard();
 
     
  }

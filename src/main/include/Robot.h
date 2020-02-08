@@ -15,11 +15,12 @@
 #include "subsystems/MainDrive2019.h"
 #include "subsystems/MainDrive.h"
 #include "subsystems/Limelight.h"
-#include "subsystems/ColorSensor.h"
 #include "subsystems/CameraTilt.h"
 #include "subsystems/NavX.h"
 #include "subsystems/Odometry.h"
 #include "subsystems/UltrasonicSensor.h"
+#include "subsystems/RangeFinder.h"
+#include "subsystems/WoF.h"
 
 //include operator interfaces
 #include "MechanismOI.h"
@@ -28,6 +29,9 @@
 
 // default command to run in teleop
 #include "commands/drive/Tank.h"
+
+//include commands
+
 
 
 class Robot : public frc::TimedRobot {
@@ -41,16 +45,20 @@ class Robot : public frc::TimedRobot {
     static MainDrive m_MainDrive;
   #endif
   static Limelight m_Limelight;
-  static ColorSensor m_ColorSensor;
   static CameraTilt m_CameraTilt;
   static NavX m_NavX;
   static Odometry m_Odometry;
   static UltrasonicSensor m_UltrasonicSensor;
+  static RangeFinder m_RangeFinder;
+  static WoF m_WoF;
 
   // create robot driver interfaces
   static DriverOI m_DriverOI;
   static MechanismOI m_MechanismOI;
   static DashboardOI m_DashboardOI;
+
+  //create commands
+
 
   // Robot mode-independent funtcions
   void RobotInit() override;

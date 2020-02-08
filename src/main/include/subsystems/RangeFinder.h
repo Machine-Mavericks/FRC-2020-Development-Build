@@ -7,14 +7,32 @@
 
 #pragma once
 
-#include <Commands/Subsystem.h>
+#include "frc2/command/SubsystemBase.h"
+#include <frc/Ultrasonic.h>
+#include <frc/Shuffleboard/Shuffleboard.h>
 
-class Odometry : public frc::Subsystem {
+using namespace frc;
+
+class RangeFinder : public frc2::SubsystemBase {
+ 
  private:
+  //frc::DigitalOutput m_DigitalIO;
+    Ultrasonic *m_RangeFinder;
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
 
+  // Shuffleboard Controls
+  nt::NetworkTableEntry Range;
+
  public:
-  Odometry();
-  void InitDefaultCommand() override;
+    RangeFinder();
+
+    double GetRangeInches();
+
+    double GetRangeMM();
+
+    void InitializeShuffleBoard(void);
+
+    void UpdateShuffleBoard(void);
 };
+

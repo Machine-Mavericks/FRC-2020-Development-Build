@@ -5,14 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "subsystems/Odometry.h"
+#include "Robot.h"
+#include "subsystems/WoF.h"
+#include "commands/GoToColor.h"
 
-Odometry::Odometry() : Subsystem("ExampleSubsystem") {}
 
-void Odometry::InitDefaultCommand() {
-  // Set the default command for a subsystem here.
-  // SetDefaultCommand(new MySpecialCommand());
+GoToColor::GoToColor(int color) {
+    //add requirements
+    AddRequirements (&Robot::m_WoF);
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
+// Called once when the command executes
+void GoToColor::Initialize() {
+    int m_initColor = Robot::m_WoF.GetColor();
+
+}
+
+void GoToColor::Execute(){
+}
+
+bool GoToColor::IsFinished(){}
+
+void GoToColor::End(bool interrupted){}

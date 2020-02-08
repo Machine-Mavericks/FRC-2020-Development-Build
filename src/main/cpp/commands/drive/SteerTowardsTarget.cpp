@@ -18,6 +18,7 @@ SteerTowardsTarget::SteerTowardsTarget() {
   // Use AddRequirements here to declare subsystem dependencies
   AddRequirements (&Robot::m_MainDrive);
   AddRequirements(&Robot::m_NavX);
+  AddRequirements(&Robot::m_Limelight);
 
   // SteerTowardsTarget drive command is interruptable
   //SetInterruptible(true);
@@ -58,12 +59,17 @@ void SteerTowardsTarget::Execute() {
     // get angle to target
     float TargetAngle = 0;
 
-    if (fabs(Robot::m_NavX.GetYaw()) >= 10.0){
-      TargetAngle = -Robot::m_NavX.GetYaw();
+    if(Robot::m_Limelight.GetPipeline() == 4){
+      TargetAngle = target.XAngle;
     }
-    else if(target.Detected == true){
+    else{
+      if (fabs(Robot::m_NavX.GetYaw()) >= 10.0){
+      TargetAngle = -Robot::m_NavX.GetYaw();
+      }
+      else if(target.Detected == true){
       // get angle to target
       TargetAngle = target.XAngle;
+      }
     }
 
     static float IError =0.0;

@@ -12,9 +12,6 @@
 // Constructor - switches camera pipeline
 // Input: Camera pipeline - 0 to 9
 CameraSwitchPipeline::CameraSwitchPipeline(unsigned int Pipeline) {
-  // Use Requires() here to declare subsystem dependencies
-  //Requires(&Robot::m_Limelight);
-  //Requires(&Robot::m_CameraTilt);
 
   // Record pipeline # to switch camera to
   m_Pipeline = Pipeline;

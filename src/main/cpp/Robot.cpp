@@ -19,8 +19,6 @@
 DashboardOI Robot::m_DashboardOI;
 MechanismOI Robot::m_MechanismOI;
 DriverOI Robot::m_DriverOI;
-Odometry Robot::m_Odometry;
-UltrasonicSensor Robot::m_UltrasonicSensor;
 
 // robot subsystems
 #ifdef DRIVE2020
@@ -32,7 +30,16 @@ UltrasonicSensor Robot::m_UltrasonicSensor;
 NavX Robot::m_NavX;
 Limelight Robot::m_Limelight;
 CameraTilt Robot::m_CameraTilt;
-ColorSensor Robot::m_ColorSensor;
+Odometry Robot::m_Odometry;
+UltrasonicSensor Robot::m_UltrasonicSensor;
+RangeFinder Robot::m_RangeFinder;
+WoF Robot::m_WoF;
+
+
+//commands
+
+
+
 
 
 // ------------------------ General (All Modes) --------------------
@@ -136,6 +143,9 @@ void Robot::TeleopInit() {
     // set camera pipeline to chevron
     m_Limelight.SetPipeline(0);
     // m_CameraTilt.SetTiltPos(0);
+
+    //initialize odometry
+    m_Odometry.Initialize();
     
     // robot subsystems are now initialized
     m_IsRobotInitialized = true;
@@ -150,7 +160,10 @@ void Robot::TeleopInit() {
 
 
 // This function is called periodically during operator control.
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+
+  m_Odometry.Update();
+}
 
 
 // ------------------------ Test Mode --------------------
