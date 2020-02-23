@@ -7,7 +7,6 @@
 
 #include "subsystems/MainDrive2019.h"
 
-
 MainDrive2019::MainDrive2019(){
 
   // create individual motor control objects - assign unique CAN address to each motor drive

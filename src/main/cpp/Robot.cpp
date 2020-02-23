@@ -50,7 +50,6 @@ AutoSimple Robot::m_AutoSimple;
 
 
 
-// ------------------------ General (All Modes) --------------------
 
 
 void Robot::RobotInit() {
@@ -64,6 +63,8 @@ m_DashboardOI.InitializeDashBoard();
 // initially robot subsystems are not initialized
 m_IsRobotInitialized=false;
 
+// initially robot subsystems are not initialized
+m_IsRobotInitialized=false;
 }
 
  // This function is called every robot packet, no matter the mode. Use

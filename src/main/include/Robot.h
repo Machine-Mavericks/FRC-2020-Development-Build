@@ -77,6 +77,9 @@ class Robot : public frc::TimedRobot {
   static AutoComplex m_AutoComplex;
   static AutoSimple m_AutoSimple;
 
+  //create commands
+
+
   // Robot mode-independent funtcions
   void RobotInit() override;
   void RobotPeriodic() override;
@@ -107,5 +110,4 @@ class Robot : public frc::TimedRobot {
   // Flag to indicate if robot subsystems initialized
   // used to prevent re-initializing subsystems when robot switches from autotonomous to teleop modes
   bool m_IsRobotInitialized;
-
 };

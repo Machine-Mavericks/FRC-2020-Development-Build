@@ -6,8 +6,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+// This command is used to change pipeline of camera
+
 #pragma once
 
+<<<<<<< HEAD:src/main/include/commands/AutoComplex.h
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/SequentialCommandGroup.h>
 
@@ -15,3 +18,28 @@ class AutoComplex : public frc2::CommandHelper<frc2::SequentialCommandGroup, Aut
  public:
   AutoComplex();
 };
+=======
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
+
+class GoToColor : public frc2::CommandHelper<frc2::CommandBase, GoToColor> {
+ public:
+ 
+  // Constructor - switches camera pipeline
+  GoToColor(int color);
+
+  // Called just before this Command runs
+  void Initialize() override;
+
+  void Execute() override;
+
+  bool IsFinished() override;
+
+  void End(bool interrupted) override;
+
+  private:
+
+  int m_initColor;
+ 
+};
+>>>>>>> master:src/main/include/commands/GoToColor.h
