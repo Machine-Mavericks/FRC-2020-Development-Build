@@ -51,8 +51,6 @@ float Shooter::GetBottomVolts(void) {  return m_MotorBottom->GetBusVoltage(); }
 float Shooter::GetTopCurrent(void) { return m_MotorTop->GetSupplyCurrent();  }
 float Shooter::GetBottomCurrent(void) { return m_MotorBottom->GetSupplyCurrent();}
 
-// returns speed selector slider (from shuffleboard) value
-float Shooter::GetSpeedSliderValue (void) { return SpeedSlider.GetDouble(0.0); }
 
 
 // ------------- Shuffleboard Functions -------------
@@ -71,23 +69,23 @@ void Shooter::InitializeShuffleboard(void) {
     wpi::StringMap <std::shared_ptr<nt::Value>> SliderProperties {
       std::make_pair("min", nt::Value::MakeDouble(0.0)),
       std::make_pair("max", nt::Value::MakeDouble(1.0)) };
-    SpeedSlider = Tab->Add("Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SliderProperties).GetEntry();
+    Speed = Tab->Add("Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SliderProperties).GetEntry();
 
     ShuffleboardLayout *l2 = &Tab->GetLayout("Set Speed", BuiltInLayouts::kList);
-    l2->WithPosition(3,0);
+    l2->WithPosition(1,2);
     l2->WithSize(1,2);
     TopSetting = l2->Add("Top", 0.0).GetEntry();
     BottomSetting = l2->Add("Bottom", 0.0).GetEntry();
 
     ShuffleboardLayout *l3 = &Tab->GetLayout("Batt Voltage(v)", BuiltInLayouts::kList);
-    l3->WithPosition(4,0);
-    l3->WithSize(1,2);
+    l2->WithPosition(1,3);
+    l2->WithSize(1,2);
     TopVolts = l3->Add("Top", 0.0).GetEntry();
     BottomVolts = l3->Add("Bottom", 0.0).GetEntry();
 
 ShuffleboardLayout *l4 = &Tab->GetLayout("Current(A)", BuiltInLayouts::kList);
-    l4->WithPosition(5,0);
-    l4->WithSize(1,2);
+    l2->WithPosition(4,3);
+    l2->WithSize(1,2);
     TopCurrent = l4->Add("Top", 0.0).GetEntry();
     BottomCurrent = l4->Add("Bottom", 0.0).GetEntry();
 
@@ -102,8 +100,9 @@ void Shooter::UpdateShuffleboard(void) {
     BottomSpeed.SetDouble(GetBottomSpeed());
 
     // get speed setting from slider value, and set motors accordingly
-    float s = SpeedSlider.GetDouble(0.0);
-    //SetSpeed(s, -s);
+    float s = Speed.GetDouble(0.0);
+    SetSpeed(s, -s);
+
     // write voltage of top and bottom motors
     TopSetting.SetDouble(s);
     BottomSetting.SetDouble(s);
