@@ -45,8 +45,8 @@ class FollowPath : public frc2::CommandHelper<frc2::CommandBase, FollowPath> {
   CTrajectoryConstants::TrajectoryList m_TrajectoryName;
 
   // set maximum robot speed(m/s) and acceleration (m/s2) for path
-  static constexpr auto  kMaxSpeed = 2.5_mps;
-  static constexpr auto  kMaxAcceleration = 2_mps_sq;
+  static constexpr auto  kMaxSpeed = 0.25_mps;          //2.5_mps;
+  static constexpr auto  kMaxAcceleration = 0.5_mps_sq; // 2_mps_sq;
 
   bool m_reverse;
 

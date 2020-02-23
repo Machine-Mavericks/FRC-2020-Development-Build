@@ -41,6 +41,8 @@ class Uplifter : public frc2::SubsystemBase {
   // return motor temperature
   float GetTemperature(void);
 
+  // returns speed selector slider (from shuffleboard) value
+  float GetSpeedSliderValue (void);
 
   // ------------- Shuffleboard Functions -------------
 
@@ -57,7 +59,8 @@ class Uplifter : public frc2::SubsystemBase {
   WPI_TalonFX *m_UplifterMotor;
 
   // Shuffleboard Controls
-  nt::NetworkTableEntry Speed;
+  nt::NetworkTableEntry MotorSpeed;
+  nt::NetworkTableEntry SpeedSlider;
   nt::NetworkTableEntry Volts;
   nt::NetworkTableEntry Setting;
   nt::NetworkTableEntry Current;

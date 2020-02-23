@@ -28,7 +28,6 @@ void DashboardOI::InitializeDashBoard(void)
     Robot::m_RangeFinder.InitializeShuffleBoard();
     Robot::m_Intake.InitializeShuffleboard();
     Robot::m_Uplifter.InitializeShuffleboard();
-    Robot::m_IntakeTilt.InitializeShuffleBoard();
 }
 
 // Update dashboard
@@ -45,5 +44,6 @@ void DashboardOI::UpdateDashBoard(void)
     Robot::m_RangeFinder.UpdateShuffleBoard();
     Robot::m_Intake.UpdateShuffleboard();
     Robot::m_Uplifter.UpdateShuffleboard();
-    Robot::m_IntakeTilt.UpdateShuffleBoard();
+
+    
  }

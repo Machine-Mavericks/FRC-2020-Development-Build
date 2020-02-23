@@ -27,7 +27,6 @@
 #include "subsystems/Climb.h"
 #include "subsystems/Intake.h"
 #include "subsystems/Uplifter.h"
-#include "subsystems/IntakeTilt.h"
 
 
 //include operator interfaces
@@ -64,7 +63,6 @@ class Robot : public frc::TimedRobot {
   static WoF m_WoF;
   static LED m_LED;
   static Intake m_Intake;
-  static IntakeTilt m_IntakeTilt;
 
   // create robot driver interfaces
   static DriverOI m_DriverOI;

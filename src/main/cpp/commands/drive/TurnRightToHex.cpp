@@ -44,14 +44,10 @@ void TurnRightToHex::Execute() {
 
       // camera has detected target - run PI controller to determine rotate speed
       float angle = target.XAngle;
-      
-      //if (fabs(angle) < 0.5)
-      //  IError = 0.0;
-      //else 
+       
       if (fabs(angle) < 0.5)
         IError += angle * 0.0015;
-      else 
-      if (fabs(angle) < 1.5)
+      else if (fabs(angle) < 1.5)
          IError += angle * 0.00125;
       else if (fabs(angle) < 3.0)
         IError += angle * 0.001;
@@ -59,17 +55,6 @@ void TurnRightToHex::Execute() {
         IError += angle * 0.0005;
       else
         IError = 0.0;
-
-        /*if (fabs(angle) < 0.75)
-         IError += angle * 0.0020;
-      else if (fabs(angle) < 1.5)
-        IError += angle * 0.001;
-       else if (fabs(angle) < 2.5)
-        IError += angle * 0.0005;
-        else if (fabs(angle) < 5.0)
-        IError += angle * 0.0002;
-      else
-        IError = 0.0; */
 
       // determine desired rotational speed
       RotateSpeed = IError + 0.01*target.XAngle;
@@ -84,7 +69,6 @@ void TurnRightToHex::Execute() {
   {
      if (m_SawPrevious)
        RotateSpeed = 0.0;
-     //IError = 0.0;
   }
   
   // set motor speeds

@@ -41,6 +41,9 @@ class Shooter : public frc2::SubsystemBase {
   float GetTopCurrent(void);
   float GetBottomCurrent(void);
 
+  // returns speed selector slider (from shuffleboard) value
+  float GetSpeedSliderValue (void);
+
   // ------------- Shuffleboard Functions -------------
 
   // initialize shuffleboard controls
@@ -57,7 +60,7 @@ class Shooter : public frc2::SubsystemBase {
   WPI_TalonFX *m_MotorBottom;
 
   // Shuffleboard Controls
-  nt::NetworkTableEntry Speed;
+  nt::NetworkTableEntry SpeedSlider;
   nt::NetworkTableEntry TopVolts, BottomVolts; 
   nt::NetworkTableEntry TopSpeed, BottomSpeed;
   nt::NetworkTableEntry TopSetting, BottomSetting;
