@@ -1,43 +1,13 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 #pragma once
 
-#include <frc/commands/Command.h>
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
+#include <frc/drive/DifferentialDrive.h>
+#include "subsystems/NavX.h"
+#include "Robot.h"
+#include "RobotMap.h"
 
-class StraightDistance : public frc::Command {
- public:
-
-  // constructor - Turn robot by fixed distance, with speed limit
-  StraightDistance(float Distance, float Speed);
-  
-  // Called just before this Command runs the first time
-  void Initialize() override;
-  
-  // Called repeatedly when this Command is scheduled to run
-  void Execute() override;
-
-  // Make this return true when this Command no longer needs to run execute()
-  bool IsFinished() override;
-
-  // Called once after isFinished returns true
-  void End() override;
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
-#pragma once
-
-#include <frc/commands/Command.h>
-
-class StraightDistance : public frc::Command {
+class StraightDistance : public frc2::CommandHelper<frc2::CommandBase, StraightDistance> {
  public:
 
   // constructor - Turn robot by fixed distance, with speed limit
@@ -53,10 +23,8 @@ class StraightDistance : public frc::Command {
   bool IsFinished() override;
 
   // Called once after isFinished returns true
-  void End() override;
+  void End(bool interrupted) override;
 
-  // Called when another command which requires one or more of the same subsystems is scheduled to run
-  void Interrupted() override;
 
   private:
   
@@ -80,18 +48,7 @@ class StraightDistance : public frc::Command {
 
   float m_Timer;
 
-};
-  // Called when another command which requires one or more of the same subsystems is scheduled to run
-  void Interrupted() override;
+  // differential drive system to use for arcade mode
+  DifferentialDrive *m_Drive;
 
-  private:
-  
-  // distance to drive robot
-  float m_Distance;
-  
-  // speed limit to turn robot at
-  float m_Speed;
-
-  // integrated error
-  float m_IntegratedError;
 };

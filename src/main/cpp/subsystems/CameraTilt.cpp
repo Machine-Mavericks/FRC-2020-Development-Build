@@ -9,16 +9,11 @@
 #include "RobotMap.h"
 
 
-CameraTilt::CameraTilt() : Subsystem("CameraTilt")
+CameraTilt::CameraTilt()
 {
     // create PWM object on RoboRIO
     m_Servo = new Servo(CAMERA_SERVO_ID);
 
-}
-
-// default command to run with the subsystem
-void CameraTilt::InitDefaultCommand()
-{
 }
 
 // sets camera tilt to desired angle

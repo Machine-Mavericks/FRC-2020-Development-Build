@@ -10,9 +10,14 @@
 
 #pragma once
 
-#include <frc/commands/Command.h>
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
+#include "Robot.h"
+#include "RobotMap.h"
+#include <frc/drive/DifferentialDrive.h>
 
-class Arcade : public frc::Command {
+
+class Arcade : public frc2::CommandHelper<frc2::CommandBase, Arcade> {
  public:
   
   // Constructor - Run once when command is created
@@ -24,13 +29,11 @@ class Arcade : public frc::Command {
   // Called repeatedly when this Command is scheduled to run
   void Execute() override;
 
-  // Return true when this Command no longer needs to run execute()
-  bool IsFinished() override;
-  
   // Called once after isFinished returns true
-  void End() override;
+  void End(bool interrupted) override;
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  void Interrupted() override;
+private:
+  
+  // differential drive system to use for arcade mode
+  DifferentialDrive *m_Drive; 
 };

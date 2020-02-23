@@ -7,9 +7,10 @@
 
 #pragma once
 
-#include <frc/commands/Command.h>
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
 
-class TurnToAngle : public frc::Command {
+class TurnToAngle : public frc2::CommandHelper<frc2::CommandBase, TurnToAngle> {
  public:
 
   // constructor - Turn robot by fixed angle, with speed limit
@@ -25,10 +26,8 @@ class TurnToAngle : public frc::Command {
   bool IsFinished() override;
 
   // Called once after isFinished returns true
-  void End() override;
+  void End(bool interrupted) override;
 
-  // Called when another command which requires one or more of the same subsystems is scheduled to run
-  void Interrupted() override;
 
   private:
   

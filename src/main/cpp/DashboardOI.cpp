@@ -5,81 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include <frc/WPILib.h>
+// #include <frc/WPILib.h>
 #include "DashboardOI.h"
 #include "Robot.h"
-#include "detection/TargetDetection.h"
-#include "commands/drive/GoToTarget.h"
-#include "subsystems/ColorSensor.h"
-
-extern GoToTarget::PATHTOTARGET tg;
-extern TARGET_DATA FilteredTarget;
+#include <frc/Shuffleboard/Shuffleboard.h>
+#include "frc/shuffleboard/WidgetType.h"
 
 // class constructor - executed upon creation of DashboardOI object
 DashboardOI::DashboardOI() { }
 
+// initialize dashboard
+void DashboardOI::InitializeDashBoard(void)
+{
+    // initialize shuffleboard
+    Robot::m_MainDrive.InitializeShuffleBoard();
+    Robot::m_NavX.InitializeShuffleBoard();
+    Robot::m_Limelight.InitializeShuffleBoard();
+    Robot::m_UltrasonicSensor.InitializeShuffleBoard();
+    Robot::m_Odometry.InitializeShuffleBoard();
+    Robot::m_PowerPanel.InitializeShuffleBoard();
+    Robot::m_Shooter.InitializeShuffleboard();
+    Robot::m_RangeFinder.InitializeShuffleBoard();
+    Robot::m_Intake.InitializeShuffleboard();
+    Robot::m_Uplifter.InitializeShuffleboard();
+    Robot::m_IntakeTilt.InitializeShuffleBoard();
+}
+
 // Update dashboard
 void DashboardOI::UpdateDashBoard(void)
-{
-    //Color Sensor Data
-    frc::SmartDashboard::PutNumber("Matched Colour", Robot::m_ColorSensor.GetColor());
-
-
-    // Show Target data
-    TARGET_DATA target = GetTargetEstimation();
-    frc::SmartDashboard::PutBoolean("Ball Detected?", target.Detected&&target.TargetType==1);
-    frc::SmartDashboard::PutBoolean("Chevron Detected?", target.Detected&&target.TargetType==0);    
-    frc::SmartDashboard::PutNumber("Target Distance", target.ZDistance);
-    frc::SmartDashboard::PutNumber("Target Angle", target.XAngle);
-    frc::SmartDashboard::PutNumber("Target Area", target.Area);
-    
-    
-    //Show left/right encoder distances 
-    frc::SmartDashboard::PutNumber("Left Encoder", Robot::m_MainDrive.GetLeftEncoderDistance());
-    frc::SmartDashboard::PutNumber("Right Encoder", Robot::m_MainDrive.GetRightEncoderDistance());
-  
-    // Show robot NavX gyro data
-    frc::SmartDashboard::PutNumber("Yaw", Robot::m_NavX.GetYaw());
-    //frc::SmartDashboard::PutNumber("Roll", Robot::m_NavX.GetRoll());
-    //frc::SmartDashboard::PutNumber("Pitch", Robot::m_NavX.GetPitch());
-
-    // Show Limelight data
-    //frc::SmartDashboard::PutNumber("Target Present?", Robot::m_Limelight.IsTargetPresent());
-    //frc::SmartDashboard::PutNumber("Horizontal Target Offset Angle", Robot::m_Limelight.GetHorizontalTargetOffsetAngle());
-    //frc::SmartDashboard::PutNumber("Vertical Target Offset Angle", Robot::m_Limelight.GetVerticalTargetOffsetAngle());
-    //frc::SmartDashboard::PutNumber("Target Area", Robot::m_Limelight.GetTargetArea());
-    //frc::SmartDashboard::PutNumber("Target Skew", Robot::m_Limelight.GetTargetSkew());
-
-    /*frc::SmartDashboard::PutNumber("Latency", Robot::m_Limelight.GetLatencyContribution());
-    frc::SmartDashboard::PutNumber("Shortest Side", Robot::m_Limelight.GetShortestSide());
-    frc::SmartDashboard::PutNumber("Longest Side", Robot::m_Limelight.GetLongestSide());
-    frc::SmartDashboard::PutNumber("Horizontal Side", Robot::m_Limelight.GetHorizontalSideLength());
-    frc::SmartDashboard::PutNumber("Vertical Side", Robot::m_Limelight.GetVerticalSideLength());
-    frc::SmartDashboard::PutNumber("Pipeline", Robot::m_Limelight.GetPipeline());
-
-*/
-    // Show limelight camera translation vector
-    Limelight::CamTran vector = Robot::m_Limelight.GetCameraTranslation();
-    frc::SmartDashboard::PutNumber("Camtran x", vector.x);
-    frc::SmartDashboard::PutNumber("Camtran y", vector.y);
-    frc::SmartDashboard::PutNumber("Camtran z", vector.z);
-    frc::SmartDashboard::PutNumber("Camtran pitch", vector.pitch);
-    frc::SmartDashboard::PutNumber("Camtran yaw", vector.yaw);
-    frc::SmartDashboard::PutNumber("Camtran roll", vector.roll);
-
-    // show drive to target data
-    frc::SmartDashboard::PutNumber("Angle1", tg.Angle1);
-    frc::SmartDashboard::PutNumber("Distance1", tg.Distance1);
-    frc::SmartDashboard::PutNumber("Angle2", tg.Angle2);
-    frc::SmartDashboard::PutNumber("Distance2", tg.Distance2);
-    frc::SmartDashboard::PutNumber("CX", tg.CX);
-    frc::SmartDashboard::PutNumber("CZ", tg.CZ);
-    frc::SmartDashboard::PutNumber("XA", tg.XA);
-
-    // show filtered camera data
-    frc::SmartDashboard::PutBoolean("Filtered Detect", FilteredTarget.Detected);
-    frc::SmartDashboard::PutNumber("Filtered XDistance", FilteredTarget.XDistance);
-    frc::SmartDashboard::PutNumber("Filtered ZDistance", FilteredTarget.ZDistance);
-    frc::SmartDashboard::PutNumber("Filtered XAngle", FilteredTarget.XAngle);
-
+{   
+    // update subsystem values to Shuffleboard
+    Robot::m_MainDrive.UpdateShuffleBoard();
+    Robot::m_NavX.UpdateShuffleBoard();
+    Robot::m_Limelight.UpdateShuffleBoard();
+    Robot::m_UltrasonicSensor.UpdateShuffleBoard();
+    Robot::m_Odometry.UpdateShuffleBoard();
+    Robot::m_PowerPanel.UpdateShuffleBoard();
+    Robot::m_Shooter.UpdateShuffleboard();
+    Robot::m_RangeFinder.UpdateShuffleBoard();
+    Robot::m_Intake.UpdateShuffleboard();
+    Robot::m_Uplifter.UpdateShuffleboard();
+    Robot::m_IntakeTilt.UpdateShuffleBoard();
  }

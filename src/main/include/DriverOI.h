@@ -11,9 +11,10 @@
 
 // include joystick API definitions for the DriverOI class to use
 #include <frc/Joystick.h>
-#include <frc/Buttons/JoystickButton.h>
+#include <frc2/command/button/JoystickButton.h>
 
 using namespace frc;
+using namespace frc2;
 
 class DriverOI {
 
@@ -23,27 +24,17 @@ class DriverOI {
     DriverOI();
 
     // operator interface for robot driver operator interface
-    // create pointers to individual joysticks for left/right robot drive to support tank mode driving
-    Joystick *LeftJoystick;
-    Joystick *RightJoystick;
+    // create pointers to individual joysticks robot drive
+    Joystick *DriveJoystick;
 
-    // create pointers for individual buttons for left joystick
-    JoystickButton *LeftJoystickButton1;
-    JoystickButton *LeftJoystickButton2;
-    JoystickButton *LeftJoystickButton3;
-    JoystickButton *LeftJoystickButton4;
-    JoystickButton *LeftJoystickButton5;
-    JoystickButton *LeftJoystickButton6;
-    JoystickButton *LeftJoystickButton7;
-    JoystickButton *LeftJoystickButton8;
-
-    // create pointers for individual buttons for right joystick
-    JoystickButton *RightJoystickButton1;
-    JoystickButton *RightJoystickButton2;
-    JoystickButton *RightJoystickButton3;
-    JoystickButton *RightJoystickButton4;
-    JoystickButton *RightJoystickButton5;
-    JoystickButton *RightJoystickButton6;
-    JoystickButton *RightJoystickButton7;
-    JoystickButton *RightJoystickButton8;
-};   
+    JoystickButton *DriveJoystickButtonBlue;
+    JoystickButton *DriveJoystickButtonOrange;
+    JoystickButton *DriveJoystickButtonRed;
+    JoystickButton *DriveJoystickButtonGreen;
+    JoystickButton *DriveJoystickButtonLeft;
+    JoystickButton *DriveJoystickButtonRight;
+    JoystickButton *DriveJoystickButtonLeftController;
+    JoystickButton *DriveJoystickButtonRightController;
+    JoystickButton *DriveJoystickButtonBack;
+    JoystickButton *DriveJoystickButtonStart;
+}; 

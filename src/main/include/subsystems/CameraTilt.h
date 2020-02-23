@@ -10,12 +10,12 @@
 
 #pragma once
 
-#include <frc/commands/Subsystem.h>
+#include <frc2/command/SubsystemBase.h>
 #include "frc/Servo.h"
 
 using namespace frc;
 
-class CameraTilt : public frc::Subsystem {
+class CameraTilt : public frc2::SubsystemBase {
   private:
 
   // create pointer to servo motor
@@ -25,9 +25,6 @@ class CameraTilt : public frc::Subsystem {
 
   // constructor - used to initialize specific hardware
   CameraTilt();
-
-  // default command to run with the subsystem
-  void InitDefaultCommand() override;
 
   // sets camera tilt 
   void SetTilt(float value);

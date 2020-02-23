@@ -11,9 +11,10 @@
 
 // include joystick API definitions for the MechanismOI class to use
 #include <frc/Joystick.h>
-#include <frc/Buttons/JoystickButton.h>
+#include <frc2/command/button/JoystickButton.h>
 
 using namespace frc;
+using namespace frc2;
 
 class MechanismOI {
 
@@ -35,4 +36,4 @@ class MechanismOI {
     JoystickButton *MechanismJoystickButton7;
     JoystickButton *MechanismJoystickButton8;
 
-};
+}; 

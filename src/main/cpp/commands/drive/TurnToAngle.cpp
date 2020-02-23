@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 #include "commands/drive/TurnToAngle.h"
-#include "subsystems/MainDrive.h"
 #include "subsystems/NavX.h"
 #include "Robot.h"
 #include "RobotMap.h"
@@ -15,18 +14,16 @@
 // Inputs: Angle +/- deg, Speed 0 to 1.0
 TurnToAngle::TurnToAngle(float Angle, float Tolerance, float zSpeed, float xSpeed) {
 
-  // Use Requires() here to declare subsystem dependencies
-  Requires (&Robot::m_MainDrive);
+  // Use AddRequirements here to declare subsystem dependencies
+  AddRequirements (&Robot::m_MainDrive);
 
   // distance drive command is interruptable
-  SetInterruptible(true);
-
-  // command is not to run when robot is disabled
-  SetRunWhenDisabled(false);
+  //SetInterruptible(true);
 
   // set the parameters: Angle, tolerance, zspeed and xspeed
   // ensure speeds within acceptable tolerance, otherwise set to zero
-  m_Angle = Angle;
+  // negative angle to offset odometry requirements
+  m_Angle = -Angle;
   m_Tolerance = fabs(Tolerance);
   if (zSpeed >= 0.0 && zSpeed <=1.0)
      m_zSpeed = zSpeed;
@@ -107,10 +104,7 @@ bool TurnToAngle::IsFinished() {
 }
 
 // Called once after isFinished returns true
-void TurnToAngle::End() {
+void TurnToAngle::End(bool interrupted) {
     // we are finished - stop robot
     Robot::m_MainDrive.SetArcadeDrive(0.0, 0.0 , false);
 }
-
-// Called when another command which requires one or more of the same subsystems is scheduled to run
-void TurnToAngle::Interrupted() {}

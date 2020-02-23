@@ -9,9 +9,10 @@
 
 #pragma once
 
-#include <frc/commands/InstantCommand.h>
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
 
-class CameraSwitchPipeline : public frc::InstantCommand {
+class CameraSwitchPipeline : public frc2::CommandHelper<frc2::CommandBase, CameraSwitchPipeline> {
  public:
  
   // Constructor - switches camera pipeline

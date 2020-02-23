@@ -5,16 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#include "commands/AutoSimple.h"
+#include "commands/drive/StraightDistance.h"
+#include "commands/drive/TurnLeftToHex.h"
+#include "commands/drive/TurnRightToHex.h"
 
-#include <frc/commands/Command.h>
 
-class MyAutoCommand : public frc::Command {
- public:
-  MyAutoCommand();
-  void Initialize() override;
-  void Execute() override;
-  bool IsFinished() override;
-  void End() override;
-  void Interrupted() override;
-};
+AutoSimple::AutoSimple() {
+    AddCommands(
+        StraightDistance(-2.0, 0.75, 0.5),
+        TurnRightToHex());
+        //ShootBall();
+
+}
+
+

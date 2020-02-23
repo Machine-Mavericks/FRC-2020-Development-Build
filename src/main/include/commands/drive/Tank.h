@@ -10,9 +10,10 @@
 
 #pragma once
 
-#include <frc/commands/Command.h>
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
 
-class Tank : public frc::Command {
+class Tank : public frc2::CommandHelper<frc2::CommandBase, Tank> {
  public:
   
   // Constructor - Run once when command is created
@@ -28,9 +29,6 @@ class Tank : public frc::Command {
   bool IsFinished() override;
   
   // Called once after isFinished returns true
-  void End() override;
+  void End(bool interrupted) override;
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  void Interrupted() override;
 };

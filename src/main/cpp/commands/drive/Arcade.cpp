@@ -8,24 +8,21 @@
 // Arcade drive command allows robot to be driven in arcade mode.
 // This command is intended to be executed while right joystick trigger is pressed
 
-#include "commands/frive/Arcade.h"
-#include "Robot.h"
+#include "commands/Drive/Arcade.h"
 #include <math.h>
-#include "RobotMap.h"
+
 
 Arcade::Arcade() {
-  // Use Requires() here to declare subsystem dependencies
-  Requires (&Robot::m_MainDrive);
-
-  // arcade drive command is interruptable
-  SetInterruptible(true);
-
-  // command is not to run when robot is disabled
-  SetRunWhenDisabled(false);
+  // Use AddRequirements here to declare subsystem dependencies
+  AddRequirements (&Robot::m_MainDrive);
 }
 
 // Called just before this Command runs the first time
-void Arcade::Initialize() {}
+void Arcade::Initialize() {
+
+  m_Drive = new DifferentialDrive(*Robot::m_MainDrive.GetFrontLeftMotor(),
+                                   *Robot::m_MainDrive.GetFrontRightMotor());
+}
 
 // Called repeatedly when this Command is scheduled to run
 void Arcade::Execute() {
@@ -33,13 +30,15 @@ void Arcade::Execute() {
   float raw_y, raw_x, y, x, throttle;
 
   // get joystick y values from joystick
-  raw_y = Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_Y_AXIS_ID);
-  raw_x = Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_X_AXIS_ID);
+  // raw_y = Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_Y_AXIS_ID);
+  // raw_x = Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_X_AXIS_ID);
 
-  // get joystick right throttle to control maximum robot speed
-  // adjust throttle to give value between 0 and +1.0
-  // use negative of throttle so that +1 represents throttle forward position
-  throttle = 0.5 * (1.0 + -Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_THROTTLE_AXIS_ID));
+  // get raw x and y values from joystick, -ve corrects for backwards direction
+   raw_y = -Robot::m_DriverOI.DriveJoystick->GetRawAxis(RIGHT_JOYSTICK_Y_AXIS_ID);
+   raw_x = -Robot::m_DriverOI.DriveJoystick->GetRawAxis(RIGHT_JOYSTICK_X_AXIS_ID );
+
+  // create variable for throttle - get from shuffleboard
+  throttle = Robot::m_MainDrive.GetThrottle();
 
   // implement non-linear joystick response curves
   y = LINEAR_WEIGHT * raw_y + CUBIC_WEIGHT * pow(raw_y, 3); 
@@ -47,23 +46,18 @@ void Arcade::Execute() {
 
   // apply throttle control (scaling factor) to both left and right values.
   y = y * throttle;
-  x = x * throttle;
+  x = x * throttle; 
 
   // set main drive tank speeds
-  Robot::m_MainDrive.SetArcadeDrive (y, x, false);
-}
-
-// Make this return true when this Command no longer needs to run execute()
-bool Arcade::IsFinished() {
-  // since this is default mode, always return false - command never ends
-  return false;
+  if (m_Drive!=NULL)
+    m_Drive->ArcadeDrive(y, -x, false);
 }
 
 // Called once after isFinished returns true
-void Arcade::End() {
+void Arcade::End(bool interrupted) {
+  // finished using differential drive - delete object
+  if (m_Drive !=NULL)
+    delete m_Drive;
 }
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
-void Arcade::Interrupted() {
-}
+

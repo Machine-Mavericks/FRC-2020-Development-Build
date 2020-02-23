@@ -5,32 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// Tank drive command allows robot to be driven in tank mode.
-// This is the default command when robot in teleop mode
+// This command is used to drive robot towards detected target
 
 #pragma once
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
 
-#include <frc/commands/Command.h>
-
-class TankDrive : public frc::Command {
- public:
+class TurnRightToHex : public frc2::CommandHelper<frc2::CommandBase, TurnRightToHex> {
+  public:
   
-  // Constructor - Run once when command is created
-  TankDrive();
-
+  // Constructor
+  TurnRightToHex();
+  
   // Called just before this Command runs the first time
   void Initialize() override;
   
   // Called repeatedly when this Command is scheduled to run
   void Execute() override;
-
+  
   // Return true when this Command no longer needs to run execute()
   bool IsFinished() override;
   
   // Called once after isFinished returns true
-  void End() override;
+  void End(bool interrupted) override;
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  void Interrupted() override;
+  private:
+  
+  // indicates that we saw(detected) target
+  bool m_SawPrevious;
+
 };
+

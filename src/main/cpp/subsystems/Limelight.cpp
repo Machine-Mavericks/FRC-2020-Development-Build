@@ -12,7 +12,7 @@
 
 
 // constructor - used to initialize specific hardware
-Limelight::Limelight() : Subsystem("Limelight") {
+Limelight::Limelight(){
   
     // set pointer to limelight network table
     table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
@@ -26,10 +26,6 @@ Limelight::Limelight() : Subsystem("Limelight") {
     // set initial pipeline to 0
     SetPipeline(0);
 }
-
-// default command to run with the subsystem
-void Limelight::InitDefaultCommand() {}
-
 
 // ---------- Camera Control Functions
 
@@ -142,3 +138,134 @@ float Limelight::GetRawSkew1()
 
 float Limelight::GetRawSkew2()
 { return table->GetNumber("ts2",0.0); }
+
+
+// ------------- Shuffleboard Functions -------------
+
+void Limelight::InitializeShuffleBoard(void)
+{
+    // Main Tab
+    ShuffleboardTab *Tab = &Shuffleboard::GetTab("Limelight");
+    
+    Pipeline = Tab->Add("Pipeline", 0).WithPosition(0,0).GetEntry();
+    TargetPresent = Tab->Add("Target Present", false).WithPosition(1,0).GetEntry();
+
+    ShuffleboardLayout *l1 = &Tab->GetLayout("Target", BuiltInLayouts::kList);
+    l1->WithPosition(2,0);
+    l1->WithSize(1,4);
+    AngleX = l1->Add("AngleX", 0.0).GetEntry();
+    AngleY = l1->Add("AngleY", 0.0).GetEntry();
+    Skew = l1->Add("Skew", 0.0).GetEntry(); 
+
+    ShuffleboardLayout *l2 = &Tab->GetLayout("Dimensions", BuiltInLayouts::kList);
+    l2->WithPosition(3,0);
+    l2->WithSize(1,5);
+    Area = l2->Add("Area", 0.0).GetEntry(); 
+    Short = l2->Add("Short", 0.0).GetEntry(); 
+    Long = l2->Add("Long", 0.0).GetEntry(); 
+    Hor = l2->Add("Hor", 0.0).GetEntry(); 
+    Vert = l2->Add("Vert", 0.0).GetEntry(); 
+
+    ShuffleboardLayout *l3 = &Tab->GetLayout("CamTran", BuiltInLayouts::kList);
+    l3->WithPosition(4,0);
+    l3->WithSize(1,5);
+    X = l3->Add("X", 0.0).GetEntry();
+    Y = l3->Add("Y", 0.0).GetEntry(); 
+    Z = l3->Add("Z", 0.0).GetEntry(); 
+    Pitch = l3->Add("Pitch", 0.0).GetEntry(); 
+    Yaw = l3->Add("Yaw", 0.0).GetEntry(); 
+    Roll = l3->Add("Roll", 0.0).GetEntry();
+
+    HexReady = Tab->Add("Target Ready", false).WithPosition(5,0).GetEntry();
+    ShuffleboardLayout *l4 = &Tab->GetLayout("Target Info", BuiltInLayouts::kList);
+    l4->WithPosition(5,1);
+    l4->WithSize(1,2);
+    Hex_X = l4->Add("XAngle", 0.0).GetEntry();
+    Hex_Distance = l4->Add("Distance", 0.0).GetEntry();
+
+}
+
+// update shuffle board with current values
+void Limelight::UpdateShuffleBoard(void)
+{
+  
+  Pipeline.SetDouble(GetPipeline());
+  TargetPresent.SetBoolean(IsTargetPresent());
+  
+  AngleX.SetDouble(GetHorizontalTargetOffsetAngle());
+  AngleY.SetDouble(GetVerticalTargetOffsetAngle());
+  Skew.SetDouble(GetTargetSkew());
+
+  Area.SetDouble(GetTargetArea());
+  Short.SetDouble(GetShortestSide());
+  Long.SetDouble(GetLongestSide());
+  Hor.SetDouble(GetHorizontalSideLength());
+  Vert.SetDouble(GetVerticalSideLength());
+
+  Limelight::CamTran vector = GetCameraTranslation();
+  X.SetDouble(vector.x);
+  Y.SetDouble(vector.y);
+  Z.SetDouble(vector.z);
+  Pitch.SetDouble(vector.pitch);
+  Yaw.SetDouble(vector.yaw);
+  Roll.SetDouble(vector.roll);
+
+  Limelight::HEXTARGET_DATA data = GetTargetEstimation();
+  HexReady.SetBoolean(data.Detected && (fabs(data.XAngle)<1.0));
+  Hex_X.SetDouble(data.XAngle);
+  Hex_Distance.SetDouble(data.ZDistance);
+}
+
+
+
+
+// ---------- Target Detection Routines ----------
+
+
+// Test Data from Lab (Feb 17/2020 estimates - for Hexagon
+// From straight-on angle
+// Distance     x Size  y Size     y*Distance   
+// 5.59         89        39          218             
+// 2.85         167       71          202
+// 7.86         62        28          220
+// 6.05         84        38          230
+
+// From side
+// Distance     x Size  y Size     y*Distance   
+// 4.60          84      64              294
+// 3.40          104     76              258
+// 6.14          63      42              258
+
+
+Limelight::HEXTARGET_DATA Limelight::GetTargetEstimation(void)
+{
+    HEXTARGET_DATA target;
+
+    // assume no target detected unless proven otherwise
+    target.Detected = false;
+    
+    // determine if camera has acquired a target
+    bool detected = IsTargetPresent();
+
+    // get target side lengths
+    float vert = GetVerticalSideLength();
+    float hor = GetHorizontalSideLength();
+
+    // get shortest side
+    float shortside = GetShortestSide();
+
+    // get target area of target (in sq pixels)
+    float area = vert*hor;
+
+    if (detected==true && area > MIN_HEX_DETECTION_AREA && shortside > MIN_HEX_VERT_SIZE)
+    {
+        target.Detected = true;
+        target.TargetType = 0;
+        target.Area = area;
+        target.XAngle = GetHorizontalTargetOffsetAngle();
+        target.ZDistance = (205.0 / shortside);
+    }
+
+    // return target data
+    return target;
+}

@@ -1,46 +1,81 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2017-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Robot.h"
-#include <frc/commands/Scheduler.h>
-#include <frc/smartdashboard/SmartDashboard.h>
+/* DELETE THE ZERO YAW BEFORE THE COMP*/
+/* DELETE THE ZERO YAW BEFORE THE COMP*/
+/* DELETE THE ZERO YAW BEFORE THE COMP*/
+/* DELETE THE ZERO YAW BEFORE THE COMP*/
 
-RobotPrefs Robot::m_Prefs;
-DriverOI Robot::m_DriverOI;
-MechanismOI Robot::m_MechanismOI;
+#include "Robot.h"
+
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/CommandScheduler.h>
+
+// robot operator interfaces
 DashboardOI Robot::m_DashboardOI;
-MainDrive Robot::m_MainDrive;
+MechanismOI Robot::m_MechanismOI;
+DriverOI Robot::m_DriverOI;
+
+// robot subsystems
+#ifdef DRIVE2020
+  MainDrive Robot::m_MainDrive;
+#endif
+#ifdef DRIVE2019
+  MainDrive2019 Robot::m_MainDrive;
+#endif
 NavX Robot::m_NavX;
 Limelight Robot::m_Limelight;
 CameraTilt Robot::m_CameraTilt;
-ColorSensor Robot::m_ColorSensor;
+Odometry Robot::m_Odometry;
+PowerPanel Robot::m_PowerPanel;
+UltrasonicSensor Robot::m_UltrasonicSensor;
+RangeFinder Robot::m_RangeFinder;
+WoF Robot::m_WoF;
+Climb Robot::m_Climb;
+Shooter Robot::m_Shooter;
+LED Robot::m_LED;
+Intake Robot::m_Intake;
+Uplifter Robot::m_Uplifter;
+IntakeTilt Robot::m_IntakeTilt;
+
+
+//commands
+ChangeLED Robot::m_ChangeLED;
+AutoComplex Robot::m_AutoComplex;
+AutoSimple Robot::m_AutoSimple;
+
+
+
 
 // ------------------------ General (All Modes) --------------------
 
-// Function is called when the robot object is first created
+
 void Robot::RobotInit() {
-  //m_chooser.SetDefaultOption("Default TeleOp", &m_defaultTeleOp);
-  //m_chooser.AddOption("My Auto", &m_myAuto);
-  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
+// create default teleop command
+m_defaultTeloOpCommand = new Tank();
 
-  m_Prefs.ResetToDefaults();
+// initialize dashboard
+m_DashboardOI.InitializeDashBoard();
 
-
+// initially robot subsystems are not initialized
+m_IsRobotInitialized=false;
 
 }
 
-// This function is called every robot packet, no matter the mode. Use
-// this for items like diagnostics that you want ran during disabled,
-// autonomous, teleoperated and test.
-// <p> This runs after the mode specific periodic functions, but before
-// LiveWindow and SmartDashboard integrated updating. */
+ // This function is called every robot packet, no matter the mode. Use
+ // this for items like diagnostics that you want to run during disabled,
+ // autonomous, teleoperated and test.
+ // <p> This runs after the mode specific periodic functions, but before
+ // LiveWindow and SmartDashboard integrated updating.
 void Robot::RobotPeriodic() {
-  
+  // ask scheduler to run and do its job
+  frc2::CommandScheduler::GetInstance().Run();
+
   // update driver dashboard
   m_DashboardOI.UpdateDashBoard();
 }
@@ -48,81 +83,112 @@ void Robot::RobotPeriodic() {
 
 // ------------------------ Disabled Mode --------------------
 
+
 // This function is called once each time the robot enters Disabled mode. You
 // can use it to reset any subsystem information you want to clear when the
 // robot is disabled.
-void Robot::DisabledInit() {
-}
+void Robot::DisabledInit() {}
 
-// This function is called every time period while robot is in Disabled Mode
-void Robot::DisabledPeriodic() {
-    // run scheduler to operator any commands as required
-  frc::Scheduler::GetInstance()->Run();
-  }
-
+void Robot::DisabledPeriodic() {}
 
 // ------------------------ Autonomous Mode --------------------
 
-// This autonomous (along with the chooser code above) shows how to select
-// between different autonomous modes using the dashboard. The sendable chooser
-// code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
-// remove all of the chooser code and uncomment the GetString code to get the
-// auto name from the text box below the Gyro.
-// You can add additional auto modes by adding additional commands to the
-// chooser code above (like the commented example) or additional comparisons to
-// the if-else structure below with additional strings & commands. */
+
+
+// This autonomous runs the autonomous command selected by your {@link
+// RobotContainer} class.
 void Robot::AutonomousInit() {
-  // std::string autoSelected = frc::SmartDashboard::GetString(
-  //     "Auto Selector", "Default");
-  // if (autoSelected == "My Auto") {
-  //   m_autonomousCommand = &m_myAuto;
-  // } else {
-  //   m_autonomousCommand = &m_defaultAuto;
-  // }
-  m_autonomousCommand = m_chooser.GetSelected();
-  if (m_autonomousCommand != nullptr) {
-    m_autonomousCommand->Start();
+  //m_autonomousCommand = m_container.GetAutonomousCommand();
+  //
+  //if (m_autonomousCommand != nullptr) {
+  //  m_autonomousCommand->Schedule();
+  //}
+
+  // has robot been initialized yet?
+  if (!m_IsRobotInitialized)
+  {
+    // zero robot yaw
+    m_NavX.ZeroYaw();
+
+    //initialize odometry
+    m_Odometry.Initialize();
+    
+    // set camera pipeline to chevron
+    m_Limelight.SetPipeline(0);
+    //m_CameraTilt.SetTiltPos(0);
+    
+    // robot subsystems are now initialized
+    m_IsRobotInitialized = true;
   }
+
+   m_ChangeLED.Schedule(); 
 }
 
-// This function is called every tiem period while robot is in Autonomous Mode
 void Robot::AutonomousPeriodic() {
-    // run scheduler to operator any commands as required
-  frc::Scheduler::GetInstance()->Run();
-  }
+  //update robot odometry
+  m_Odometry.Update();
+}
 
 
 // ------------------------ Teleop Mode --------------------
 
-// This function is called once each time the robot enters Teleop mode. 
+
 void Robot::TeleopInit() {
   // This makes sure that the autonomous stops running when
-  // teleop starts running. 
-  if (m_autonomousCommand != nullptr) {
-    m_autonomousCommand->Cancel();
-    m_autonomousCommand = nullptr;
+  // teleop starts running. If you want the autonomous to
+  // continue until interrupted by another command, remove
+  // this line or comment it out.
+  //if (m_autonomousCommand != nullptr) {
+  //  m_autonomousCommand->Cancel();
+  //  m_autonomousCommand = nullptr;
+  //}
+
+  // set defualt command for teleop operation - i.e tank mode
+  m_MainDrive.SetDefaultCommand(*m_defaultTeloOpCommand);
+
+  // has robot been initialized yet?
+  if (!m_IsRobotInitialized)
+  {
+    // zero robot yaw
+    m_NavX.ZeroYaw();
+    
+    // set camera pipeline to chevron
+    m_Limelight.SetPipeline(0);
+    // m_CameraTilt.SetTiltPos(0);
+
+    //initialize odometry
+    m_Odometry.Initialize();
+    
+    // robot subsystems are now initialized
+    m_IsRobotInitialized = true;
   }
+
+
+  //YOU MUST DELETE THIS BEFORE A COMPETITION. I REPEAT: YOU MUST DELETE
+  m_NavX.ZeroYaw();
+
+  m_ChangeLED.Schedule();
+  
 
 }
 
-// This function is called every time period while robot is in TeleOp Mode
+
+// This function is called periodically during operator control.
 void Robot::TeleopPeriodic() {
-  // run scheduler to operator any commands as required
-  frc::Scheduler::GetInstance()->Run();
-  }
+
+  m_Odometry.Update();
+}
 
 
 // ------------------------ Test Mode --------------------
 
-// This function is called every tiem period while robot is in Test Mode
-void Robot::TestPeriodic() {
-  }
+
+// This function is called periodically during test mode.
+void Robot::TestPeriodic() {}
 
 
 // ------------------------ Main Program --------------------
 
-
-// create a robot object
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
 #endif

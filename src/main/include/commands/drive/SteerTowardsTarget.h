@@ -8,14 +8,14 @@
 // This command is used to drive robot towards detected target
 
 #pragma once
+#include <frc2/command/CommandBase.h>
+#include <frc2/command/CommandHelper.h>
 
-#include <frc/commands/Command.h>
-
-class SteerTowardsTarget : public frc::Command {
+class SteerTowardsTarget : public frc2::CommandHelper<frc2::CommandBase, SteerTowardsTarget> {
   public:
   
   // Constructor
-  DriveSteerTowardsTarget();
+  SteerTowardsTarget();
   
   // Called just before this Command runs the first time
   void Initialize() override;
@@ -27,11 +27,8 @@ class SteerTowardsTarget : public frc::Command {
   bool IsFinished() override;
   
   // Called once after isFinished returns true
-  void End() override;
-  
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  void Interrupted() override;
+  void End(bool interrupted) override;
+
 
   private:
   

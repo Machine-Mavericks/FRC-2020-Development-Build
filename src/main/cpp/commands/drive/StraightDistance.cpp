@@ -1,21 +1,14 @@
 #include "commands/drive/StraightDistance.h"
-#include "subsystems/MainDrive.h"
-#include "subsystems/NavX.h"
-#include "Robot.h"
-#include "RobotMap.h"
+
 
 // constructor - Turn robot by fixed distance, with speed limit
-StraightDistance::StraightDistance(float Distance, float Speed)
+StraightDistance::StraightDistance(float Distance, float tolerance, float Speed)
 {
-
-  // Use Requires() here to declare subsystem dependencies
-  Requires (&Robot::m_MainDrive);
+  // Use AddRequirements here to declare subsystem dependencies
+  AddRequirements(&Robot::m_MainDrive);
 
   // distance drive command is interruptable
-  SetInterruptible(false);
-
-  // command is not to run when robot is disabled
-  SetRunWhenDisabled(false);
+  //SetInterruptible(false);
 
   // set the parameters: Angle, speed
   m_Distance = Distance;
@@ -28,6 +21,9 @@ StraightDistance::StraightDistance(float Distance, float Speed)
 // Called just before this Command runs the first time
 void StraightDistance::Initialize() {
 
+  m_Drive = new DifferentialDrive(*Robot::m_MainDrive.GetFrontLeftMotor(),
+                                   *Robot::m_MainDrive.GetFrontRightMotor());
+
   // zero the drive encoders
   Robot::m_MainDrive.ResetLeftEncoder();
   Robot::m_MainDrive.ResetRightEncoder();
@@ -37,6 +33,8 @@ void StraightDistance::Initialize() {
 
   // reset integrated error
   m_IntegratedError = 0.0;
+
+  
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -72,8 +70,9 @@ void StraightDistance::Execute() {
     PIOutput = -0.15;
 }
 
-  // drive robot
-  Robot::m_MainDrive.SetArcadeDrive(-PIOutput, -0.05*Robot::m_NavX.GetYaw() , false);
+  // set main drive tank speeds
+  if (m_Drive!=NULL)
+    m_Drive->ArcadeDrive(-PIOutput, -0.05*Robot::m_NavX.GetYaw() , false);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -90,10 +89,11 @@ bool StraightDistance::IsFinished() {
 }
 
 // Called once after isFinished returns true
-void StraightDistance::End() {
+void StraightDistance::End(bool interrupted) {
     // we are finished - stop robot
     Robot::m_MainDrive.SetArcadeDrive(0.0, 0.0 , false);
-}
 
-// Called when another command which requires one or more of the same subsystems is scheduled to run
-void StraightDistance::Interrupted() {}
+    // finished using differential drive - delete object
+  if (m_Drive !=NULL)
+    delete m_Drive;
+}
