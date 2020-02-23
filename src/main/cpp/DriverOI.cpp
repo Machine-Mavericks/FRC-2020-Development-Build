@@ -15,8 +15,6 @@
 #include "commands/drive/FollowPath.h"
 #include "commands/drive/TurnRightToHex.h"
 #include "commands/drive/TurnLeftToHex.h"
-#include "commands/ShootBalls.h"
-#include "TrajectoryConstants.h"
 
 
 // class constructor - executed upon creation of DriverOI object
@@ -50,10 +48,8 @@ DriverOI::DriverOI() {
 
     //LeftJoystickButton1->WhileHeld(new SteerTowardsTarget());
     //LeftJoystickButton1->WhileHeld(new StraightDriveTest());
-    //DriveJoystickButtonBlue->WhileHeld(new FollowPath(CTrajectoryConstants::olivia, false));
+    DriveJoystickButtonBlue->WhileHeld(new AutoComplex());
 
-    DriveJoystickButtonBlue->WhenPressed(new ShootBalls());
-    
     // while left joystick trigger is held, automatically chase after target
     //LeftJoystickButton1->WhileHeld(new GoToTarget(0.35));
 

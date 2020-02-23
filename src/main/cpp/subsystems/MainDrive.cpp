@@ -11,16 +11,10 @@
 MainDrive::MainDrive() {  
 
   // create individual motor control objects - assign unique CAN address to each motor drive
-  //m_MotorFrontLeft = new WPI_TalonFX(FRONT_LEFT_MOTOR_CANID);
-  //m_MotorRearLeft = new WPI_TalonFX(REAR_LEFT_MOTOR_CANID);
-  //m_MotorFrontRight = new WPI_TalonFX(FRONT_RIGHT_MOTOR_CANID);
-  //m_MotorRearRight = new WPI_TalonFX(REAR_RIGHT_MOTOR_CANID);
-
- m_MotorFrontLeft = new WPI_TalonFX(FRONT_RIGHT_MOTOR_CANID);
-  m_MotorRearLeft = new WPI_TalonFX(REAR_RIGHT_MOTOR_CANID);
-  m_MotorFrontRight = new WPI_TalonFX(FRONT_LEFT_MOTOR_CANID);
-  m_MotorRearRight = new WPI_TalonFX(REAR_LEFT_MOTOR_CANID);
-
+  m_MotorFrontLeft = new WPI_TalonFX(FRONT_LEFT_MOTOR_CANID);
+  m_MotorRearLeft = new WPI_TalonFX(REAR_LEFT_MOTOR_CANID);
+  m_MotorFrontRight = new WPI_TalonFX(FRONT_RIGHT_MOTOR_CANID);
+  m_MotorRearRight = new WPI_TalonFX(REAR_RIGHT_MOTOR_CANID);
 
   // configure motor drives with factory default settings
   m_MotorFrontLeft->ConfigFactoryDefault();
@@ -28,10 +22,9 @@ MainDrive::MainDrive() {
   m_MotorFrontRight->ConfigFactoryDefault();
   m_MotorRearRight->ConfigFactoryDefault();
 
-  // robot drives with intake facing forward
   //m_MotorFrontLeft->SetInverted(true);
-  //m_MotorFrontRight->SetInverted(true);
-  
+  //m_MotorRearLeft->SetInverted(true);
+
   // set motors to run in voltage compensation mode
   SetVoltageCompensationLevel (MAXVOLTS);
   SetVoltageCompensationEnable (true);
@@ -157,7 +150,7 @@ float MainDrive::GetRightEncoderSpeed(void)
 void MainDrive::SetTankDriveVolts(units::volt_t left, units::volt_t right)
 {
   m_MotorFrontLeft->Set(ControlMode::PercentOutput, m_InvVoltageCompensationLevel * left.to<float>() );
-  m_MotorFrontRight->Set(ControlMode::PercentOutput,m_InvVoltageCompensationLevel * right.to<float>() );
+  m_MotorFrontRight->Set(ControlMode::PercentOutput, m_InvVoltageCompensationLevel * right.to<float>() );
 }
 
 

@@ -23,12 +23,6 @@ TurnLeftToHex::TurnLeftToHex() {
 void TurnLeftToHex::Initialize() {
   // assume we have not seen target yet
   m_SawPrevious = false;
-  
-  // reset time spent in this command
-  m_TotalTime = 0.0;
-
-  // reset target in view time
-  m_TargetinViewTime = 0.0;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -53,7 +47,8 @@ void TurnLeftToHex::Execute() {
 
       if (fabs(angle) < 0.5)
         IError += angle * 0.0015;
-      else if (fabs(angle) < 1.5)
+      else 
+      if (fabs(angle) < 1.5)
          IError += angle * 0.00125;
       else if (fabs(angle) < 3.0)
         IError += angle * 0.001;
@@ -61,6 +56,17 @@ void TurnLeftToHex::Execute() {
         IError += angle * 0.0005;
       else
         IError = 0.0;
+
+/*if (fabs(angle) < 0.75)
+         IError += angle * 0.0020;
+      else if (fabs(angle) < 1.5)
+        IError += angle * 0.001;
+       else if (fabs(angle) < 2.5)
+        IError += angle * 0.0005;
+        else if (fabs(angle) < 5.0)
+        IError += angle * 0.0002;
+      else
+        IError = 0.0;  */
 
       // determine desired rotational speed
       RotateSpeed = IError + 0.01*target.XAngle;
@@ -70,54 +76,22 @@ void TurnLeftToHex::Execute() {
         RotateSpeed = 0.15;
       if (RotateSpeed < -0.15)
         RotateSpeed = -0.15;
-
-      // if we are within 0.5deg of target, start counting up time
-      if (fabs(angle)<0.5)
-        m_onTargetTime += 0.02;
-      else
-        m_onTargetTime = 0.0;
-
-     // target is within view, increment counter
-     m_TargetinViewTime +=0.02;
-
   }
   else
   {
-     // if we previously saw target, stop moving. Camera image may be intermittant
      if (m_SawPrevious)
        RotateSpeed = 0.0;
-
-     // we do not have target lock
-     m_onTargetTime = 0.0;
-
-     // no target in view - reset timer
-     m_TargetinViewTime =0.0;
+     //IError = 0.0;
   }
   
-  // reset time spent in this command
-  m_TotalTime += 0.02;
-
   // set motor speeds
   Robot::m_MainDrive.SetTankDrive (-RotateSpeed, RotateSpeed);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool TurnLeftToHex::IsFinished() {
-  bool finished = false;
-
-  // if we are on targetr for >0.1s, then we are finished
-  if (m_onTargetTime > 0.1)
-   finished = true;
-
-  // if we have target in view, but for some reason not locking on, exit after 2s
-  if (m_TargetinViewTime > 2.0)
-    finished = true;
   
- // // if we spend more than 2.0s in this command, then exit - something is wrong as we are not seeing target
- // if (m_TotalTime > 3.0)
- //   finished = true;
-
-  return finished;
+  return false;
 }
 
 // Called once after isFinished returns true

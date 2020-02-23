@@ -73,13 +73,6 @@ class MainDrive : public frc2::SubsystemBase {
   float GetRearRightMotorVoltage(void);
 
 
-  // ------------- Set Motor Voltages -------------
-
-
-  // set motor volages for tank mode - used by Trajectory Planning
-  void SetTankDriveVolts(float left, float right);
-
-
   // ------------- Drive Encoder Functions -------------
 
 

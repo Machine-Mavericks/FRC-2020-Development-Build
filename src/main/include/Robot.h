@@ -27,6 +27,7 @@
 #include "subsystems/Climb.h"
 #include "subsystems/Intake.h"
 #include "subsystems/Uplifter.h"
+#include "subsystems/IntakeTilt.h"
 
 
 //include operator interfaces
@@ -63,6 +64,7 @@ class Robot : public frc::TimedRobot {
   static WoF m_WoF;
   static LED m_LED;
   static Intake m_Intake;
+  static IntakeTilt m_IntakeTilt;
 
   // create robot driver interfaces
   static DriverOI m_DriverOI;
@@ -76,9 +78,6 @@ class Robot : public frc::TimedRobot {
   static ChangeLED m_ChangeLED;
   static AutoComplex m_AutoComplex;
   static AutoSimple m_AutoSimple;
-
-  //create commands
-
 
   // Robot mode-independent funtcions
   void RobotInit() override;
@@ -110,4 +109,5 @@ class Robot : public frc::TimedRobot {
   // Flag to indicate if robot subsystems initialized
   // used to prevent re-initializing subsystems when robot switches from autotonomous to teleop modes
   bool m_IsRobotInitialized;
+
 };

@@ -40,6 +40,7 @@ Shooter Robot::m_Shooter;
 LED Robot::m_LED;
 Intake Robot::m_Intake;
 Uplifter Robot::m_Uplifter;
+IntakeTilt Robot::m_IntakeTilt;
 
 
 //commands
@@ -50,6 +51,7 @@ AutoSimple Robot::m_AutoSimple;
 
 
 
+// ------------------------ General (All Modes) --------------------
 
 
 void Robot::RobotInit() {
@@ -63,8 +65,6 @@ m_DashboardOI.InitializeDashBoard();
 // initially robot subsystems are not initialized
 m_IsRobotInitialized=false;
 
-// initially robot subsystems are not initialized
-m_IsRobotInitialized=false;
 }
 
  // This function is called every robot packet, no matter the mode. Use

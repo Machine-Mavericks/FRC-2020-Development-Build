@@ -45,9 +45,6 @@ float Uplifter::GetCurrent(void) { return m_UplifterMotor->GetSupplyCurrent();  
 // return motor temperature
 float Uplifter::GetTemperature(void) { return m_UplifterMotor->GetTemperature(); }
 
-// returns speed selector slider (from shuffleboard) value
-float Uplifter::GetSpeedSliderValue (void) { return SpeedSlider.GetDouble(0.0); }
-
 
 // ------------- Shuffleboard Functions -------------
 
@@ -59,32 +56,32 @@ void Uplifter::InitializeShuffleboard(void) {
     ShuffleboardLayout *l1 = &Tab->GetLayout("Speed (rpm)", BuiltInLayouts::kList);
     l1->WithPosition(0,0);
     l1->WithSize(1,1);
-    MotorSpeed = l1->Add("Speed", 0.0).GetEntry();
+    Speed = l1->Add("Speed", 0.0).GetEntry();
 
     wpi::StringMap <std::shared_ptr<nt::Value>> SliderProperties {
       std::make_pair("min", nt::Value::MakeDouble(0.0)),
       std::make_pair("max", nt::Value::MakeDouble(1.0)) };
-    SpeedSlider = Tab->Add("Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SliderProperties).GetEntry();
+    Speed = Tab->Add("Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SliderProperties).GetEntry();
 
     ShuffleboardLayout *l2 = &Tab->GetLayout("Set Speed", BuiltInLayouts::kList);
-    l2->WithPosition(3,0);
+    l2->WithPosition(1,2);
     l2->WithSize(1,2);
     Setting = l2->Add("Intake Motor", 0.0).GetEntry();
 
     ShuffleboardLayout *l3 = &Tab->GetLayout("Batt Voltage(v)", BuiltInLayouts::kList);
-    l3->WithPosition(4,0);
-    l3->WithSize(1,1);
+    l2->WithPosition(1,3);
+    l2->WithSize(1,1);
     Volts = l3->Add("Voltage", 0.0).GetEntry();
 
     ShuffleboardLayout *l4 = &Tab->GetLayout("Current(A)", BuiltInLayouts::kList);
-    l4->WithPosition(5,0);
-    l4->WithSize(1,1);
+    l2->WithPosition(4,3);
+    l2->WithSize(1,1);
     Current = l4->Add("Current", 0.0).GetEntry();
 
-    ShuffleboardLayout *l5 = &Tab->GetLayout("Temperature(C)", BuiltInLayouts::kList);
-    l5->WithPosition(6,0);
-    l5->WithSize(1,1);
-    Temperature = l5->Add("Temperature", 0.0).GetEntry();
+    ShuffleboardLayout *l6 = &Tab->GetLayout("Temperature(C)", BuiltInLayouts::kList);
+    l6->WithPosition(4,4);
+    l6->WithSize(1,1);
+    Temperature = l6->Add("Temperature", 0.0).GetEntry();
 
 }
 
@@ -93,11 +90,12 @@ void Uplifter::InitializeShuffleboard(void) {
 void  Uplifter::UpdateShuffleboard(void) {
     
     // write speed of top and bottom motors.
-    MotorSpeed.SetDouble(GetSpeed());
+    Speed.SetDouble(GetSpeed());
 
     // get speed setting from slider value, and set motors accordingly
-    float s = SpeedSlider.GetDouble(0.0);
-    //SetSpeed(s);
+    float s = Speed.GetDouble(0.0);
+    SetSpeed(s);
+
     // write voltage of top and bottom motors
     Setting.SetDouble(s);
 
