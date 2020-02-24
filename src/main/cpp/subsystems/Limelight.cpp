@@ -222,21 +222,6 @@ void Limelight::UpdateShuffleBoard(void)
 // ---------- Target Detection Routines ----------
 
 
-// Test Data from Lab (Feb 17/2020 estimates - for Hexagon
-// From straight-on angle
-// Distance     x Size  y Size     y*Distance   
-// 5.59         89        39          218             
-// 2.85         167       71          202
-// 7.86         62        28          220
-// 6.05         84        38          230
-
-// From side
-// Distance     x Size  y Size     y*Distance   
-// 4.60          84      64              294
-// 3.40          104     76              258
-// 6.14          63      42              258
-
-
 Limelight::HEXTARGET_DATA Limelight::GetTargetEstimation(void)
 {
     HEXTARGET_DATA target;
@@ -263,7 +248,7 @@ Limelight::HEXTARGET_DATA Limelight::GetTargetEstimation(void)
         target.TargetType = 0;
         target.Area = area;
         target.XAngle = GetHorizontalTargetOffsetAngle();
-        target.ZDistance = (205.0 / shortside);
+        target.ZDistance = (132.8 / vert);
     }
 
     // return target data

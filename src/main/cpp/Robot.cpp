@@ -39,8 +39,8 @@ Climb Robot::m_Climb;
 Shooter Robot::m_Shooter;
 LED Robot::m_LED;
 Intake Robot::m_Intake;
-Uplifter Robot::m_Uplifter;
 IntakeTilt Robot::m_IntakeTilt;
+Uplifter Robot::m_Uplifter;
 
 
 //commands

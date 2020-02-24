@@ -10,32 +10,37 @@
 #include "frc2/command/SubsystemBase.h"
 #include <frc/Shuffleboard/Shuffleboard.h>
 #include <memory>
-
 #include <hal/AddressableLEDTypes.h>
 #include <hal/Types.h>
 #include <units/units.h>
 #include <wpi/ArrayRef.h>
 #include <frc/AddressableLED.h>
-
 #include "frc/ErrorBase.h"
 
 using namespace frc;
-//using namespace AddressableLED::LEDData;
+
+// length of LED strip
+#define LEDLENGTH 150
 
 class LED : public frc2::SubsystemBase {
  
- private:
-  //frc::DigitalOutput m_DigitalIO;
-    AddressableLED *m_AddressableLED;
-  // It's desirable that everything possible under private except
-  // for methods that implement subsystem capabilities
-
-  std::array<frc::AddressableLED::LEDData, 150> m_LEDBuffer;
+private:
+  
+  // addressable LEDs
+  AddressableLED *m_AddressableLED;
+  
+  // predefined LED colors
+  std::array<frc::AddressableLED::LEDData, LEDLENGTH> m_BlueLEDs;
+  std::array<frc::AddressableLED::LEDData, LEDLENGTH> m_OrangeLEDs;
+  std::array<frc::AddressableLED::LEDData, LEDLENGTH> m_LEDsOff;
 
  public:
+    // constructor
     LED();
 
-    void SetRGB(int r, int g, int b);
-
+    // preset colours
+    void SetLEDsBlue(void);
+    void SetLEDsOrange(void);
+    void SetLEDsOff(void);
 };
 

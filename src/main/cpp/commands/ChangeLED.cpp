@@ -15,36 +15,41 @@
 ChangeLED::ChangeLED() {
     //add requirements
     AddRequirements (&Robot::m_LED);
-    //AddRequirements (&Robot::m_Limelight);
 }
 
 // Called once when the command executes
 void ChangeLED::Initialize() {
-    Robot::m_LED.SetRGB(0, 255, 0);
+    
+    // initially LEDs are off
+    Robot::m_LED.SetLEDsOff();
+
     counter = 0;
     LEDON = false;
 }
 
 void ChangeLED::Execute(){
     
+    // following code only turns LEDs on 20% of time (20% duty cycle)
     if (counter>=10)
         counter = 0;
-
     if (counter >=8)
         LEDON = true;
     else
         LEDON = false;
-
+    counter += 1;
+    
+    // do we have a target and within 1 deg - if so, turn on blue LEDs
     if (LEDON &&
         Robot::m_Limelight.GetTargetEstimation().Detected && 
         fabs(Robot::m_Limelight.GetTargetEstimation().XAngle) < 1.0)
-        Robot::m_LED.SetRGB(0, 255, 0);
+        
+        Robot::m_LED.SetLEDsBlue();
     else
-        Robot::m_LED.SetRGB(0, 0, 0);
-    
-    counter += 1;
+        // no target turn LEDs off
+        Robot::m_LED.SetLEDsOff(); 
 }
 
+// this command never finishes
 bool ChangeLED::IsFinished(){
     return false;
 }

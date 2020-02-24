@@ -15,6 +15,10 @@
 #include "commands/drive/FollowPath.h"
 #include "commands/drive/TurnRightToHex.h"
 #include "commands/drive/TurnLeftToHex.h"
+#include "commands/ShootBalls.h"
+#include "TrajectoryConstants.h"
+#include "commands/IntakeOnOff.h"
+#include "commands/TiltDownUp.h"
 
 
 // class constructor - executed upon creation of DriverOI object
@@ -46,13 +50,18 @@ DriverOI::DriverOI() {
     DriveJoystickButtonBack->WhileHeld(new TurnLeftToHex());
     DriveJoystickButtonStart->WhileHeld(new TurnRightToHex());
 
+    // shoot balls
+    DriveJoystickButtonBlue->WhenPressed(new ShootBalls());
+
+    // intake on/off
+    //DriveJoystickButtonOrange->WhenPressed(new IntakeOnOff(true));
+    //DriveJoystickButtonGreen->WhenPressed(new IntakeOnOff(false));
+
+    // intake tilt
+    DriveJoystickButtonOrange->WhenPressed(new TiltDownUp(false));
+    DriveJoystickButtonGreen->WhenPressed(new TiltDownUp(true));
+
     //LeftJoystickButton1->WhileHeld(new SteerTowardsTarget());
     //LeftJoystickButton1->WhileHeld(new StraightDriveTest());
-    DriveJoystickButtonBlue->WhileHeld(new AutoComplex());
-
-    // while left joystick trigger is held, automatically chase after target
-    //LeftJoystickButton1->WhileHeld(new GoToTarget(0.35));
-
-    //when joystick is pressed, follow path
-    //RightJoystickButton6->WhenPressed(new DriveFollowPath(false, "Cargo2FarRocket")); */
+    //DriveJoystickButtonBlue->WhileHeld(new FollowPath(CTrajectoryConstants::olivia, false));
 } 

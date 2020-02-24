@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
 #pragma once
+
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 
-class TurnLeftToHex : public frc2::CommandHelper<frc2::CommandBase, TurnLeftToHex> {
+class IntakeOnOff : public frc2::CommandHelper<frc2::CommandBase, IntakeOnOff> {
   public:
   
-  // Constructor
-  TurnLeftToHex();
+  // Constructor - true to turn on, false to turn off
+  IntakeOnOff(bool On);
   
   // Called just before this Command runs the first time
   void Initialize() override;
@@ -29,16 +29,7 @@ class TurnLeftToHex : public frc2::CommandHelper<frc2::CommandBase, TurnLeftToHe
   void End(bool interrupted) override;
 
   private:
-  
-  // indicates that we saw(detected) target
-  bool m_SawPrevious;
 
-  // length of time we are pointed to target
-  float m_onTargetTime;
-
-  // length of time target is view of camera
-  float m_TargetinViewTime;
-
-  // length of time we are in this command
-  float m_TotalTime;
+  bool m_IntakeOn;
+    
 };

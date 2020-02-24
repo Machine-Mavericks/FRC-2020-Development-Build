@@ -50,7 +50,7 @@ void Arcade::Execute() {
 
   // set main drive tank speeds
   if (m_Drive!=NULL)
-    m_Drive->ArcadeDrive(y, -x, false);
+    m_Drive->ArcadeDrive(-y, x, false);
 }
 
 // Called once after isFinished returns true

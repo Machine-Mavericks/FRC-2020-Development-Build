@@ -28,6 +28,8 @@ class Intake : public frc2::SubsystemBase {
 
   // SetSpeed method used to set the top and bottom speeds of the motors. This is always passed as a pair.
   void SetSpeed(float Speed);
+
+  void SetWristSpeed(float Speed);
   
   // returns motor speeds (in rpm)
   float GetSpeed(void);
@@ -41,6 +43,9 @@ class Intake : public frc2::SubsystemBase {
   // return motor temperature
   float GetTemperature(void);
 
+  // returns speed selector slider (from shuffleboard) value
+  float GetSpeedSliderValue (void);
+
 
   // ------------- Shuffleboard Functions -------------
 
@@ -51,19 +56,16 @@ class Intake : public frc2::SubsystemBase {
   void UpdateShuffleboard(void);
 
 
-
-
   private:
   
   // define drive motors
-  WPI_TalonFX *m_Motor;
+  WPI_TalonFX *m_IntakeMotor;
 
   // Shuffleboard Controls
-  nt::NetworkTableEntry Speed;
+  nt::NetworkTableEntry SpeedSlider;
+  nt::NetworkTableEntry MotorSpeed;
   nt::NetworkTableEntry Volts;
   nt::NetworkTableEntry Setting;
   nt::NetworkTableEntry Current;
   nt::NetworkTableEntry Temperature;
-
-
 };

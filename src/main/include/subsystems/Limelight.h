@@ -86,8 +86,8 @@ class Limelight : public frc2::SubsystemBase {
     // ---------- Target Detection Routines ----------
 
     // minimum hex detection area (# square pixels)
-    const float MIN_HEX_DETECTION_AREA = 500.0;
-    const float MIN_HEX_VERT_SIZE      = 20.0;
+    const float MIN_HEX_DETECTION_AREA = 100.0;
+    const float MIN_HEX_VERT_SIZE      = 12.0;
 
     struct HEXTARGET_DATA {
         bool Detected;              // true if target has been detected

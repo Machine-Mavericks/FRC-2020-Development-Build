@@ -5,7 +5,6 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// This command is used to drive robot towards detected target
 
 #pragma once
 #include <frc2/command/CommandBase.h>
@@ -34,5 +33,12 @@ class TurnRightToHex : public frc2::CommandHelper<frc2::CommandBase, TurnRightTo
   // indicates that we saw(detected) target
   bool m_SawPrevious;
 
-};
+  // length of time we are pointed to target
+  float m_onTargetTime;
+
+  // length of time target is view of camera
+  float m_TargetinViewTime;
+
+  // length of time we are in this command
+  float m_TotalTime;};
 

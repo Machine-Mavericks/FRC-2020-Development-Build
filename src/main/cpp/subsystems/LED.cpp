@@ -10,31 +10,28 @@
 
 
 LED::LED(){
-    m_AddressableLED = new AddressableLED(LED_PORT);
-    std::array<frc::AddressableLED::LEDData, 150> m_LEDBuffer;
-    m_AddressableLED->SetLength(150); 
-    m_AddressableLED->SetData(m_LEDBuffer);
-    m_AddressableLED->Start();
-    
+  // create addressable LED controls
+  m_AddressableLED = new AddressableLED(LED_PORT);
+  m_AddressableLED->SetLength(LEDLENGTH);
 
-
+  // create fixed colours  
+  for (int i = 0; i <= 149; ++i)
+  { 
+    m_BlueLEDs[i].SetRGB(0, 0, 255);  
+    m_OrangeLEDs[i].SetRGB(255, 165, 0); 
+    m_LEDsOff[i].SetRGB(0, 0, 0);
+  }
+  
+  // initially turn LEDs off
+  SetLEDsOff();
+  
+  // enable LEDs
+  m_AddressableLED->Start();
 }
 
-/*void LED::SetRGB(int r, int g, int b){
-    
-    for (int i = 0; i < 150; i++){
-        m_LEDBuffer[i].SetRGB(r, g, b);
-    }
+// preset colours
+void LED::SetLEDsBlue(void) { m_AddressableLED->SetData(m_BlueLEDs); }
 
-    m_AddressableLED->SetData(m_LEDBuffer);
-    } */
+void LED::SetLEDsOrange(void) { m_AddressableLED->SetData(m_OrangeLEDs); }
 
-
-void LED::SetRGB(int r, int g, int b){
-    
-    for (int i = 0; i <= 149; i++){
-        m_LEDBuffer[i].SetRGB(r,g,b);
-    }
-    m_AddressableLED->SetData(m_LEDBuffer);
-    }
-
+void LED::SetLEDsOff(void) {  m_AddressableLED->SetData(m_LEDsOff); }

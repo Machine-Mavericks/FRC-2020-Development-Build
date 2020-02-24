@@ -23,11 +23,9 @@ class Shooter : public frc2::SubsystemBase {
 
   // ------------- Speed Control Functions -------------
 
-  //stop the motors all-together, should you ever want to do that.
-  void Stop(void);
 
   // SetSpeed method used to set the top and bottom speeds of the motors. This is always passed as a pair.
-  void SetSpeed(double TopSpeed, double BottomSpeed);
+  void SetSpeed(float Speed);
   
   // returns motor speeds (in rpm)
   float GetTopSpeed(void);
@@ -40,6 +38,12 @@ class Shooter : public frc2::SubsystemBase {
   // return motor current
   float GetTopCurrent(void);
   float GetBottomCurrent(void);
+
+  // returns speed selector slider (from shuffleboard) value
+  float GetSpeedSliderValue (void);
+
+  // returns speed selector slider (from shuffleboard) value
+  float GetIdleSpeedSliderValue (void);
 
   // ------------- Shuffleboard Functions -------------
 
@@ -57,7 +61,8 @@ class Shooter : public frc2::SubsystemBase {
   WPI_TalonFX *m_MotorBottom;
 
   // Shuffleboard Controls
-  nt::NetworkTableEntry Speed;
+  nt::NetworkTableEntry SpeedSlider;
+  nt::NetworkTableEntry IdleSpeedSlider;
   nt::NetworkTableEntry TopVolts, BottomVolts; 
   nt::NetworkTableEntry TopSpeed, BottomSpeed;
   nt::NetworkTableEntry TopSetting, BottomSetting;

@@ -22,20 +22,32 @@ Shooter::Shooter() {
   // configure motor drives with factory default settings
   m_MotorTop->ConfigFactoryDefault();
   m_MotorBottom->ConfigFactoryDefault();
+ 
+  m_MotorBottom->Follow(*m_MotorTop);
+  m_MotorBottom->SetInverted(true);
+
+  // set up motor speed controller 
+  //m_MotorTop->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+    m_MotorTop->Config_kP(0, 0.4, 0);
+  // set peak forward voltage to 100%, peak reverse voltage to 0.0
+  m_MotorTop->ConfigPeakOutputForward(1, 0);
+  m_MotorTop->ConfigPeakOutputReverse(0.0, 0);
+
+  // Set maximum allowed posotion controller closed loop error 
+  m_MotorTop->ConfigAllowableClosedloopError(0, 35.0, 0);
+
+
+  // limit motor to max ramp rate of 0.2s from 0 to 100% throttle
+  m_MotorTop->ConfigClosedloopRamp(0.2, 0);
 }
 
 
 // ------------- Speed Control Functions -------------
 
-
-void Shooter::SetSpeed(double TopSpeed, double BottomSpeed){
-    m_MotorTop->Set(ControlMode::PercentOutput,TopSpeed);
-    m_MotorBottom->Set(ControlMode::PercentOutput,BottomSpeed);
-}
-
-void Shooter::Stop(void) { //should never be needed
-    m_MotorTop->Set(ControlMode::PercentOutput,0);
-    m_MotorBottom->Set(ControlMode::PercentOutput,0);
+// set shooter speed - input RPM
+void Shooter::SetSpeed(float Speed){
+    // convert rpm to #encoder pulses per 100ms
+    m_MotorTop->Set(ControlMode::Velocity,Speed * 3.41333333);
 }
 
 // returns motor speeds (rpm)
@@ -51,6 +63,11 @@ float Shooter::GetBottomVolts(void) {  return m_MotorBottom->GetBusVoltage(); }
 float Shooter::GetTopCurrent(void) { return m_MotorTop->GetSupplyCurrent();  }
 float Shooter::GetBottomCurrent(void) { return m_MotorBottom->GetSupplyCurrent();}
 
+// returns speed selector slider (from shuffleboard) value
+float Shooter::GetSpeedSliderValue (void) { return SpeedSlider.GetDouble(0.0); }
+
+// returns speed selector slider (from shuffleboard) value
+float Shooter::GetIdleSpeedSliderValue (void) { return IdleSpeedSlider.GetDouble(0.5); }
 
 
 // ------------- Shuffleboard Functions -------------
@@ -66,29 +83,33 @@ void Shooter::InitializeShuffleboard(void) {
     TopSpeed = l1->Add("Top", 0.0).GetEntry();
     BottomSpeed = l1->Add("Bottom", 0.0).GetEntry();
 
-    wpi::StringMap <std::shared_ptr<nt::Value>> SliderProperties {
+    wpi::StringMap <std::shared_ptr<nt::Value>> SpeedSliderProperties {
       std::make_pair("min", nt::Value::MakeDouble(0.0)),
-      std::make_pair("max", nt::Value::MakeDouble(1.0)) };
-    Speed = Tab->Add("Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SliderProperties).GetEntry();
+      std::make_pair("max", nt::Value::MakeDouble(6300.0)) };
+    SpeedSlider = Tab->Add("Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SpeedSliderProperties).GetEntry();
 
     ShuffleboardLayout *l2 = &Tab->GetLayout("Set Speed", BuiltInLayouts::kList);
-    l2->WithPosition(1,2);
+    l2->WithPosition(3,0);
     l2->WithSize(1,2);
     TopSetting = l2->Add("Top", 0.0).GetEntry();
     BottomSetting = l2->Add("Bottom", 0.0).GetEntry();
 
     ShuffleboardLayout *l3 = &Tab->GetLayout("Batt Voltage(v)", BuiltInLayouts::kList);
-    l2->WithPosition(1,3);
-    l2->WithSize(1,2);
+    l3->WithPosition(4,0);
+    l3->WithSize(1,2);
     TopVolts = l3->Add("Top", 0.0).GetEntry();
     BottomVolts = l3->Add("Bottom", 0.0).GetEntry();
 
-ShuffleboardLayout *l4 = &Tab->GetLayout("Current(A)", BuiltInLayouts::kList);
-    l2->WithPosition(4,3);
-    l2->WithSize(1,2);
+    ShuffleboardLayout *l4 = &Tab->GetLayout("Current(A)", BuiltInLayouts::kList);
+    l4->WithPosition(5,0);
+    l4->WithSize(1,2);
     TopCurrent = l4->Add("Top", 0.0).GetEntry();
     BottomCurrent = l4->Add("Bottom", 0.0).GetEntry();
 
+    wpi::StringMap <std::shared_ptr<nt::Value>> IdleSliderProperties {
+      std::make_pair("min", nt::Value::MakeDouble(0.0)),
+      std::make_pair("max", nt::Value::MakeDouble(100.0)) };
+    IdleSpeedSlider = Tab->Add("Idle Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,2).WithSize(2,1).WithProperties(IdleSliderProperties).GetEntry();
 }
 
 
@@ -100,9 +121,8 @@ void Shooter::UpdateShuffleboard(void) {
     BottomSpeed.SetDouble(GetBottomSpeed());
 
     // get speed setting from slider value, and set motors accordingly
-    float s = Speed.GetDouble(0.0);
-    SetSpeed(s, -s);
-
+    float s = SpeedSlider.GetDouble(0.0);
+    SetSpeed(s);
     // write voltage of top and bottom motors
     TopSetting.SetDouble(s);
     BottomSetting.SetDouble(s);

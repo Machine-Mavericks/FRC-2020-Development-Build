@@ -65,14 +65,15 @@ class Robot : public frc::TimedRobot {
   static LED m_LED;
   static Intake m_Intake;
   static IntakeTilt m_IntakeTilt;
+  static Climb m_Climb;
+  static Shooter m_Shooter;
+  static Uplifter m_Uplifter;
 
   // create robot driver interfaces
   static DriverOI m_DriverOI;
   static MechanismOI m_MechanismOI;
   static DashboardOI m_DashboardOI;
-  static Climb m_Climb;
-  static Shooter m_Shooter;
-  static Uplifter m_Uplifter;
+  
 
   //create commands
   static ChangeLED m_ChangeLED;
