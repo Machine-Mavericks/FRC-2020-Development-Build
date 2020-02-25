@@ -24,25 +24,49 @@ TiltDownUp::TiltDownUp(bool dir) {
 // Called just before this Command runs the first time
 void TiltDownUp::Initialize() {
   
-  // get position of tilting
-  int position = Robot::m_IntakeTilt.GetIntakeTiltTargetPosition();
-
+  /*int position = Robot::m_IntakeTilt.GetIntakeTiltTargetAnalog();
+  
   if (m_Direction)
-    Robot::m_IntakeTilt.SetIntakeTiltTargetPosition(position+1);
+    position += 1000;
   else
-    Robot::m_IntakeTilt.SetIntakeTiltTargetPosition(position-1);
+    position -= 1000;
+
+  Robot::m_IntakeTilt.SetIntakeTiltTargetAnalog(position);
+  */
 }
 
 // Called repeatedly when this Command is scheduled to run
 void TiltDownUp::Execute() {
  
+int position = Robot::m_IntakeTilt.GetIntakeTiltTargetAnalog();
+
+if (m_Direction)
+  position = position + 50;
+else
+  position = position - 50;
+
+if (position <=0)
+  position = 0;
+if (position >=12400)
+  position = 12400;
+
+Robot::m_IntakeTilt.SetIntakeTiltTargetAnalog(position);
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool TiltDownUp::IsFinished() {
-  return true;
+ 
+ int position = Robot::m_IntakeTilt.GetIntakeTiltTargetAnalog();
+ return ((m_Direction && position >=14000) ||
+         (!m_Direction && position <=0));
+
 }
 
 // Called once after isFinished returns true
 void TiltDownUp::End(bool interrupted) {
+ //Robot::m_IntakeTilt.m_Motor->SetIntegralAccumulator(0.0, 0, 0);
+ //Robot::m_IntakeTilt.m_Motor->Set(ControlMode::PercentOutput,0.0);
+
+  
 }

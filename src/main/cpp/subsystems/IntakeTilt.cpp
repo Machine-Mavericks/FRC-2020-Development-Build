@@ -31,17 +31,17 @@ IntakeTilt::IntakeTilt() {
 // set nominal and peak outputs of drive 
   // nominal = 0, peak is +1 or -1 depending on direction
   // second parameter is timeout (use 0)
-  m_Motor->ConfigNominalOutputForward(0.05, 0);
-  m_Motor->ConfigNominalOutputReverse(-0.05, 0);
-  m_Motor->ConfigPeakOutputForward (TILT_DRIVE_FULL_VLTG_FWD, 0);
-  m_Motor->ConfigPeakOutputReverse (-TILT_DRIVE_FULL_VLTG_REV, 0);
+  //m_Motor->ConfigNominalOutputForward(0.05, 0);
+  //m_Motor->ConfigNominalOutputReverse(-0.05, 0);
+  //m_Motor->ConfigPeakOutputForward (TILT_DRIVE_FULL_VLTG_FWD, 0);
+  //m_Motor->ConfigPeakOutputReverse (-TILT_DRIVE_FULL_VLTG_REV, 0);
 
     // set up forward direction soft (software) limit - set to maximum allowed encoder pulse counts at IntakeTilt top. Disable until subsystem has been rehomed
-  m_Motor->ConfigForwardSoftLimitEnable(false,0);
+  m_Motor->ConfigForwardSoftLimitEnable(true,0);
   m_Motor->ConfigForwardSoftLimitThreshold(TILT_SOFT_LIMIT_MAX);
 
   // set up reverse direction soft limit - assumes encoder pulse at bottom is 0. Disable until subsystem has been rehomed
-  m_Motor->ConfigReverseSoftLimitEnable(false, 0);
+  m_Motor->ConfigReverseSoftLimitEnable(true, 0);
   m_Motor->ConfigReverseSoftLimitThreshold(TILT_SOFT_LIMIT_MIN); 
 
   // set motor ramp rate (from neutral to full) used to avoid sudden changes in spee

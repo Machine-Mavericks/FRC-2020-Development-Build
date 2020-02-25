@@ -21,18 +21,18 @@ using namespace frc;
 #define TILT_DOWN_POSITION      14000
     
 // Tilting position soft limits
-#define TILT_SOFT_LIMIT_MAX     14000
+#define TILT_SOFT_LIMIT_MAX     12400
 #define TILT_SOFT_LIMIT_MIN     0
 
 // Tilting PID gains
-#define TILT_PGAIN              1.0
-#define TILT_IGAIN              0.0004
-#define TILT_DGAIN              80
+#define TILT_PGAIN              0.15    // P=0.3, I=0.0001 worked ok for 90deg
+#define TILT_IGAIN              0.0002 // 0.0004
+#define TILT_DGAIN              0 // 80
 
-#define TILT_MAX_INTEGRAL_ACCUMULATOR       50000
-#define TILT_ALLOWABLE_CLOSEDLOOP_ERROR     250
+#define TILT_MAX_INTEGRAL_ACCUMULATOR       1000000
+#define TILT_ALLOWABLE_CLOSEDLOOP_ERROR     1
 
-#define INTAKETILT_DRIVE_MAXRAMP    0.1
+#define INTAKETILT_DRIVE_MAXRAMP    0.02
 
 #define TILT_DRIVE_FULL_VLTG_FWD 0.05
 #define TILT_DRIVE_FULL_VLTG_REV 0.05
@@ -94,11 +94,12 @@ class IntakeTilt : public frc2::SubsystemBase {
   // update shuffleboard
   void UpdateShuffleboard(void);
 
+ // define drive motors
+  WPI_TalonFX *m_Motor;
 
   private:
   
-  // define drive motors
-  WPI_TalonFX *m_Motor;
+ 
   
   // Shuffleboard Controls
   nt::NetworkTableEntry MotorEncoder, MotorTarget;

@@ -27,13 +27,15 @@ class MechanismOI {
      Joystick *MechanismJoystick;
    
     // individual buttons for  robot operator joystick
-    JoystickButton *MechanismJoystickButton1;
-    JoystickButton *MechanismJoystickButton2;
-    JoystickButton *MechanismJoystickButton3;
-    JoystickButton *MechanismJoystickButton4;
-    JoystickButton *MechanismJoystickButton5;
-    JoystickButton *MechanismJoystickButton6;
-    JoystickButton *MechanismJoystickButton7;
-    JoystickButton *MechanismJoystickButton8;
+    JoystickButton *MechanismJoystickButtonBlue;
+    JoystickButton *MechanismJoystickButtonOrange;
+    JoystickButton *MechanismJoystickButtonRed;
+    JoystickButton *MechanismJoystickButtonGreen;
+    JoystickButton *MechanismJoystickButtonLeft;
+    JoystickButton *MechanismJoystickButtonRight;
+    JoystickButton *MechanismJoystickButtonLeftController;
+    JoystickButton *MechanismJoystickButtonRightController;
+    JoystickButton *MechanismJoystickButtonBack;
+    JoystickButton *MechanismJoystickButtonStart;
 
 }; 

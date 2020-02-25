@@ -28,13 +28,17 @@ Shooter::Shooter() {
 
   // set up motor speed controller 
   //m_MotorTop->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
-    m_MotorTop->Config_kP(0, 0.4, 0);
+  m_MotorTop->Config_kF(0, 0.00, 0);
+  m_MotorTop->Config_kP(0, 0.32, 0);
+  m_MotorTop->Config_kI(0, 0.00008, 0);
   // set peak forward voltage to 100%, peak reverse voltage to 0.0
   m_MotorTop->ConfigPeakOutputForward(1, 0);
   m_MotorTop->ConfigPeakOutputReverse(0.0, 0);
 
+  m_MotorTop->ConfigMaxIntegralAccumulator(0, 8000000.0, 0);
+
   // Set maximum allowed posotion controller closed loop error 
-  m_MotorTop->ConfigAllowableClosedloopError(0, 35.0, 0);
+  //m_MotorTop->ConfigAllowableClosedloopError(0, 35.0, 0);
 
 
   // limit motor to max ramp rate of 0.2s from 0 to 100% throttle

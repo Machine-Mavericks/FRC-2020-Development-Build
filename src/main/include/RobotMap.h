@@ -13,7 +13,7 @@
 
 // Joystick port Ids
 #define DRIVE_JOYSTICK_PORT             0
-#define MECHANISM_CONTROLLER_PORT       2
+#define MECHANISM_CONTROLLER_PORT       1
 
 // Joystick Axis IDs
 #define LEFT_JOYSTICK_X_AXIS_ID         0

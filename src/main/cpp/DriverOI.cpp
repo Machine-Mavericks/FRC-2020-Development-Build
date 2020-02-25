@@ -51,17 +51,15 @@ DriverOI::DriverOI() {
     DriveJoystickButtonStart->WhileHeld(new TurnRightToHex());
 
     // shoot balls
-    DriveJoystickButtonBlue->WhenPressed(new ShootBalls());
+    //DriveJoystickButtonBlue->WhenPressed(new ShootBalls());
 
-    // intake on/off
-    //DriveJoystickButtonOrange->WhenPressed(new IntakeOnOff(true));
-    //DriveJoystickButtonGreen->WhenPressed(new IntakeOnOff(false));
+    
 
     // intake tilt
-    DriveJoystickButtonOrange->WhenPressed(new TiltDownUp(false));
-    DriveJoystickButtonGreen->WhenPressed(new TiltDownUp(true));
+    //DriveJoystickButtonOrange->WhileHeld(new TiltDownUp(false));
+    //DriveJoystickButtonGreen->WhileHeld(new TiltDownUp(true));
 
     //LeftJoystickButton1->WhileHeld(new SteerTowardsTarget());
     //LeftJoystickButton1->WhileHeld(new StraightDriveTest());
-    //DriveJoystickButtonBlue->WhileHeld(new FollowPath(CTrajectoryConstants::olivia, false));
+   // DriveJoystickButtonBlue->WhileHeld(new FollowPath(CTrajectoryConstants::olivia, false));
 } 

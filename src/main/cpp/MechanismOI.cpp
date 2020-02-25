@@ -8,6 +8,7 @@
 
 #include "MechanismOI.h"
 #include "RobotMap.h"
+#include "commands/IntakeOnOff.h"
 
 
 
@@ -19,14 +20,19 @@ MechanismOI::MechanismOI() {
     MechanismJoystick = new Joystick(MECHANISM_CONTROLLER_PORT);
 
     // create robot operator button objects and associate with operator joystick and button #
-    MechanismJoystickButton1 = new JoystickButton(MechanismJoystick,1);
-    MechanismJoystickButton2 = new JoystickButton(MechanismJoystick,2);
-    MechanismJoystickButton3 = new JoystickButton(MechanismJoystick,3);
-    MechanismJoystickButton4 = new JoystickButton(MechanismJoystick,4);
-    MechanismJoystickButton5 = new JoystickButton(MechanismJoystick,5);
-    MechanismJoystickButton6 = new JoystickButton(MechanismJoystick,6);
-    MechanismJoystickButton7 = new JoystickButton(MechanismJoystick,7);
-    MechanismJoystickButton8 = new JoystickButton(MechanismJoystick,8);
+    MechanismJoystickButtonBlue     = new JoystickButton(MechanismJoystick,3);
+    MechanismJoystickButtonOrange   = new JoystickButton(MechanismJoystick,4);
+    MechanismJoystickButtonRed      = new JoystickButton(MechanismJoystick,2);
+    MechanismJoystickButtonGreen    = new JoystickButton(MechanismJoystick,1);
+    MechanismJoystickButtonLeft     = new JoystickButton(MechanismJoystick,5);
+    MechanismJoystickButtonRight    = new JoystickButton(MechanismJoystick,6);
+    MechanismJoystickButtonLeftController  = new JoystickButton(MechanismJoystick,9);
+    MechanismJoystickButtonRightController = new JoystickButton(MechanismJoystick,10);
+    MechanismJoystickButtonBack      = new JoystickButton(MechanismJoystick,7);
+    MechanismJoystickButtonStart     = new JoystickButton(MechanismJoystick,8);
+    
 
- 
+    // intake on/off
+    //MechanismJoystickButtonOrange->WhenPressed(new IntakeOnOff(true));
+    //MechanismJoystickButtonGreen->WhenPressed(new IntakeOnOff(false));
 }
