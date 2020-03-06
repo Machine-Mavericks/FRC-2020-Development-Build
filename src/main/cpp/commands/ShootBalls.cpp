@@ -27,18 +27,15 @@ void ShootBalls::Initialize() {
   
   // determine shooter speed
   // set base speed
-  float speed = 5200.0;
+  float speed = 4825.0;
 
   // determine speed adder for distance
   if (Robot::m_Limelight.GetTargetEstimation().Detected)
   {
     float distance = Robot::m_Limelight.GetTargetEstimation().ZDistance;
-    
-    speed = 13.782*distance*distance - 69.625*distance + 4812;
-
-    if (distance > 8.0)
-      speed += 50.0;
-    
+    distance = distance - 4.0;
+    if (distance < 0.0) distance = 0.0;
+    speed+= distance *115;
   }
 
   // set shooter speed

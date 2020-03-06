@@ -14,23 +14,16 @@
 #include "commands/TiltDownUp.h"
 #include "commands/IntakeOnOff.h"
 
-// start in front of power port on white line
-// drop off balls, and pickup three from trench
-
 AutoSimple::AutoSimple() {
     AddCommands(
         TiltDownUp(TiltDownUp::TiltDown),
-        FollowPath(CTrajectoryConstants::Straight125m, false),
+        FollowPath(CTrajectoryConstants::Straight1m, false),
         TurnRightToHex(),
         ShootBalls(),
         IntakeOnOff(true),
         FollowPath(CTrajectoryConstants::SCurve, false),
-        FollowPath(CTrajectoryConstants::Straight30m, false),
-        FollowPath(CTrajectoryConstants::RevStraight15m, true),
-        TurnLeftToHex(),
-        ShootBalls(),
-        ShootBalls(),
-        ShootBalls()
+        FollowPath(CTrajectoryConstants::Straight1m, false),
+        FollowPath(CTrajectoryConstants::Straight1m, false)
         );
 }
 

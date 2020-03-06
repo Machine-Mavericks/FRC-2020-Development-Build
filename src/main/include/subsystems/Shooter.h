@@ -39,15 +39,6 @@ class Shooter : public frc2::SubsystemBase {
   float GetTopCurrent(void);
   float GetBottomCurrent(void);
 
-  // return applied motor voltage
-  float GetTopMotorVolts(void);
-  float GetBottomMotorVolts(void);
-
-  // return temperature
-  float GetTopTemperature(void);
-  float GetBottomTemperature(void);
-
-
   // returns speed selector slider (from shuffleboard) value
   float GetSpeedSliderValue (void);
 
@@ -73,9 +64,7 @@ class Shooter : public frc2::SubsystemBase {
   nt::NetworkTableEntry SpeedSlider;
   nt::NetworkTableEntry IdleSpeedSlider;
   nt::NetworkTableEntry TopVolts, BottomVolts; 
-  nt::NetworkTableEntry TopMotorVolts, BottomMotorVolts;
   nt::NetworkTableEntry TopSpeed, BottomSpeed;
   nt::NetworkTableEntry TopSetting, BottomSetting;
   nt::NetworkTableEntry TopCurrent, BottomCurrent;
-  nt::NetworkTableEntry TopTemperature, BottomTemperature;
 };

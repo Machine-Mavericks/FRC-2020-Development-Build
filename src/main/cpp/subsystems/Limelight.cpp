@@ -248,9 +248,9 @@ Limelight::HEXTARGET_DATA Limelight::GetTargetEstimation(void)
         target.TargetType = 0;
         target.Area = area;
         target.XAngle = GetHorizontalTargetOffsetAngle();
-        target.ZDistance = (412.0 / vert);
+        target.ZDistance = (132.8 / vert);
     }
- 
+
     // return target data
     return target;
 }

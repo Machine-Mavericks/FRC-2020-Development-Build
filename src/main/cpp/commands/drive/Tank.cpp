@@ -16,6 +16,9 @@
 Tank::Tank() {
   // Use AddRequirements here to declare subsystem dependencies
   AddRequirements(&Robot::m_MainDrive);
+  
+  // tank drive command is interruptable
+  //SetInterruptible(true);
 }
 
 // Called just before this Command runs the first time
@@ -48,16 +51,10 @@ void Tank::Execute() {
 
   // create variable for throttle - get from shuffleboard
   float throttle = Robot::m_MainDrive.GetThrottle();
-  
-  // get speed boost value
-  float speedboost = Robot::m_DriverOI.DriveJoystick->GetRawAxis(LEFT_TRIGGER_AXIS_ID);
-
-  // calculate 'speed adder' from the speed boost joystick trigger position
-  float speedadder = speedboost * (1.0 - throttle);
 
   // apply throttle control
-  left_wheels = left_wheels * (throttle + speedadder);
-  right_wheels = right_wheels* (throttle + speedadder);
+  left_wheels = left_wheels * throttle;
+  right_wheels = right_wheels* throttle;
 
   // set motor speeds
   Robot::m_MainDrive.SetTankDrive (left_wheels, right_wheels);

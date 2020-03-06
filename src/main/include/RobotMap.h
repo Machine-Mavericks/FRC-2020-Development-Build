@@ -98,4 +98,3 @@ constexpr double degToRad = 0.01745328;
 
 //----------UPLIFTER CONSTANTS----------------
 #define UPLIFTER_MOTOR_CANID              12
-#define AGITATOR_MOTOR_CANID              14

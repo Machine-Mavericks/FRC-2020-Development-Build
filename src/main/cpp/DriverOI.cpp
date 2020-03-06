@@ -57,8 +57,6 @@ DriverOI::DriverOI() {
     // drive winch
     DriveJoystickButtonOrange->WhileHeld(new DriveWinch());
     
-
-    //LeftJoystickButton1->WhileHeld(new SteerTowardsTarget());
-    //LeftJoystickButton1->WhileHeld(new StraightDriveTest());
-   // DriveJoystickButtonBlue->WhileHeld(new FollowPath(CTrajectoryConstants::olivia, false));
+    DriveJoystickButtonBlue->WhileHeld(new FollowPath(CTrajectoryConstants::ShootBay, true));
+    DriveJoystickButtonRed->WhileHeld(new FollowPath(CTrajectoryConstants::BayShoot, true));
 } 

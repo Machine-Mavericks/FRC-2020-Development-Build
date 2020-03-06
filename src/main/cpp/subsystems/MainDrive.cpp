@@ -40,12 +40,6 @@ MainDrive::MainDrive() {
   m_MotorRearLeft->Follow(*m_MotorFrontLeft);
   m_MotorRearRight->Follow(*m_MotorFrontRight);
 
-  // restrict ramp rates to ease snapping of excess chain during sudden changes in thrust
-  m_MotorFrontLeft->ConfigClosedloopRamp(0.2, 0);
-  m_MotorFrontRight->ConfigClosedloopRamp(0.2, 0);
-  m_MotorRearLeft->ConfigClosedloopRamp(0.2, 0);
-  m_MotorRearRight->ConfigClosedloopRamp(0.2, 0);
-
   // create differential drive
   //m_Drive = new DifferentialDrive(*m_MotorFrontLeft, *m_MotorFrontRight);
   

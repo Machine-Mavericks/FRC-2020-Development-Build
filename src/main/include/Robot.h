@@ -26,7 +26,6 @@
 #include "subsystems/Uplifter.h"
 #include "subsystems/IntakeTilt.h"
 #include "subsystems/Winch.h"
-#include "subsystems/Agitator.h"
 //#include "subsystems/UltrasonicSensor.h"
 //#include "subsystems/RangeFinder.h"
 //#include "subsystems/WoF.h"
@@ -43,9 +42,6 @@
 #include "commands/ChangeLED.h"
 #include "commands/AutoComplex.h"
 #include "commands/AutoSimple.h"
-#include "commands/AutoSimple2.h"
-#include "commands/AutoSimple3.h"
-#include "commands/TiltDownUp.h"
 
 
 class Robot : public frc::TimedRobot {
@@ -70,7 +66,6 @@ class Robot : public frc::TimedRobot {
   static Shooter m_Shooter;
   static Uplifter m_Uplifter;
   static Winch m_Winch;
-  static Agitator m_Agitator;
   // static UltrasonicSensor m_UltrasonicSensor;
   // static RangeFinder m_RangeFinder;
   // static WoF m_WoF;
@@ -85,8 +80,6 @@ class Robot : public frc::TimedRobot {
   static ChangeLED m_ChangeLED;
   static AutoComplex m_AutoComplex;
   static AutoSimple m_AutoSimple;
-  static AutoSimple2 m_AutoSimple2;
-  static AutoSimple3 m_AutoSimple3;
   
 
   // Robot mode-independent funtcions

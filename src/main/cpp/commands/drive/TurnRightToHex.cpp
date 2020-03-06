@@ -53,13 +53,13 @@ void TurnRightToHex::Execute() {
       float angle = target.XAngle;
        
       if (fabs(angle) < 0.5)
-        IError += angle * 0.00075;         // 0.0015
+        IError += angle * 0.0015;
       else if (fabs(angle) < 1.5)
-         IError += angle * 0.0006;       // 0.00125
+         IError += angle * 0.00125;
       else if (fabs(angle) < 3.0)
-        IError += angle * 0.0005;          // 0.001
+        IError += angle * 0.001;
       else if (fabs(angle) < 5.0)
-        IError += angle * 0.00025;         // 0.0005
+        IError += angle * 0.0005;
       else
         IError = 0.0;
 

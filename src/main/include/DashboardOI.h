@@ -8,7 +8,6 @@
 /* DashboardOI Class is the interface to the FRC robot dashboard - used to display current robot data*/
 
 #include <frc/Shuffleboard/Shuffleboard.h>
-#include <frc2/Timer.h>
 
 #pragma once
 
@@ -19,9 +18,6 @@ class DashboardOI {
     
     // class constructor - executed upon creation of DashboardOI object
     DashboardOI();
-
-    //create timer
-    frc2::Timer *m_Timer;
 
     // Update dashboard
     void UpdateDashBoard(void);
@@ -41,5 +37,5 @@ class DashboardOI {
     nt::NetworkTableEntry AutoCommand1;
     nt::NetworkTableEntry AutoCommand2;
     nt::NetworkTableEntry AutoCommand3;
-    nt::NetworkTableEntry TimeLeft;
+     
 };

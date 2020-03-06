@@ -12,11 +12,7 @@
 #include "frc/shuffleboard/WidgetType.h"
 
 // class constructor - executed upon creation of DashboardOI object
-DashboardOI::DashboardOI() {
-
-  m_Timer = new frc2::Timer();
-
- }
+DashboardOI::DashboardOI() { }
 
 // initialize dashboard
 void DashboardOI::InitializeDashBoard(void)
@@ -38,8 +34,6 @@ void DashboardOI::InitializeDashBoard(void)
     Robot::m_Winch.InitializeShuffleboard();
     // Robot::m_UltrasonicSensor.InitializeShuffleBoard();
     // Robot::m_RangeFinder.InitializeShuffleBoard();
-
-    m_Timer->Start();
 }
 
 // Update dashboard
@@ -59,28 +53,18 @@ void DashboardOI::UpdateDashBoard(void)
     Robot::m_Winch.UpdateShuffleboard();
     // Robot::m_UltrasonicSensor.UpdateShuffleBoard();
     // Robot::m_RangeFinder.UpdateShuffleBoard();
-    
-    // write remaining time in match (seconds)
-    TimeLeft.SetDouble(m_Timer->GetMatchTime().to<float>());
  }
 
 
 void DashboardOI::InitializeCommandsPage(void)
 {
   // Main Tab
-  ShuffleboardTab *Tab = &Shuffleboard::GetTab("Auto");
+  ShuffleboardTab *Tab = &Shuffleboard::GetTab("Auto Cmds");
 
   // add autonomous commands to page    
-  AutoCommand1 = Tab->Add("Auto1", false). WithWidget(BuiltInWidgets::kToggleSwitch).WithPosition(0,0).WithSize(1,1).GetEntry();
-  AutoCommand2 = Tab->Add("Auto2", false). WithWidget(BuiltInWidgets::kToggleSwitch).WithPosition(2,0).WithSize(1,1).GetEntry();
-  AutoCommand3 = Tab->Add("Auto3", false). WithWidget(BuiltInWidgets::kToggleSwitch).WithPosition(4,0).WithSize(1,1).GetEntry();
-
-  // add time remaining in autonomous/teleop part of match (seconds)
-  ShuffleboardLayout *l1 = &Tab->GetLayout("Timer", BuiltInLayouts::kList);
-  l1->WithPosition(0,2);
-  l1->WithSize(1,2);
-  TimeLeft = l1->Add("TimeLeft", 0.0).GetEntry();
-
+  AutoCommand1 = Tab->AddPersistent("Auto 1", false). WithWidget(BuiltInWidgets::kToggleSwitch).WithPosition(0,0).WithSize(1,1).GetEntry();
+  AutoCommand2 = Tab->AddPersistent("Auto 2", false). WithWidget(BuiltInWidgets::kToggleSwitch).WithPosition(2,0).WithSize(1,1).GetEntry();
+  AutoCommand3 = Tab->AddPersistent("Auto 3", false). WithWidget(BuiltInWidgets::kToggleSwitch).WithPosition(4,0).WithSize(1,1).GetEntry();
 }
 
 // returns position of throttle control on shuffleboard - if not available, returns 1.0

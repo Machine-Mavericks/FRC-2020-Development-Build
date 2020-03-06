@@ -38,7 +38,6 @@ Intake Robot::m_Intake;
 IntakeTilt Robot::m_IntakeTilt;
 Uplifter Robot::m_Uplifter;
 Winch Robot::m_Winch;
-Agitator Robot::m_Agitator;
 // UltrasonicSensor Robot::m_UltrasonicSensor;
 // RangeFinder Robot::m_RangeFinder;
 // WoF Robot::m_WoF;
@@ -48,10 +47,6 @@ Agitator Robot::m_Agitator;
 ChangeLED Robot::m_ChangeLED;
 AutoComplex Robot::m_AutoComplex;
 AutoSimple Robot::m_AutoSimple;
-AutoSimple2 Robot::m_AutoSimple2;
-AutoSimple3 Robot::m_AutoSimple3;
-
-
 
 
 // ------------------------ General (All Modes) --------------------
@@ -139,17 +134,10 @@ void Robot::AutonomousInit() {
    // get idle speed from shuffleboard and set shooter speed
    Robot::m_Shooter.SetSpeed(Robot::m_Shooter.GetIdleSpeedSliderValue());
 
-  // for winch and arm, set its target to current encoder - to prevent motor from moving
-  Robot::m_Winch.SetIntakeTiltTargetAnalog(Robot::m_Winch.GetIntakeTiltTargetAnalog());
-  Robot::m_Climb.SetIntakeTiltTargetAnalog(Robot::m_Climb.GetIntakeTiltTargetAnalog());
-   
+
    if (m_DashboardOI.GetAutoCommandState1())
      m_AutoSimple.Schedule();
-  else if (m_DashboardOI.GetAutoCommandState2())
-      m_AutoSimple2.Schedule();
-  else if (m_DashboardOI.GetAutoCommandState3())
-      m_AutoSimple3.Schedule();
-
+      
 }
 
 void Robot::AutonomousPeriodic() {
@@ -166,13 +154,10 @@ void Robot::TeleopInit() {
   // teleop starts running. If you want the autonomous to
   // continue until interrupted by another command, remove
   // this line or comment it out.
-    //if (m_autonomousCommand != nullptr) {
+  //if (m_autonomousCommand != nullptr) {
   //  m_autonomousCommand->Cancel();
   //  m_autonomousCommand = nullptr;
   //}
-
-  // ensure any autonomous commands are not still running
-  m_AutoSimple.Cancel();
 
   // set defualt command for teleop operation - i.e tank mode
   m_MainDrive.SetDefaultCommand(*m_defaultTeloOpCommand);
@@ -198,16 +183,12 @@ void Robot::TeleopInit() {
   Robot::m_IntakeTilt.SetIntakeTiltTargetAnalog(Robot::m_IntakeTilt.GetEncoderPosition());
 
   //YOU MUST DELETE THIS BEFORE A COMPETITION. I REPEAT: YOU MUST DELETE
-  // m_NavX.ZeroYaw();
+  m_NavX.ZeroYaw();
 
   m_ChangeLED.Schedule();
   
   // get idle speed from shuffleboard and set shooter speed
   Robot::m_Shooter.SetSpeed(Robot::m_Shooter.GetIdleSpeedSliderValue());
-
-  // for winch and arm, set its target to current encoder - to prevent motor from moving
-  Robot::m_Winch.SetIntakeTiltTargetAnalog(Robot::m_Winch.GetIntakeTiltTargetAnalog());
-  Robot::m_Climb.SetIntakeTiltTargetAnalog(Robot::m_Climb.GetIntakeTiltTargetAnalog());
 
 }
 

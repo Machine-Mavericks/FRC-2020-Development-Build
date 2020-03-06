@@ -21,231 +21,41 @@ class CTrajectoryConstants
 {
 public:
 
-enum TrajectoryList {   Straight05m,
-                        Straight10m,
-                        Straight125m,
-                        Straight15m,
-                        Straight20m,
-                        Straight25m,
-                        Straight30m,
-                        RevStraight05m,
-                        RevStraight10m,
-                        RevStraight15m,
-                        RevStraight20m,
-                        RevStraight25m,
-                        SCurve2,
-                        SCurve,
-                        TrenchtoShoot,
-                        TrenchtoBay,
-                        aTrenchtoShoot};
-
+enum TrajectoryList {Straight1m, SCurve, olivia, ShootBay, BayShoot};
     void SelectTrajectory(TrajectoryList nTrajectory)
     {
         // Retrieve the correct trajectory.
         switch(nTrajectory)
         {
-            case Straight05m:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
+            case Straight1m:
+                m_StartPoint = Pose2d
+                {
+                    0.0_m,				// X starting position on field in feet.
+                    0.0_m,			    // Y starting position on field in feet.
+                    Rotation2d(0_deg)		// Starting rotation on field in degrees.
+                };
 
                 m_Waypoints = 
                 {
-                    Translation2d { 0.15_m, 0.0_m },
-                    Translation2d { 0.30_m, 0.0_m }
+                    Translation2d
+                    {
+                        0.5_m,				// X of point 1 on field in feet.
+                        0.0_m			// Y of point 1 on field in feet.
+                    },
+                    Translation2d
+                    {
+                        1.0_m,				// X of point 2 on field in feet.
+                        0.0_m			// Y of point 2 on field in feet.
+                    }
                 };
 
-                m_EndPoint = Pose2d {  0.50_m, 0.0_m, Rotation2d(0_deg) };
-            break;
-            
-
-            case Straight10m:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
+                m_EndPoint = Pose2d
                 {
-                    Translation2d { 0.35_m, 0.0_m },
-                    Translation2d { 0.7_m, 0.0_m }
+                    1.50_m,				// X starting position on field in feet.
+                    0.0_m,			    // Y starting position on field in feet.
+                    Rotation2d(0_deg)		// Starting rotation on field in degrees.
                 };
-
-                m_EndPoint = Pose2d {  1.0_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-
-            case Straight125m:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { 0.35_m, 0.0_m },
-                    Translation2d { 0.7_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  1.25_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-
-
-            case Straight15m:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { 0.5_m, 0.0_m },
-                    Translation2d { 1.0_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  1.50_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-            
-            
-            case Straight20m:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { 0.7_m, 0.0_m },
-                    Translation2d { 1.4_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  2.00_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-            
-            
-            case Straight25m:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { 0.8_m, 0.0_m },
-                    Translation2d { 1.6_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  2.50_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-
-            case Straight30m:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { 1.0_m, 0.0_m },
-                    Translation2d { 2.0_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  3.00_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-            
-
-            // --------------- REVERSE PATHS
-
-
-
-            case RevStraight05m:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { -0.15_m, 0.0_m },
-                    Translation2d { -0.30_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  -0.50_m, 0.0_m, Rotation2d(0_deg) };
-            break;
-            
-
-            case RevStraight10m:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { -0.35_m, 0.0_m },
-                    Translation2d { -0.7_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  -1.0_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-
-
-            case RevStraight15m:
-                m_StartPoint = Pose2d {  -0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { -0.5_m, 0.0_m },
-                    Translation2d { -1.0_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  -1.50_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-            
-            
-            case RevStraight20m:
-                m_StartPoint = Pose2d {  -0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { -0.7_m, 0.0_m },
-                    Translation2d { -1.4_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  -2.00_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-            
-            
-            case RevStraight25m:
-                m_StartPoint = Pose2d {  -0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { -0.8_m, 0.0_m },
-                    Translation2d { -1.6_m, 0.0_m }
-                };
-
-                m_EndPoint = Pose2d {  -2.50_m,	0.0_m, Rotation2d(0_deg) };
-            break;
-
-
-
-
-
-
-
-
-
-            // ----------------------- COMPLEX PATH TUFF
-
-
-
-
-
-
-
-
-
-            case SCurve2:
-                m_StartPoint = Pose2d {  0.0_m, 0.0_m, Rotation2d(0_deg) };
-
-                m_Waypoints = 
-                {
-                    Translation2d { 0.2_m, 0.05_m },
-                    Translation2d { 0.235_m, 0.1_m },
-                    Translation2d { 0.5_m, 0.18_m },
-                    Translation2d { 0.6_m, 0.3_m },
-                    Translation2d { 0.72_m, 0.55_m },
-                    Translation2d { 0.65_m, 0.8_m },
-                    Translation2d { 0.6_m, 0.9_m },
-                    Translation2d { 0.55_m, 1.1_m },
-                    Translation2d { 0.55_m, 1.3_m },
-                    Translation2d { 0.6_m, 1.4_m },
-                    Translation2d { 0.68_m, 1.5_m },
-                    Translation2d { 0.75_m, 1.55_m },
-                    Translation2d { 0.83_m, 1.6_m },
-                    Translation2d { 0.95_m, 1.65_m },
-                    Translation2d { 1.05_m, 1.68_m },
-                    Translation2d { 1.15_m, 1.69_m },
-                    Translation2d { 1.20_m, 1.70_m },
-                    Translation2d { 1.25_m, 1.70_m }
-                };
-
-                m_EndPoint = Pose2d {  1.30_m,	1.7_m, Rotation2d(0_deg) };
-            break; 
+                break;
             
             case SCurve:
                 m_StartPoint = Pose2d
@@ -273,7 +83,7 @@ enum TrajectoryList {   Straight05m,
                 {
                     1.10_m,				// X starting position on field in feet.
                     1.38_m,			    // Y starting position on field in feet.
-                    Rotation2d(-24_deg)		// Starting rotation on field in degrees.
+                    Rotation2d(-23_deg)		// Starting rotation on field in degrees.
                 };
                 break;
         
@@ -282,11 +92,11 @@ enum TrajectoryList {   Straight05m,
             
             
             
-            case TrenchtoShoot:
+            case BayShoot:
                 m_StartPoint = Pose2d
                 {
-                    18.066_ft,				// X starting position on field in feet.
-                    -2.295_ft,			    // Y starting position on field in feet.
+                    0.0_ft,				// X starting position on field in feet.
+                    0.0_ft,			    // Y starting position on field in feet.
                     Rotation2d(0_deg)		// Starting rotation on field in degrees.
                 };
 
@@ -294,35 +104,34 @@ enum TrajectoryList {   Straight05m,
                 {
                     Translation2d
                     {
-                        27.402_ft,				// X of point 1 on field in feet.
-                        -2.367_ft			// Y of point 1 on field in feet.
+                        -2.499_ft,				// X of point 1 on field in feet.
+                        -15.041_ft			// Y of point 1 on field in feet.
                     },
                     Translation2d
                     {
-                        32.034_ft,				// X of point 2 on field in feet.
-                        -2.547_ft			// Y of point 2 on field in feet.
+                        -5.495_ft,				// X of point 2 on field in feet.
+                        -14.991_ft			// Y of point 2 on field in feet.
                     },
                     Translation2d
                     {
-                        38.067_ft,				// X of point 2 on field in feet.
-                        -4.27_ft			// Y of point 2 on field in feet.
+                        -7.947_ft,				// X of point 2 on field in feet.
+                        -13.823_ft			// Y of point 2 on field in feet.
                     }
                 };
 
                 m_EndPoint = Pose2d
                 {
-                    49.664_ft,				// X starting position on field in feet.
-                    -8.471_ft,			    // Y starting position on field in feet.
+                     -9.843_ft,				// X starting position on field in feet.
+                    -13.183_ft,			    // Y starting position on field in feet.
                     Rotation2d(0_deg)		// Starting rotation on field in degrees.
                 };
                 break;
 
-
-            case TrenchtoBay:
+            case ShootBay:
                 m_StartPoint = Pose2d
                 {
-                    0_ft,				// X starting position on field in feet.
-                    0_ft,			    // Y starting position on field in feet.
+                    0.647_ft,				// X starting position on field in feet.
+                    -5.646_ft,			    // Y starting position on field in feet.
                     Rotation2d(0_deg)		// Starting rotation on field in degrees.
                 };
 
@@ -330,77 +139,80 @@ enum TrajectoryList {   Straight05m,
                 {
                     Translation2d
                     {
-                        2.4_ft,				// X of point 1 on field in feet.
-                        -1.6_ft			// Y of point 1 on field in feet.
+                        3.248_ft,				// X of point 1 on field in feet.
+                        -6.792_ft			// Y of point 1 on field in feet.
                     },
                     Translation2d
                     {
-                        4.9_ft,				// X of point 2 on field in feet.
-                        -2.5_ft			// Y of point 2 on field in feet.
+                        5.834_ft,				// X of point 2 on field in feet.
+                        -7.445_ft			// Y of point 2 on field in feet.
                     },
                     Translation2d
                     {
-                        9.5_ft,				// X of point 2 on field in feet.
-                        -2.4_ft			// Y of point 2 on field in feet.
-                    },
-                    Translation2d
-                    {
-                        11.4_ft,				// X of point 2 on field in feet.
-                        -1.0_ft			// Y of point 2 on field in feet.
+                        8.684_ft,				// X of point 2 on field in feet.
+                        -7.533_ft			// Y of point 2 on field in feet.
                     }
                 };
 
                 m_EndPoint = Pose2d
                 {
-                    13.7_ft,				// X starting position on field in feet.
-                    -0.8_ft,			    // Y starting position on field in feet.
+                    10.328_ft,				// X starting position on field in feet.
+                    -7.533_ft,			    // Y starting position on field in feet.
                     Rotation2d(0_deg)		// Starting rotation on field in degrees.
                 };
                 break;
 
-
-
-            case aTrenchtoShoot:
-                m_StartPoint = Pose2d
-                {
-                    32.098_ft,
-                    -2.355_ft,
-                    Rotation2d(0_deg)
-
-                };
-
-                m_Waypoints = 
-                {
-                    Translation2d
-                    {
-                        37.209_ft,
-                        -4.268_ft,
-                    },
-
-                    Translation2d
-                    {
-                        40.783_ft,
-                        -9.207_ft
-                    },
-                
-                    Translation2d{
-                        40.893_ft,
-                        -15.039_ft
-                    }
-
-                };
-
-                m_EndPoint = Pose2d
-                {
-                    43.449_ft,
-                    -18.817_ft,
-                    Rotation2d(0_deg)
-
-                };
-                break;
             
-            
+//trajectory = TrajectoryGenerator::GenerateTrajectory(
+//        frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
+//        {frc::Translation2d(2.5_m, -1.3_m),
+ //       frc::Translation2d(4.75_m, -2.4_m),
+//        frc::Translation2d(7.06_m, -2.58_m),
+//        frc::Translation2d(9.02_m, -2.2_m),
+//        frc::Translation2d(11.22_m, -1.24_m)},
+//        frc::Pose2d(13.7_m, -0.8_m, frc::Rotation2d(0_deg)),
+//        pathconfig);
 
+            case olivia:
+                            m_StartPoint = Pose2d
+                            {
+                                0_m, 0_m, frc::Rotation2d(0_deg)
+
+                            };
+
+                            m_Waypoints = 
+                            {
+                                Translation2d
+                                {
+                                    2.5_m, -1.3_m
+                                },
+
+                                Translation2d
+                                {
+                                    4.75_m, -2.4_m
+                                },
+                            
+                            Translation2d
+                                {
+                                   7.06_m, -2.58_m
+                                },
+                            
+                            Translation2d
+                                {
+                                   9.02_m, -2.2_m
+                                },
+                            Translation2d
+                                {
+                                   11.22_m, -1.24_m
+                                }
+                            };
+
+                            m_EndPoint = Pose2d
+                            {
+                                13.7_m, -0.8_m, frc::Rotation2d(0_deg)
+
+                            };
+                            break;
 
             default:
                 m_StartPoint = Pose2d
@@ -425,6 +237,9 @@ enum TrajectoryList {   Straight05m,
                     Rotation2d(0_deg)		// Starting rotation on field in degrees.
                 
                 };
+
+    
+
 
                 break;
         }

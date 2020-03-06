@@ -29,7 +29,7 @@ FollowPath::FollowPath(CTrajectoryConstants::TrajectoryList nTrajectory, bool re
   LeftPIDController = NULL;
   RightPIDController = NULL;
 
-  m_reverse = reverse;
+  reverse = m_reverse;
 
   // record name of the trajectory we are to follow
   m_TrajectoryName = nTrajectory;
@@ -47,7 +47,7 @@ void FollowPath::Initialize() {
   TrajectoryConfig pathconfig (kMaxSpeed, kMaxAcceleration);
   pathconfig.SetKinematics(kDriveKinematics);
   //x.AddConstraint(autoVoltageConstraint);
-  pathconfig.SetReversed(m_reverse);
+  //pathconfig.SetReversed(m_reverse);
  
   // load trajectory from path weaver file. Following code not fully tested
   // wpi::SmallString<64> deployDirectory;

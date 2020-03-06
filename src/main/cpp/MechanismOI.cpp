@@ -11,9 +11,7 @@
 #include "commands/IntakeOnOff.h"
 #include "commands/ShootBalls.h"
 #include "commands/TiltDownUp.h"
-#include "commands/UnJamIntake.h"
-#include "commands/UnJamUplifter.h"
-#include "commands/Agitate.h"
+
 
 // class constructor - executed upon creation of MechanismOI object
 // creates joystick operator interfaces
@@ -33,7 +31,6 @@ MechanismOI::MechanismOI() {
     MechanismJoystickButtonRightController = new JoystickButton(MechanismJoystick,10);
     MechanismJoystickButtonBack      = new JoystickButton(MechanismJoystick,7);
     MechanismJoystickButtonStart     = new JoystickButton(MechanismJoystick,8);
-
     
     // intake on/off
     MechanismJoystickButtonStart->WhenPressed(new IntakeOnOff(true, 5.0));
@@ -47,11 +44,4 @@ MechanismOI::MechanismOI() {
     MechanismJoystickButtonRed->WhileHeld(new TiltDownUp(TiltDownUp::TiltMid));
     MechanismJoystickButtonGreen->WhileHeld(new TiltDownUp(TiltDownUp::TiltDown));
 
-    // Unjam
-    MechanismJoystickButtonLeft->WhileHeld(new UnJamUplifter());
-    MechanismJoystickButtonRight->WhileHeld(new UnJamIntake());
-
-    //Agitate
-    MechanismJoystickButtonLeftController->WhileHeld(new Agitate());
-    MechanismJoystickButtonRightController->WhileHeld(new Agitate());
 }
