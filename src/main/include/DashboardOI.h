@@ -8,6 +8,7 @@
 /* DashboardOI Class is the interface to the FRC robot dashboard - used to display current robot data*/
 
 #include <frc/Shuffleboard/Shuffleboard.h>
+#include <frc2/Timer.h>
 
 #pragma once
 
@@ -19,17 +20,26 @@ class DashboardOI {
     // class constructor - executed upon creation of DashboardOI object
     DashboardOI();
 
+    //create timer
+    frc2::Timer *m_Timer;
+
     // Update dashboard
     void UpdateDashBoard(void);
 
     // initialize dashboard
     void InitializeDashBoard(void);
 
+    // returns state of command switches
+    bool GetAutoCommandState1(void);
+    bool GetAutoCommandState2(void);
+    bool GetAutoCommandState3(void);
+
     private:
 
-    // Shubbleboard Auto Settings Controls
-    nt::NetworkTableEntry AutoLDistanceAdjust;
-    nt::NetworkTableEntry AutoRDistanceAdjust;
-     
-    
+    void InitializeCommandsPage(void);
+
+    nt::NetworkTableEntry AutoCommand1;
+    nt::NetworkTableEntry AutoCommand2;
+    nt::NetworkTableEntry AutoCommand3;
+    nt::NetworkTableEntry TimeLeft;
 };

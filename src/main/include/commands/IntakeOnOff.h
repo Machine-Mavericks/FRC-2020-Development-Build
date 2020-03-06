@@ -14,7 +14,8 @@ class IntakeOnOff : public frc2::CommandHelper<frc2::CommandBase, IntakeOnOff> {
   public:
   
   // Constructor - true to turn on, false to turn off
-  IntakeOnOff(bool On);
+  // timeout - time to automatically turn off
+  IntakeOnOff(bool On, float timeout=-1.0);
   
   // Called just before this Command runs the first time
   void Initialize() override;
@@ -31,5 +32,7 @@ class IntakeOnOff : public frc2::CommandHelper<frc2::CommandBase, IntakeOnOff> {
   private:
 
   bool m_IntakeOn;
+  float m_TimeOut;
+  float m_OnTime;
     
 };

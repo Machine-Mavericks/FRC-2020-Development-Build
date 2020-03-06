@@ -21,22 +21,10 @@ IntakeTilt::IntakeTilt() {
   // reverse motor direction
   m_Motor->SetInverted(false);
 
-  // select quadrature encoder (first parameter) as primary feedback sensor (second parameter=0)
-  // Third parameter kTimeoutMs is timeout to wait for Talon to confirm update - set to 0 for no checking
-  //m_Motor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
-
   // sets direction of the encoder - set to true to invert phase (to change encoder direction)
   //m_Motor->SetSensorPhase(false);
 
-// set nominal and peak outputs of drive 
-  // nominal = 0, peak is +1 or -1 depending on direction
-  // second parameter is timeout (use 0)
-  //m_Motor->ConfigNominalOutputForward(0.05, 0);
-  //m_Motor->ConfigNominalOutputReverse(-0.05, 0);
-  //m_Motor->ConfigPeakOutputForward (TILT_DRIVE_FULL_VLTG_FWD, 0);
-  //m_Motor->ConfigPeakOutputReverse (-TILT_DRIVE_FULL_VLTG_REV, 0);
-
-    // set up forward direction soft (software) limit - set to maximum allowed encoder pulse counts at IntakeTilt top. Disable until subsystem has been rehomed
+  // set up forward direction soft (software) limit - set to maximum allowed encoder pulse counts at IntakeTilt top. Disable until subsystem has been rehomed
   m_Motor->ConfigForwardSoftLimitEnable(true,0);
   m_Motor->ConfigForwardSoftLimitThreshold(TILT_SOFT_LIMIT_MAX);
 
@@ -64,71 +52,9 @@ IntakeTilt::IntakeTilt() {
 
   //reset encoder
   ResetEncoderPosition();
-
-  // assume tilt in home position - reset encoder and initialize position control
-  InitPositionControl();
 }
 
 
-
-void IntakeTilt::SetIntakeTiltTargetPosition(int pos)
-{
-  // depending on position given to us, tell motor to turn to desired position (in # of pulse counts)
-  switch (pos) {
-    case 0:
-      m_Motor->Set(ControlMode::Position, TILT_UP_POSITION + (int)PosUpAdjust.GetDouble(0.0));
-      break;
-
-    case 1:
-      m_Motor->Set(ControlMode::Position, TILT_MID_POSITION + (int)PosMidAdjust.GetDouble(0.0));
-      break;
-
-    case 2:
-      m_Motor->Set(ControlMode::Position, TILT_DOWN_POSITION + (int)PosDownAdjust.GetDouble(0.0));
-      break;
-
-    // otherwise do nothing - default case not req'd
-  }
-}
-
-
-// Function to return IntakeTilt position
-// Returns 0 if IntakeTilt at bottom, 1 if in middle, 2 if at top
-// Returns -1 if not in defined position 
-int IntakeTilt::GetIntakeTiltTargetPosition(void)
-{  
-  // by default, return -1 (IntakeTilt not at a specific position)
-  int pos=-1;
-
-  // get current IntakeTilt target
-  int target = m_Motor->GetClosedLoopTarget(0);
-
-   // depending on position given to us, tell motor to turn to desired position (in # of pulse counts)
-  if (target==TILT_UP_POSITION + (int)PosUpAdjust.GetDouble(0.0))
-    pos = 0;
-  
-  else if (target==TILT_MID_POSITION + (int)PosMidAdjust.GetDouble(0.0))
-    pos = 1;
-
-  else if (target==TILT_DOWN_POSITION + (int)PosDownAdjust.GetDouble(0.0))
-    pos = 2;
-
-  return (pos);
-}
-
-
-// initialize position control - to be called when subsystem has been re-homed
-void IntakeTilt::InitPositionControl(){
-
-  //reset encoder
-  ResetEncoderPosition();
-  
-  //enable forward direction soft limit - set to maximum allowed encoder pulse counts at IntakeTilt top.
-  m_Motor->ConfigForwardSoftLimitEnable(true,0);
-
-  //enable reverse direction soft limit - assumes encoder pulse at bottom is 0
-  m_Motor->ConfigReverseSoftLimitEnable(true, 0);
-}
 
 
 
@@ -229,6 +155,7 @@ void IntakeTilt::InitializeShuffleboard(void) {
 // update shuffleboard
 void IntakeTilt::UpdateShuffleboard(void) {
     
+  // write encoder position and position controller target (# encoder pulses)
   MotorEncoder.SetDouble(GetEncoderPosition());
   MotorTarget.SetDouble(GetIntakeTiltTargetAnalog());
 

@@ -26,16 +26,18 @@ Shooter::Shooter() {
   m_MotorBottom->Follow(*m_MotorTop);
   m_MotorBottom->SetInverted(true);
 
+  m_MotorTop->ConfigVoltageCompSaturation(12.0, 0);
+  m_MotorBottom->ConfigVoltageCompSaturation(12.0, 0);
+
   // set up motor speed controller 
-  //m_MotorTop->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
-  m_MotorTop->Config_kF(0, 0.00, 0);
-  m_MotorTop->Config_kP(0, 0.32, 0);
-  m_MotorTop->Config_kI(0, 0.00008, 0);
+  m_MotorTop->Config_kF(0, 0.047698, 0);
+  m_MotorTop->Config_kP(0, 0.3, 0);      // 0.32
+  m_MotorTop->Config_kI(0, 0.001, 0);   // 0.00008
   // set peak forward voltage to 100%, peak reverse voltage to 0.0
   m_MotorTop->ConfigPeakOutputForward(1, 0);
   m_MotorTop->ConfigPeakOutputReverse(0.0, 0);
 
-  m_MotorTop->ConfigMaxIntegralAccumulator(0, 8000000.0, 0);
+  m_MotorTop->ConfigMaxIntegralAccumulator(0, 4000000.0, 0);    // 8000000.0
 
   // Set maximum allowed posotion controller closed loop error 
   //m_MotorTop->ConfigAllowableClosedloopError(0, 35.0, 0);
@@ -72,6 +74,14 @@ float Shooter::GetSpeedSliderValue (void) { return SpeedSlider.GetDouble(0.0); }
 
 // returns speed selector slider (from shuffleboard) value
 float Shooter::GetIdleSpeedSliderValue (void) { return IdleSpeedSlider.GetDouble(0.5); }
+
+// return applied motor voltage
+float Shooter::GetTopMotorVolts(void) { return m_MotorTop->GetMotorOutputVoltage(); }
+float Shooter::GetBottomMotorVolts(void) { return m_MotorBottom->GetMotorOutputVoltage(); }
+
+// return temperature
+float Shooter::GetTopTemperature(void) { return m_MotorTop->GetTemperature(); }
+float Shooter::GetBottomTemperature(void) { return m_MotorBottom->GetTemperature(); }
 
 
 // ------------- Shuffleboard Functions -------------
@@ -110,10 +120,22 @@ void Shooter::InitializeShuffleboard(void) {
     TopCurrent = l4->Add("Top", 0.0).GetEntry();
     BottomCurrent = l4->Add("Bottom", 0.0).GetEntry();
 
+    ShuffleboardLayout *l5 = &Tab->GetLayout("Temperature(C)", BuiltInLayouts::kList);
+    l5->WithPosition(6,0);
+    l5->WithSize(1,2);
+    TopTemperature = l5->Add("Top", 0.0).GetEntry();
+    BottomTemperature = l5->Add("Bottom", 0.0).GetEntry();
+
+    ShuffleboardLayout *l6 = &Tab->GetLayout("Motor Volts(V)", BuiltInLayouts::kList);
+    l6->WithPosition(4,2);
+    l6->WithSize(1,2);
+    TopMotorVolts = l6->Add("Top", 0.0).GetEntry();
+    BottomMotorVolts = l6->Add("Bottom", 0.0).GetEntry();
+
     wpi::StringMap <std::shared_ptr<nt::Value>> IdleSliderProperties {
       std::make_pair("min", nt::Value::MakeDouble(0.0)),
-      std::make_pair("max", nt::Value::MakeDouble(100.0)) };
-    IdleSpeedSlider = Tab->Add("Idle Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,2).WithSize(2,1).WithProperties(IdleSliderProperties).GetEntry();
+      std::make_pair("max", nt::Value::MakeDouble(6300.0)) };
+    IdleSpeedSlider = Tab->Add("Idle Speed", 3000.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,2).WithSize(2,1).WithProperties(IdleSliderProperties).GetEntry();
 }
 
 
@@ -126,7 +148,7 @@ void Shooter::UpdateShuffleboard(void) {
 
     // get speed setting from slider value, and set motors accordingly
     float s = SpeedSlider.GetDouble(0.0);
-    SetSpeed(s);
+    //SetSpeed(s);
     // write voltage of top and bottom motors
     TopSetting.SetDouble(s);
     BottomSetting.SetDouble(s);
@@ -138,4 +160,12 @@ void Shooter::UpdateShuffleboard(void) {
     // write motor currents
     TopCurrent.SetDouble(GetTopCurrent());
     BottomCurrent.SetDouble(GetBottomCurrent());
+
+    // write temperatures
+    TopTemperature.SetDouble(GetTopTemperature());
+    BottomTemperature.SetDouble(GetBottomTemperature());
+
+    // write applied motor voltages
+    TopMotorVolts.SetDouble(GetTopMotorVolts());
+    BottomMotorVolts.SetDouble(GetBottomMotorVolts());
 }

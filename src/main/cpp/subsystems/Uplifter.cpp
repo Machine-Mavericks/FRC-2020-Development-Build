@@ -64,7 +64,7 @@ void Uplifter::InitializeShuffleboard(void) {
     wpi::StringMap <std::shared_ptr<nt::Value>> SliderProperties {
       std::make_pair("min", nt::Value::MakeDouble(0.0)),
       std::make_pair("max", nt::Value::MakeDouble(1.0)) };
-    SpeedSlider = Tab->Add("Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SliderProperties).GetEntry();
+    SpeedSlider = Tab->Add("Speed", 0.15).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SliderProperties).GetEntry();
 
     ShuffleboardLayout *l2 = &Tab->GetLayout("Set Speed", BuiltInLayouts::kList);
     l2->WithPosition(3,0);
@@ -96,7 +96,7 @@ void  Uplifter::UpdateShuffleboard(void) {
     MotorSpeed.SetDouble(GetSpeed());
 
     // get speed setting from slider value, and set motors accordingly
-    float s = SpeedSlider.GetDouble(0.0);
+    float s = SpeedSlider.GetDouble(0.15);
     
     // write voltage of top and bottom motors
     Setting.SetDouble(s);

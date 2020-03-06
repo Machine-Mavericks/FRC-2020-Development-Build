@@ -11,7 +11,7 @@
 #include <frc2/command/Command.h>
 #include "RobotMap.h"
 
-//include subsystems
+// include subsystems
 #include "subsystems/MainDrive2019.h"
 #include "subsystems/MainDrive.h"
 #include "subsystems/Limelight.h"
@@ -21,14 +21,15 @@
 #include "subsystems/NavX.h"
 #include "subsystems/Odometry.h"
 #include "subsystems/PowerPanel.h"
-#include "subsystems/UltrasonicSensor.h"
-#include "subsystems/RangeFinder.h"
-#include "subsystems/WoF.h"
 #include "subsystems/Climb.h"
 #include "subsystems/Intake.h"
 #include "subsystems/Uplifter.h"
 #include "subsystems/IntakeTilt.h"
-
+#include "subsystems/Winch.h"
+#include "subsystems/Agitator.h"
+//#include "subsystems/UltrasonicSensor.h"
+//#include "subsystems/RangeFinder.h"
+//#include "subsystems/WoF.h"
 
 //include operator interfaces
 #include "MechanismOI.h"
@@ -38,10 +39,13 @@
 // default command to run in teleop
 #include "commands/drive/Tank.h"
 
-//include commands
+// include commands
 #include "commands/ChangeLED.h"
 #include "commands/AutoComplex.h"
 #include "commands/AutoSimple.h"
+#include "commands/AutoSimple2.h"
+#include "commands/AutoSimple3.h"
+#include "commands/TiltDownUp.h"
 
 
 class Robot : public frc::TimedRobot {
@@ -59,26 +63,31 @@ class Robot : public frc::TimedRobot {
   static NavX m_NavX;
   static Odometry m_Odometry;
   static PowerPanel m_PowerPanel;
-  static UltrasonicSensor m_UltrasonicSensor;
-  static RangeFinder m_RangeFinder;
-  static WoF m_WoF;
   static LED m_LED;
   static Intake m_Intake;
   static IntakeTilt m_IntakeTilt;
   static Climb m_Climb;
   static Shooter m_Shooter;
   static Uplifter m_Uplifter;
+  static Winch m_Winch;
+  static Agitator m_Agitator;
+  // static UltrasonicSensor m_UltrasonicSensor;
+  // static RangeFinder m_RangeFinder;
+  // static WoF m_WoF;
+
 
   // create robot driver interfaces
   static DriverOI m_DriverOI;
   static MechanismOI m_MechanismOI;
   static DashboardOI m_DashboardOI;
   
-
   //create commands
   static ChangeLED m_ChangeLED;
   static AutoComplex m_AutoComplex;
   static AutoSimple m_AutoSimple;
+  static AutoSimple2 m_AutoSimple2;
+  static AutoSimple3 m_AutoSimple3;
+  
 
   // Robot mode-independent funtcions
   void RobotInit() override;

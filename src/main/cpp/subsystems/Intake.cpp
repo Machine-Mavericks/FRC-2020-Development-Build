@@ -67,7 +67,7 @@ void Intake::InitializeShuffleboard(void) {
     wpi::StringMap <std::shared_ptr<nt::Value>> SliderProperties {
       std::make_pair("min", nt::Value::MakeDouble(0.0)),
       std::make_pair("max", nt::Value::MakeDouble(1.0)) };
-    SpeedSlider = Tab->Add("Intake Speed", 0.0).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SliderProperties).GetEntry();
+    SpeedSlider = Tab->Add("Intake Speed", 0.45).WithWidget(BuiltInWidgets::kNumberSlider).WithPosition(1,0).WithSize(2,1).WithProperties(SliderProperties).GetEntry();
 
     ShuffleboardLayout *l2 = &Tab->GetLayout("SetSpeed", BuiltInLayouts::kList);
     l2->WithPosition(3,0);
@@ -99,7 +99,7 @@ void Intake::UpdateShuffleboard(void) {
     MotorSpeed.SetDouble(GetSpeed());
 
     // get speed setting from slider value, and set motors accordingly
-    float s = SpeedSlider.GetDouble(0.0);
+    float s = SpeedSlider.GetDouble(0.45);
 
     // write voltage of top and bottom motors
     Setting.SetDouble(s);

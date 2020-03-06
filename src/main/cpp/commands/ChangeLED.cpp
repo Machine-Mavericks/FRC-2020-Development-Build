@@ -39,7 +39,7 @@ void ChangeLED::Execute(){
     counter += 1;
     
     // do we have a target and within 1 deg - if so, turn on blue LEDs
-    if (LEDON &&
+    if ((counter==8) &&
         Robot::m_Limelight.GetTargetEstimation().Detected && 
         fabs(Robot::m_Limelight.GetTargetEstimation().XAngle) < 1.0)
         
@@ -54,4 +54,9 @@ bool ChangeLED::IsFinished(){
     return false;
 }
 
-void ChangeLED::End(bool interrupted){}
+void ChangeLED::End(bool interrupted){
+
+  // turn LEDs off
+  Robot::m_LED.SetLEDsOff(); 
+
+}

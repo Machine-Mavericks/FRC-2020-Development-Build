@@ -8,50 +8,38 @@
 // SteerTowardsTarget drive command allows robot to be driven in SteerTowardsTarget mode.
 // This is the default command when robot in teleop mode
 
-#include "commands/IntakeOnOff.h"
+#include "commands/UnJamIntake.h"
 #include "Robot.h"
 #include "RobotMap.h"
 
-// Constructor - true to turn on, false to turn off
-// timeout - time to automatically turn off
-IntakeOnOff::IntakeOnOff(bool On, float timeout) {
+UnJamIntake::UnJamIntake() {
   // Use AddRequirements here to declare subsystem dependencies 
   AddRequirements(&Robot::m_Intake);
 
-  // record if we are to turn on/off intake
-  m_IntakeOn = On;
-  m_TimeOut = timeout;
 }
 
 // Called just before this Command runs the first time
-void IntakeOnOff::Initialize() {
-  if (m_IntakeOn)
-    Robot::m_Intake.SetSpeed(Robot::m_Intake.GetSpeedSliderValue());
-  else
-    Robot::m_Intake.SetSpeed(0);
-
-  // start timer
-  m_OnTime = 0.0;
+void UnJamIntake::Initialize() {
 }
 
 // Called repeatedly when this Command is scheduled to run
-void IntakeOnOff::Execute() {
-  // increment timer
-  m_OnTime += 0.02;
+void UnJamIntake::Execute() {
+  // get speed from joystick
+  float speed = -Robot::m_MechanismOI.MechanismJoystick->GetRawAxis(RIGHT_JOYSTICK_Y_AXIS_ID);
+
+  // limit
+  if (speed>1.0) speed = 1.0;
+  if (speed<0.0) speed = 0.0;
+
+  Robot::m_Intake.SetSpeed(-speed);
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool IntakeOnOff::IsFinished() {
-  if ((m_TimeOut>0.0 && m_OnTime > m_TimeOut) ||
-      (m_IntakeOn == false) ||
-      (m_TimeOut == -1.0))
-    return true;
-  else
-    return false;  
+bool UnJamIntake::IsFinished() {
+  return false;
 }
 
 // Called once after isFinished returns true
-void IntakeOnOff::End(bool interrupted) {
-  if (m_TimeOut!=-1.0)
-  Robot::m_Intake.SetSpeed(0);
+void UnJamIntake::End(bool interrupted) {
+  Robot::m_Intake.SetSpeed(0.0);
 }

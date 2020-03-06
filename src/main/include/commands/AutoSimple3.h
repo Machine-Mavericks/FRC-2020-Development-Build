@@ -5,27 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Robot.h"
-#include "subsystems/WoF.h"
-#include "commands/GoToColor.h"
+#pragma once
 
+#include <frc2/command/CommandHelper.h>
+#include <frc2/command/SequentialCommandGroup.h>
 
-GoToColor::GoToColor(int color) {
-    //add requirements
-    //AddRequirements (&Robot::m_WoF);
-}
-
-// Called once when the command executes
-void GoToColor::Initialize() {
-    //int m_initColor = Robot::m_WoF.GetColor();
-
-}
-
-void GoToColor::Execute(){
-}
-
-bool GoToColor::IsFinished(){
-    return true;
-}
-
-void GoToColor::End(bool interrupted){}
+class AutoSimple3 : public frc2::CommandHelper<frc2::SequentialCommandGroup, AutoSimple3> {
+ public:
+  AutoSimple3();
+};

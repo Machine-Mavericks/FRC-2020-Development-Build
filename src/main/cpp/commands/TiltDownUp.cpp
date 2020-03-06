@@ -13,60 +13,73 @@
 #include "RobotMap.h"
 
 // Constructor - true tilt down, false tilt up
-TiltDownUp::TiltDownUp(bool dir) {
+TiltDownUp::TiltDownUp(TiltPosition pos) {
   // Use AddRequirements here to declare subsystem dependencies 
   AddRequirements(&Robot::m_IntakeTilt);
 
   // record if we are to turn on/off intake
-  m_Direction = dir;
+  m_TargetPosition = pos;
 }
 
 // Called just before this Command runs the first time
 void TiltDownUp::Initialize() {
   
-  /*int position = Robot::m_IntakeTilt.GetIntakeTiltTargetAnalog();
-  
-  if (m_Direction)
-    position += 1000;
-  else
-    position -= 1000;
-
-  Robot::m_IntakeTilt.SetIntakeTiltTargetAnalog(position);
-  */
 }
 
 // Called repeatedly when this Command is scheduled to run
 void TiltDownUp::Execute() {
  
-int position = Robot::m_IntakeTilt.GetIntakeTiltTargetAnalog();
+  // get robot current direction
+  int position = Robot::m_IntakeTilt.GetIntakeTiltTargetAnalog();
 
-if (m_Direction)
-  position = position + 50;
-else
-  position = position - 50;
+  // if target is all way up 
+  if (m_TargetPosition == TiltPosition::TiltUp)
+  {
+    position = position - 200;
+    if (position <=POS_TILTUP)
+      position = POS_TILTUP;
+  }
 
-if (position <=0)
-  position = 0;
-if (position >=12400)
-  position = 12400;
+  // if target is mid-way for ball dispenser pickup
+  else if (m_TargetPosition ==  TiltPosition::TiltMid)
+  {
+    if (position < POS_TILTMID) {
+      position = position + 200;
+      if (position >POS_TILTMID) position = POS_TILTMID;
+    }
+    else if (position > POS_TILTMID) {
+      position = position - 200;
+      if (position <POS_TILTMID) position = POS_TILTMID;
+    }
+  }
 
-Robot::m_IntakeTilt.SetIntakeTiltTargetAnalog(position);
+  // if target is down for ball floor pickup
+  else if (m_TargetPosition == TiltPosition::TiltDown)
+  {
+    position = position + 200;
+    if (position >=POS_TILTDOWN)
+    position = POS_TILTDOWN;
+  }
+
+
+  // set position target of motor
+  Robot::m_IntakeTilt.SetIntakeTiltTargetAnalog(position);
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool TiltDownUp::IsFinished() {
  
+ // command ends when intake is at target
  int position = Robot::m_IntakeTilt.GetIntakeTiltTargetAnalog();
- return ((m_Direction && position >=14000) ||
-         (!m_Direction && position <=0));
+ return ( (m_TargetPosition==0 && position <= POS_TILTUP) ||
+          (m_TargetPosition==1 && position == POS_TILTMID) ||
+          (m_TargetPosition==2 && position >= POS_TILTDOWN));
 
 }
 
 // Called once after isFinished returns true
 void TiltDownUp::End(bool interrupted) {
- //Robot::m_IntakeTilt.m_Motor->SetIntegralAccumulator(0.0, 0, 0);
- //Robot::m_IntakeTilt.m_Motor->Set(ControlMode::PercentOutput,0.0);
-
   
+  // do nothing - leave intake in position control mode, at its current target setting
 }

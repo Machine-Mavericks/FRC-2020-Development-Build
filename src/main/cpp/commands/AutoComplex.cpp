@@ -15,7 +15,7 @@
 AutoComplex::AutoComplex() {
     AddCommands(
         StraightDistance(-7.0, 0.5, 0.5),
-        FollowPath(CTrajectoryConstants::arTrenchtoShoot, false),
+        FollowPath(CTrajectoryConstants::aTrenchtoShoot, false),
         TurnRightToHex());
 
 

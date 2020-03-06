@@ -15,39 +15,34 @@
 using namespace frc;
 
 
-// Tilting position constants
-#define TILT_UP_POSITION        0
-#define TILT_MID_POSITION       7000
-#define TILT_DOWN_POSITION      14000
+// Position constants
+#define WINCH_MIN_POSITION      0
+#define WINCH_MAX_POSITION      2500000
     
-// Tilting position soft limits
-#define TILT_SOFT_LIMIT_MAX     11560
-#define TILT_SOFT_LIMIT_MIN     0
+// Position soft limits
+#define WINCH_SOFT_LIMIT_MAX     2500000
+#define WINCH_SOFT_LIMIT_MIN     0
 
-// Tilting PID gains
-#define TILT_PGAIN              0.15      // = 0.15 Feb 24/2020 - worked ok, on edge of unstable near top motion of arm
-#define TILT_IGAIN              0.0002    // = 0.0002 
-#define TILT_DGAIN              0         // = 0 
+// PID gains
+#define WINCH_PGAIN              .1     
+#define WINCH_IGAIN              0.0    
+#define WINCH_DGAIN              0         
 
-#define TILT_MAX_INTEGRAL_ACCUMULATOR       1000000
-#define TILT_ALLOWABLE_CLOSEDLOOP_ERROR     100
-
-#define INTAKETILT_DRIVE_MAXRAMP    0.02
+#define WINCH_DRIVE_MAXRAMP    0.02
 
 
 
-class IntakeTilt : public frc2::SubsystemBase {
+class Winch : public frc2::SubsystemBase {
  
  public:
 
   // constructor - used to initialize specific hardware
-  IntakeTilt();
+  Winch();
 
 
   // ------------- Encoder-Related Functions -------------
 
-  // Resets IntakeTilt encoder position value
-  // USE ONLY WHEN IntakeTilt AT HOME POSITION
+  // Resets encoder position value
   void ResetEncoderPosition(void);
 
   // Returns IntakeTilt encoder position value (in raw sensor units)

@@ -24,8 +24,25 @@ void ShootBalls::Initialize() {
   //m_ShooterSpeed = Robot::m_Shooter.GetSpeedSliderValue();
   m_UpliferSpeed = Robot::m_Uplifter.GetSpeedSliderValue();
 
+  
+  // determine shooter speed
+  // set base speed
+  float speed = 5200.0;
+
+  // determine speed adder for distance
+  if (Robot::m_Limelight.GetTargetEstimation().Detected)
+  {
+    float distance = Robot::m_Limelight.GetTargetEstimation().ZDistance;
+    
+    speed = 13.782*distance*distance - 69.625*distance + 4812;
+
+    if (distance > 8.0)
+      speed += 50.0;
+    
+  }
+
   // set shooter speed
-  //Robot::m_Shooter.SetSpeed (m_ShooterSpeed, -m_ShooterSpeed);
+  Robot::m_Shooter.SetSpeed (speed);
 
   m_SpeedUpTime = 0.0;
   m_ShootTime = 0.0;
@@ -34,7 +51,7 @@ void ShootBalls::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void ShootBalls::Execute() {
  
-  if (m_SpeedUpTime < 1.0)
+  if (m_SpeedUpTime < 0.5)
     m_SpeedUpTime += 0.02;
   else
   {
@@ -55,5 +72,5 @@ void ShootBalls::End(bool interrupted) {
     Robot::m_Uplifter.SetSpeed(0.0);
     
     // return shooter to idle speed
-    //Robot::m_Shooter.SetSpeed(Robot::m_Shooter.GetIdleSpeedSliderValue());
+    Robot::m_Shooter.SetSpeed(Robot::m_Shooter.GetIdleSpeedSliderValue());
 }

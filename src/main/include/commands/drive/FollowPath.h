@@ -45,7 +45,7 @@ class FollowPath : public frc2::CommandHelper<frc2::CommandBase, FollowPath> {
   CTrajectoryConstants::TrajectoryList m_TrajectoryName;
 
   // set maximum robot speed(m/s) and acceleration (m/s2) for path
-  static constexpr auto  kMaxSpeed = 1.75_mps;          //2.5_mps;
+  static constexpr auto  kMaxSpeed = 2.0_mps;  // 1.75_mps;          //2.5_mps;
   static constexpr auto  kMaxAcceleration = 1.5_mps_sq; // 2_mps_sq;
 
   bool m_reverse;
@@ -59,7 +59,7 @@ class FollowPath : public frc2::CommandHelper<frc2::CommandBase, FollowPath> {
   static constexpr auto kTrackWidth = 0.535_m;
 
   // ramsete constants
-  static constexpr float kRamseteB = 2.0;         // = 2.0 for 2020 robot
+  static constexpr float kRamseteB = 2.2;         // = 2.0 for 2020 robot
   static constexpr float kRamseteZeta = 0.8;      // = 0.7 for 2020 robot
 
   // Left and Right PD controller gains

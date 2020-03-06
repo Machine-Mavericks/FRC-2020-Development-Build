@@ -5,17 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
 #pragma once
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 
-class ShooterSetIdle : public frc2::CommandHelper<frc2::CommandBase, ShooterSetIdle> {
+
+class UnJamIntake : public frc2::CommandHelper<frc2::CommandBase,UnJamIntake> {
   public:
-  
+
   // Constructor
-  ShooterSetIdle();
+  UnJamIntake();
   
   // Called just before this Command runs the first time
   void Initialize() override;
@@ -30,5 +30,5 @@ class ShooterSetIdle : public frc2::CommandHelper<frc2::CommandBase, ShooterSetI
   void End(bool interrupted) override;
 
   private:
-  
+
 };

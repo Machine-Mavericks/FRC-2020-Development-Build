@@ -75,21 +75,21 @@ constexpr double degToRad = 0.01745328;
 #define ULTRASONIC_PORT                 0
 
 // ------------- Wheel of Fortune Constants
-#define WOF_MOTOR_CANID                 8
+#define WOF_MOTOR_CANID                 20
 #define WOF_WHEEL_DIAMETER              3.0
 
 
 
 //----------- Climb Constants----------
-#define CLIMB_MOTOR_CANID               10
-
+#define CLIMB_MOTOR_CANID               8
+#define WINCH_MOTOR_CANID               10
 
 //--------Shooter Constants
 #define SHOOTER_2_MOTOR_CANID           6
 #define SHOOTER_1_MOTOR_CANID           7
 
 //------LED CONSTANTS----------------------
-#define LED_PORT                        3
+#define LED_PORT                        9
 
 //----------INTAKE CONSTANTS----------------
 #define INTAKE_MOTOR_CANID              9
@@ -98,3 +98,4 @@ constexpr double degToRad = 0.01745328;
 
 //----------UPLIFTER CONSTANTS----------------
 #define UPLIFTER_MOTOR_CANID              12
+#define AGITATOR_MOTOR_CANID              14

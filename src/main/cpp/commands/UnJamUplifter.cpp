@@ -8,30 +8,38 @@
 // SteerTowardsTarget drive command allows robot to be driven in SteerTowardsTarget mode.
 // This is the default command when robot in teleop mode
 
-#include "commands/ShooterSetIdle.h"
+#include "commands/UnJamUplifter.h"
 #include "Robot.h"
 #include "RobotMap.h"
 
-ShooterSetIdle::ShooterSetIdle() {
+UnJamUplifter::UnJamUplifter() {
   // Use AddRequirements here to declare subsystem dependencies 
-  AddRequirements(&Robot::m_Shooter);
+  AddRequirements(&Robot::m_Uplifter);
+
 }
 
 // Called just before this Command runs the first time
-void ShooterSetIdle::Initialize() {
-    
-    // get idle speed from shuffleboard and set shooter speed
-    float IdleSpeed = Robot::m_Shooter.GetIdleSpeedSliderValue();
-    Robot::m_Shooter.SetSpeed(IdleSpeed);
- }
+void UnJamUplifter::Initialize() {
+}
 
 // Called repeatedly when this Command is scheduled to run
-void ShooterSetIdle::Execute() { }
+void UnJamUplifter::Execute() {
+  // get speed from joystick
+  float speed = -Robot::m_MechanismOI.MechanismJoystick->GetRawAxis(LEFT_JOYSTICK_Y_AXIS_ID);
+
+  // limit
+  if (speed>1.0) speed = 1.0;
+  if (speed<0.15) speed = 0.15;
+
+  Robot::m_Uplifter.SetSpeed(-speed);
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool ShooterSetIdle::IsFinished() {
-   return true;
+bool UnJamUplifter::IsFinished() {
+  return false;
 }
 
 // Called once after isFinished returns true
-void ShooterSetIdle::End(bool interrupted) { }
+void UnJamUplifter::End(bool interrupted) {
+  Robot::m_Uplifter.SetSpeed(0.0);
+}

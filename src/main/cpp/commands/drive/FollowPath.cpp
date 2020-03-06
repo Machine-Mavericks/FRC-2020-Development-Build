@@ -29,7 +29,7 @@ FollowPath::FollowPath(CTrajectoryConstants::TrajectoryList nTrajectory, bool re
   LeftPIDController = NULL;
   RightPIDController = NULL;
 
-  reverse = m_reverse;
+  m_reverse = reverse;
 
   // record name of the trajectory we are to follow
   m_TrajectoryName = nTrajectory;
@@ -47,7 +47,7 @@ void FollowPath::Initialize() {
   TrajectoryConfig pathconfig (kMaxSpeed, kMaxAcceleration);
   pathconfig.SetKinematics(kDriveKinematics);
   //x.AddConstraint(autoVoltageConstraint);
-  //pathconfig.SetReversed(m_reverse);
+  pathconfig.SetReversed(m_reverse);
  
   // load trajectory from path weaver file. Following code not fully tested
   // wpi::SmallString<64> deployDirectory;
@@ -67,8 +67,12 @@ void FollowPath::Initialize() {
         pathconfig);    
 
   // translate/rotate path so it starts the robot's current position/angle
-  Transform2d transform = Robot::m_Odometry.GetPose2d() - (trajectory.InitialPose());
-  trajectorynew = trajectory.TransformBy(transform);
+  Translation2d translate2 = Robot::m_Odometry.GetPose2d().Translation() - (trajectory.InitialPose().Translation());
+  Transform2d transform (translate2, Rotation2d(0_deg));
+    trajectorynew = trajectory.TransformBy(transform);
+
+  //Transform2d transform = Robot::m_Odometry.GetPose2d() - (trajectory.InitialPose());
+  //trajectorynew = trajectory.TransformBy(transform);
 
   // set up ramsete and left/right controllers
   controller = new RamseteController (kRamseteB, kRamseteZeta);

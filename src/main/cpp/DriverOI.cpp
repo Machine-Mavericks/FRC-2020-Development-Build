@@ -15,10 +15,10 @@
 #include "commands/drive/FollowPath.h"
 #include "commands/drive/TurnRightToHex.h"
 #include "commands/drive/TurnLeftToHex.h"
-#include "commands/ShootBalls.h"
 #include "TrajectoryConstants.h"
-#include "commands/IntakeOnOff.h"
-#include "commands/TiltDownUp.h"
+#include "commands/ExtendClimb.h"
+#include "commands/DriveWinch.h"
+
 
 
 // class constructor - executed upon creation of DriverOI object
@@ -44,20 +44,19 @@ DriverOI::DriverOI() {
     // -------------Button-Initiated Commands -------------
     
     // set robot arcade mode drive to function while right joystick trigger is pressed
-    DriveJoystickButtonRight->WhileHeld(new Arcade());
+    //DriveJoystickButtonRight->WhileHeld(new Arcade());
     
     // turn left/right to hex target
-    DriveJoystickButtonBack->WhileHeld(new TurnLeftToHex());
-    DriveJoystickButtonStart->WhileHeld(new TurnRightToHex());
+    DriveJoystickButtonLeft->WhileHeld(new TurnLeftToHex());
+    DriveJoystickButtonRight->WhileHeld(new TurnRightToHex());
 
-    // shoot balls
-    //DriveJoystickButtonBlue->WhenPressed(new ShootBalls());
+    // extend climb
+    DriveJoystickButtonBack->WhileHeld(new ExtendClimb(false));
+    DriveJoystickButtonStart->WhileHeld(new ExtendClimb(true));
 
+    // drive winch
+    DriveJoystickButtonOrange->WhileHeld(new DriveWinch());
     
-
-    // intake tilt
-    //DriveJoystickButtonOrange->WhileHeld(new TiltDownUp(false));
-    //DriveJoystickButtonGreen->WhileHeld(new TiltDownUp(true));
 
     //LeftJoystickButton1->WhileHeld(new SteerTowardsTarget());
     //LeftJoystickButton1->WhileHeld(new StraightDriveTest());

@@ -12,26 +12,27 @@
 
 SpinRotations::SpinRotations(int rotations) {
     //add requirements
-    AddRequirements (&Robot::m_WoF);
+    //AddRequirements (&Robot::m_WoF);
 }
 
 // Called once when the command executes
 void SpinRotations::Initialize() {
-    int m_initColor = Robot::m_WoF.GetColor();
-    int m_counter = 0;
-    int m_currentColor = 0;
+    //int m_initColor = Robot::m_WoF.GetColor();
+    //int m_counter = 0;
+    //int m_currentColor = 0;
 
 }
 
 void SpinRotations::Execute(){
-    if (m_initColor != Robot::m_WoF.GetColor()){
-        m_initColor = m_currentColor;
-        m_counter += 1;
-    }
+    //if (m_initColor != Robot::m_WoF.GetColor()){
+    //    m_initColor = m_currentColor;
+    //    m_counter += 1;
+    //}
 }
 
 bool SpinRotations::IsFinished(){
-    return m_counter == m_rotations;
+    //return m_counter == m_rotations;
+    return true;
 }
 
 void SpinRotations::End(bool interrupted){}

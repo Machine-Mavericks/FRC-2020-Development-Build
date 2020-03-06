@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/AutoSimple.h"
+#include "commands/AutoSimple3.h"
 #include "commands/drive/StraightDistance.h"
 #include "commands/drive/TurnLeftToHex.h"
 #include "commands/drive/TurnRightToHex.h"
@@ -14,24 +14,14 @@
 #include "commands/TiltDownUp.h"
 #include "commands/IntakeOnOff.h"
 
-// start in front of power port on white line
-// drop off balls, and pickup three from trench
+// start to left ot power port, on white line
+// drop off balls
 
-AutoSimple::AutoSimple() {
+AutoSimple3::AutoSimple3() {
     AddCommands(
         TiltDownUp(TiltDownUp::TiltDown),
-        FollowPath(CTrajectoryConstants::Straight125m, false),
-        TurnRightToHex(),
-        ShootBalls(),
-        IntakeOnOff(true),
-        FollowPath(CTrajectoryConstants::SCurve, false),
-        FollowPath(CTrajectoryConstants::Straight30m, false),
-        FollowPath(CTrajectoryConstants::RevStraight15m, true),
+        FollowPath(CTrajectoryConstants::Straight20m, false),
         TurnLeftToHex(),
-        ShootBalls(),
-        ShootBalls(),
         ShootBalls()
         );
 }
-
-

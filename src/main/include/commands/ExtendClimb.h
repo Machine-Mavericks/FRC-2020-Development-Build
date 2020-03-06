@@ -11,13 +11,11 @@
 #include <frc2/command/CommandHelper.h>
 
 
-class TiltDownUp : public frc2::CommandHelper<frc2::CommandBase,TiltDownUp> {
+class ExtendClimb : public frc2::CommandHelper<frc2::CommandBase,ExtendClimb> {
   public:
 
-  enum TiltPosition {TiltUp, TiltMid, TiltDown};
-
   // Constructor - true tilt down, false tilt up
-  TiltDownUp (TiltPosition pos);
+  ExtendClimb(bool dir);
   
   // Called just before this Command runs the first time
   void Initialize() override;
@@ -33,9 +31,8 @@ class TiltDownUp : public frc2::CommandHelper<frc2::CommandBase,TiltDownUp> {
 
   private:
 
-  TiltPosition m_TargetPosition;
+  bool m_Direction;
 
-  const int POS_TILTUP    = 0;
-  const int POS_TILTMID   = 7000;
-  const int POS_TILTDOWN  = 11560;
+  const int POS_CLIMBDOWN    = 0;
+  const int POS_CLIMBUP = 20450;
 };
