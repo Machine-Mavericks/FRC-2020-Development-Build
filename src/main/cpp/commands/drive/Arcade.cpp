@@ -29,10 +29,6 @@ void Arcade::Execute() {
   // create variables joystick x and y
   float raw_y, raw_x, y, x, throttle;
 
-  // get joystick y values from joystick
-  // raw_y = Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_Y_AXIS_ID);
-  // raw_x = Robot::m_DriverOI.RightJoystick->GetRawAxis(JOYSTICK_X_AXIS_ID);
-
   // get raw x and y values from joystick, -ve corrects for backwards direction
    raw_y = -Robot::m_DriverOI.DriveJoystick->GetRawAxis(RIGHT_JOYSTICK_Y_AXIS_ID);
    raw_x = -Robot::m_DriverOI.DriveJoystick->GetRawAxis(RIGHT_JOYSTICK_X_AXIS_ID );
