@@ -71,9 +71,6 @@ void FollowPath::Initialize() {
   Transform2d transform (translate2, Rotation2d(0_deg));
     trajectorynew = trajectory.TransformBy(transform);
 
-  //Transform2d transform = Robot::m_Odometry.GetPose2d() - (trajectory.InitialPose());
-  //trajectorynew = trajectory.TransformBy(transform);
-
   // set up ramsete and left/right controllers
   controller = new RamseteController (kRamseteB, kRamseteZeta);
   LeftPIDController = new frc2::PIDController (kPDriveVel, 0, 0);
@@ -129,31 +126,3 @@ void FollowPath::End(bool interrupted) {
   delete RightPIDController;  RightPIDController = NULL;
 }
 
-
-
-/*trajectory = TrajectoryGenerator::GenerateTrajectory(
-        // Start at the origin facing the +X direction
-        frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        {frc::Translation2d(2.1_m, 1.1_m),
-        frc::Translation2d(2.8_m, 2.8_m),
-        frc::Translation2d(4.1_m, 4.4_m),
-        frc::Translation2d(5.7_m, 4.9_m),
-        frc::Translation2d(6.8_m, 4.9_m),
-        frc::Translation2d(7.7_m, 4.9_m),
-        },
-        // End 3 meters straight ahead of where we started, facing forward
-        frc::Pose2d(1.0_m, 3.2_m, frc::Rotation2d(0_deg)),
-        // Pass the config
-        x);  */
-
-/*trajectory = TrajectoryGenerator::GenerateTrajectory(
-        // Start at the origin facing the +X direction
-        frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        {frc::Translation2d(2.1_m, 0.8_m),
-        frc::Translation2d(2.7_m, 2.8_m)},
-        // End 3 meters straight ahead of where we started, facing forward
-        frc::Pose2d(1.0_m, 3.2_m, frc::Rotation2d(0_deg)),
-        // Pass the config
-        x); */ 

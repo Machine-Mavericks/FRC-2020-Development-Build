@@ -7,9 +7,6 @@ StraightDistance::StraightDistance(float Distance, float tolerance, float Speed)
   // Use AddRequirements here to declare subsystem dependencies
   AddRequirements(&Robot::m_MainDrive);
 
-  // distance drive command is interruptable
-  //SetInterruptible(false);
-
   // set the parameters: Angle, speed
   m_Distance = Distance;
   if (Speed >= 0.0 && Speed <=1.0)

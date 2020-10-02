@@ -20,8 +20,6 @@ SteerTowardsTarget::SteerTowardsTarget() {
   AddRequirements(&Robot::m_NavX);
   AddRequirements(&Robot::m_Limelight);
 
-  // SteerTowardsTarget drive command is interruptable
-  //SetInterruptible(true);
 }
 
 // Called just before this Command runs the first time
@@ -36,11 +34,6 @@ void SteerTowardsTarget::Execute() {
  
   // get ball target information
   TARGET_DATA target = GetTargetEstimation();
-
-  // have we detected a ball?
- // if (target.Detected == true) //- for now, pursue all targets same way
-  //{
-    // target has been detected
 
     // get throttle value from main drive
     float throttle = Robot::m_MainDrive.GetThrottle();
@@ -57,6 +50,7 @@ void SteerTowardsTarget::Execute() {
     // get angle to target
     float TargetAngle = 0;
 
+    //get limelight pipeline
     if(Robot::m_Limelight.GetPipeline() == 4){
       TargetAngle = target.XAngle;
     }
@@ -78,18 +72,10 @@ void SteerTowardsTarget::Execute() {
     else
       IError = 0.0;    
 
-
-
     if (IError > 0.1)
       IError =0.1;
     if (IError < -0.1)
       IError = -0.1;
-
-    //static float LastAngle = 0.0;
-    //float DError=0.0;
-    //if (fabs(TargetAngle) < 5.0)
-    //  DError = 1.0* (TargetAngle - LastAngle);
-    //LastAngle = TargetAngle;
 
     // is angle correction positive or negative?
     if (TargetAngle >=0.0)
@@ -98,13 +84,6 @@ void SteerTowardsTarget::Execute() {
     else 
       // drive towards target
       Robot::m_MainDrive.SetArcadeDrive(speed, std::max(IError+0.03*TargetAngle, -0.3), false); // feb 17 p-gain was 0.020
-   
-  /* }
- else
-  {
-    // target has not been detected - stop robot
-    Robot::m_MainDrive.SetArcadeDrive(0.0,0.0,false);
-  }*/
 }
 
 // Make this return true when this Command no longer needs to run execute()
